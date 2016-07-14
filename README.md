@@ -1,12 +1,15 @@
 
-# archivesspace-api-workshop
 
-## Introducing the ArchivesSpace REST API using Python 3
+# Introducing the ArchivesSpace REST API using Python 3
 
-ArchivesSpace API Workshop, ArchivesSpace Member Forum 2016
+## ArchivesSpace Member Forum 2016
 
-+ [Abstract](Abstract.md)
-+ [Proposal](ArchivesSpace-API-Proposal.md)
-+ [Workshop presentation](ArchivesSpace-API-Workshop.md)
+Location: Robert W. Woodruff Library at the Atlanta University Center, Atlanta, GA 
+
+Date: Aug 2<sup>nd</sup>, 2016
+
++ [Abstract](Abstract.html)
++ [Proposal](ArchivesSpace-API-Proposal.html)
++ [Workshop presentation](00-ArchivesSpace-API-Workshop.html)
 
 
