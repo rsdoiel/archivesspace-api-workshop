@@ -93,3 +93,4 @@ ENV/
 *.swp
 *.zip
 *.pyc
+.vagrant
