@@ -99,7 +99,8 @@ Bookmark in your web browser: https://docs.python.org/3/library/index.html
 + Our hosts have provided us with test deployments of ArchivesSpace
     + See hand out or whiteboard for connection details
 + If you want to work on your own
-    + Under virtualbox/vagrant try [github.com/caltechlibrary/archivesspace_vagrant](https://github.com/caltechlibrary/archivesspace_vagrant)
+    + Under virtualbox/vagrant 
+    + try [github.com/rsdoiel/archivesspace-api-workshop](https://github.com/rsdoiel/archivesspace-api-workshop)/archivesspace-dev
 + Make sure you can access ArchivesSpace from your web browser
     + On a stock install check the following ports
         + 8080 - ArchivesSpace Web UI (e.g. http://localhost:8080)

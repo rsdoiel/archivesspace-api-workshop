@@ -1,6 +1,6 @@
-# archivesspace_vagrant
+# ArchivesSpace Dev
 
-A dev copy of ArchivesSpace running under Vagrant plus some additional tweaks to run behind NginX and make local development convient.
+A dev copy of ArchivesSpace running under Vagrant.
 
 ArchivesSpace is licensed under the [Educational Community License v2](http://opensource.org/licenses/ecl2.php).
 
@@ -12,8 +12,8 @@ ArchivesSpace is licensed under the [Educational Community License v2](http://op
 
 ## Dependencies
 
-+ Vagrant and all that is needed to run vagrant (e.g. Virtual Box)
-    + ArchivesSpace release and its dependencies (this are handled in the VM creation and setup)
++ [Vagrant](https://www.vagrantup.com/) and all that is needed to run vagrant (e.g. [Virtual Box](https://www.virtualbox.org/))
+    + [ArchivesSpace](https://github.com/archivesspace/archivesspace/releases/latest) release and its dependencies (this are handled in the VM creation and setup)
 + Bash (for the scripts)
 
 ## Misc
