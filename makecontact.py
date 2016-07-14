@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import urllib.request
 
 req = urllib.request.Request("http://localhost:8089")

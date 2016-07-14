@@ -1,9 +1,12 @@
-import getpass
+#!/usr/bin/env python3
 import urllib.request
+import getpass
     
-def login ():
-    username = input("ArchivesSpace username: ")
-    password = getpass.getpass("ArchivesSpace pasword: ")
+def login (username = "", password = ""):
+    if username == "":
+        username = input("ArchivesSpace username: ")
+    if password == "":
+        password = getpass.getpass("ArchivesSpace pasword: ")
     data = urllib.parse.urlencode({'password': password})
     data = data.encode('ascii')
     req = urllib.request.Request("http://localhost:8089/user/"+username+"/login", data)
