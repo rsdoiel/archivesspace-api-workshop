@@ -10,5 +10,6 @@ Date: Aug 2<sup>nd</sup>, 2016
 
 + [Abstract](Abstract.html)
 + [Workshop presentation](00-ArchivesSpace-API-Workshop.html)
++ [Download the slides](https://github.com/rsdoiel/archivesspace-api-workshop/releases/latest)
 
 

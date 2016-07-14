@@ -8,6 +8,10 @@
     + Archivist and Metadata Coordinator
     + Beinecke Rare Book and Manuscript Library
 
+[Presentation website](./)
+
+[Download slides](./archivesspace-api-workshop-slides.zip)
+
 --
 
 ## Requirements
@@ -342,28 +346,7 @@ the session value. Change thess lines of **login-simple.py**.
 
 --
 
-===========================================================
-## the Python prompt
-
-+ 
-# Making contact with the API
-
-+ Test your access to ArchivesSpace
-+ Test your access to ArchivesSpace REST API
-+ Brief explanation of REST and JSON
-+ Documentation on the [ArchivesSpace REST API](http://archivesspace.github.io/archivesspace/api/)
-+ Starting the Python Development Environment (IDLE)
-+ Importing the modules needed for the workshop
-+ How to make a web client request in Python
-+ How to view the response
-
---
-
-# Authenticating
-
-+ Forming your request
-+ Understanding the response
-+ Remembering the authentication token
+FIXME: remaining slides need to be written to lesson plan.
 
 --
 
