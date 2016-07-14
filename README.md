@@ -8,7 +8,7 @@ Location: Robert W. Woodruff Library at the Atlanta University Center, Atlanta, 
 
 Date: Aug 2<sup>nd</sup>, 2016
 
-+ [Abstract](Abstract.html)
++ [Abstract](abstract.html)
 + [Workshop presentation](00-ArchivesSpace-API-Workshop.html)
 + [Download the slides](https://github.com/rsdoiel/archivesspace-api-workshop/releases/latest)
 
