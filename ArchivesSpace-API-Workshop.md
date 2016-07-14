@@ -1,5 +1,14 @@
 
-# Outline of a ArchivesSpace API workshop
+# Introducing the ArchivesSpace REST API using Python 3
+
++ [R. S. Doiel](email://rsdoiel@caltech.edu)
+    + Software Developer 
+    + Caltech Library
++ [Mark Custer](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
+    + Archivist and Metadata Coordinator
+    + Beinecke Rare Book and Manuscript Library
+
+--
 
 ## Requirements
 
@@ -8,7 +17,7 @@ Requirements for participants:
 + A laptop/device with network access
     + Linux (what I use), Mac OS X (which I am familiar with), or Windows (which I am very rusty on)
     + Python 3 installed including the python standard library (see https://docs.python.org/3/library/)
-        + Python 3 (v3.5.x) can be downloaded and from https://www.python.org/downloads/
+        + Python 3 (v3.5.4) can be downloaded and from https://www.python.org/downloads/
         + We’ll be making heavy use of http, json modules
 + A Text Editor (if they don’t have one I recommend Atom Editor at http://atom.io)
 + A web browser (recommend Firefox or Chrome with the JSONView plugin https://jsonview.com/)
@@ -74,7 +83,7 @@ Bookmark in your web browser: https://docs.python.org/3/library/index.html
 ## Python/your text editor
 
 + Make sure you have [Python 3.5.4](https://www.python.org/downloads/) available
-    + try `python --version`
+    + try **python --version**
     + The website has easy installers for Windows and Mac OS X
 + Do you have a text editor?
     + You can use [Python 3's IDE](https://www.python.org/downloads/)
@@ -130,7 +139,7 @@ In three parts
 ## launch python
 
 ```shell
-    python
+    python3
 ```
 
 --
@@ -168,13 +177,22 @@ Workshop URL.
         print(src)
 ```
 
+Exit your python3 interpreter 
+
+```python
+    exit()
+```
+
+--
+
 # Make an http connection
 
 ## Putting it all together
 
-Put this into a text file called `makecontact.py`
+Put this into a text file called **makecontact.py**
 
 ```python
+    #!/usr/bin/env python3
     import urllib.request
 
     req = urllib.request.Request("http://localhost:8089")
@@ -183,16 +201,17 @@ Put this into a text file called `makecontact.py`
         src = response.read().decode('UTF-8')
         print(src)
 ```
----
+
+--
 
 # Send our username and password
 
 ## IMPORTANT!!!!
 
-I am going show a BAD practice by hardcoding a username
-and password. This is just to make teaching easier. In
-real life you want to use a configuration file or environment
-variables (my preferred).
+I am going show a BAD practice by hardcoding a 
+username and password. This is just to make teaching 
+easier. In real life you want to use a configuration 
+file or environment variables (my preferred).
 
 --
 
@@ -212,14 +231,14 @@ Launch our Python interpreter again.
     password = "admin" # or what you set the password to
 ```
 
--- 
+--
 
 # Send our username and password
 
 Encode our password for sending with our request.
 
 ```python
-    data = urllib.parse.urlencode({'password': self.password})
+    data = urllib.parse.urlencode({'password': password})
     data = data.encode('ascii')
 ```
 
@@ -227,13 +246,19 @@ Encode our password for sending with our request.
 
 # Send our username and password
 
-No package and send our request.
+Now with our data send our request.
 
 ```python
-    req = urllib.request.Request("http://localhost:8089/user/"+username+"/login", data)
+    req = urllib.request.Request("http://localhost:8089/users/"+username+"/login", data)
     with urllib.request.urlopen(req) as response:
         src = response.read().decode('UTF-8')
         print(src)
+```
+
+Exit our python interpreter 
+
+```python
+    exit()
 ```
 
 --
@@ -242,29 +267,81 @@ No package and send our request.
 
 ## Putting it all together
 
-Put this into a text file called `login-simple.py`. We'll
+Put this into a text file called **login-simple.py**. We'll
 create a python function and prompt for username and password.
 
 ```python
-    import getpass
+    #!/usr/bin/env python3
     import urllib.request
-    
-    username = input("Enter your ArchivesSpace username: ")
-    password = getpass.getpass("Entery your ArchivesSpace pasword: ")
-
+    import getpass
+        
     def login (username, password):
-        data = urllib.parse.urlencode({'password': self.password})
+        data = urllib.parse.urlencode({'password': password})
         data = data.encode('ascii')
-        req = urllib.request.Request("http://localhost:8089/user/"+username+"/login", data)
+        req = urllib.request.Request('http://localhost:8089/users/'+username+'/login', data)
         with urllib.request.urlopen(req) as response:
             src = response.read().decode('UTF-8')
-        return(src)
-
-    print(login(username, password))
-``
+        return src
+    
+    print('Logging in')
+    s = login(input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+    print(s)
+    print('Success!')
+```
 --
 
+# Notice the JSON about
 
+Open [example-login-response.json](example-login-response.json) in a new browser window.
+
+--
+
+# Save the access token returned
+
+We need to parse the JSON data into a Python object
+so we can save our access token.
+
+```JSON
+    {   
+       "session": "84467334ce001b924b0e6d529edf99e38385e471d4238177ab2e811dc5ac9e5a",
+       ...
+    }
+```
+
+The session value is our access token.
+
+--
+
+# Save the access token returned
+
+We just need to **import json** and modify our login
+function to parse the JSON response and return 
+the session value. Change thess lines of **login-simple.py**.
+
+```
+    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+    import json
+        
+    def login (username, password):
+        data = urllib.parse.urlencode({'password': password})
+        data = data.encode('ascii')
+        req = urllib.request.Request('http://localhost:8089/users/'+username+'/login', data)
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('UTF-8')
+        result = self.jsonparse(src)
+        return result['session']
+    
+    print('Logging in')
+    s = login(input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+    print("Your access token was: ", s)
+    print('Success!')
+```
+
+--
+
+===========================================================
 ## the Python prompt
 
 + 
