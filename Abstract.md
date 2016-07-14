@@ -12,9 +12,9 @@ Pre-requisites for the workshop:
 
 # Credits
 
-+ [R. S. Doiel](email://rsdoiel@caltech.edu) (leading workshop)
++ [R. S. Doiel](https://rsdoiel.github.io)
     + Software Developer 
-    + Caltech Library
+    + Caltech Library, [Digital Library Development](https://caltechlibrary.github.io) group
 + [Mark Custer](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
     + Archivist and Metadata Coordinator
     + Beinecke Rare Book and Manuscript Library

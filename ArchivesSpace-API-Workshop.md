@@ -1,7 +1,7 @@
 
 # Introducing the ArchivesSpace REST API using Python 3
 
-+ [R. S. Doiel](email://rsdoiel@caltech.edu)
++ [R. S. Doiel](https://rsdoiel.github.io)
     + Software Developer 
     + Caltech Library
 + [Mark Custer](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
