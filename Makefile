@@ -31,8 +31,10 @@ publish:
 	git push origin master
 	git checkout gh-pages
 	git pull origin master
-	git commit -am "merging master into gh-pages"
+	git commit -am "merging from master to gh-pages"
 	git push origin gh-pages
+	git checkout master
+
 
 clean:
 	if [ -f 00-ArchivesSpace-API-Workshop.html ]; then rm ??-ArchivesSpace-API-Workshop.html; fi
