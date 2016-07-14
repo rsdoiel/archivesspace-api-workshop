@@ -29,6 +29,13 @@ header {
     background: linear-gradient(to bottom, #777, #666 98%, #111)
 }
 
+/* NOTE: Ingnore a P tag inserted by Markdown when rendering headers */
+header p {
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
 header img {
     padding-left: 0.24em;
     position: relative;
@@ -50,6 +57,7 @@ header div {
     vertical-align: top;
     text-align: right;
 }
+
 
 section, article {
     padding: 0;
