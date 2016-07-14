@@ -9,7 +9,6 @@ Location: Robert W. Woodruff Library at the Atlanta University Center, Atlanta, 
 Date: Aug 2<sup>nd</sup>, 2016
 
 + [Abstract](Abstract.html)
-+ [Proposal](ArchivesSpace-API-Proposal.html)
 + [Workshop presentation](00-ArchivesSpace-API-Workshop.html)
 
 
