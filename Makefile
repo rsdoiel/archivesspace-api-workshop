@@ -27,12 +27,7 @@ release:
 
 publish:
 	./mk-release.sh
-	git commit -am "saving for publication"
-	git push origin master
-	git checkout gh-pages
-	git pull origin master
-	git commit -am "merging master into gh-pages"
-	git push origin gh-pages
+	./publish.sh
 
 clean:
 	if [ -f 00-ArchivesSpace-API-Workshop.html ]; then rm ??-ArchivesSpace-API-Workshop.html; fi
