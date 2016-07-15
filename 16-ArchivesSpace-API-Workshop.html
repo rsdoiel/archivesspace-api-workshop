@@ -20,12 +20,13 @@ type of the python comments.</p>
 <p>Launch our Python interpreter again.</p>
 
 <pre><code class="language-python">    import urllib.request
-    import getpass
 
-    api_url = 'http://localhost:8089'
+    api_url = input('ArchivesSpace API URL' ) # e.g. http://localhost:8089
     
-    username = input('username (e.g. admin: ')
-    password = getpass.getpass('password: ') 
+    username = input('username (e.g. admin): ')
+    # In the real world you'd want to use getpass.getpass('password: ')
+    # But the python IDE repl throws a warning and shows the password anyway...
+    password = input('password: ')
 </code></pre>
 </section>
 </body>

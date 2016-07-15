@@ -36,6 +36,7 @@
                'org_code': org_code,
                'image_url': image_url,
                'url': url})
+        data = data.encode('ascii')
         req = urllib.request.Request(api_url+'/repositories', 
                data, 
                {'X-ArchivesSpace-Session': access_token})

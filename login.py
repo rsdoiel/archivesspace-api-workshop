@@ -11,14 +11,14 @@ def login (api_url, username, password):
     with urllib.request.urlopen(req) as response:
         src = response.read().decode('UTF-8')
     result = json.JSONDecoder().decode(src)
-    authtoken = result['session']
-    return auththoken
+    auth_token = result['session']
+    return auth_token
 
 if __name__ == '__main__':
     api_url = input('ArchivesSpace API URL: ')
     if api_url == '':
         api_url = 'http://localhost:8089'
-    print('Logging in')
-    s = login(input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+    print('Logging in', api_url)
+    s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
     print(s)
     print('Success!')

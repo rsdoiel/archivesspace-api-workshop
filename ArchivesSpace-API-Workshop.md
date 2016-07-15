@@ -239,12 +239,13 @@ Launch our Python interpreter again.
 
 ```python
     import urllib.request
-    import getpass
 
-    api_url = 'http://localhost:8089'
+    api_url = input('ArchivesSpace API URL' ) # e.g. http://localhost:8089
     
-    username = input('username (e.g. admin: ')
-    password = getpass.getpass('password: ') 
+    username = input('username (e.g. admin): ')
+    # In the real world you'd want to use getpass.getpass('password: ')
+    # But the python IDE repl throws a warning and shows the password anyway...
+    password = input('password: ')
 ```
 
 --
@@ -272,7 +273,7 @@ Now with our data send our request.
     req = urllib.request.Request(api_url+"/users/"+username+"/login", data)
     with urllib.request.urlopen(req) as response:
         src = response.read().decode('UTF-8')
-        print(src)
+    print(src)
 ```
 
 Exit our python interpreter 
@@ -498,11 +499,11 @@ Now lets flesh out a **create_repo** function.
                'repo_code': repo_code,
                'org_code': org_code,
                'image_url': image_url,
-               'url': url})
+               'url': url}).encode()
         req = urllib.request.Request(api_url+'/repositories', 
-                data, 
+                None, 
                 {'X-ArchivesSpace-Session': access_token})
-        with urllib.request.urlopen(req) as response:
+        with urllib.request.urlopen(req, data) as response:
             src = response.read().decode('UTF-8')
         return json.JSONDecoder().decode(src)
 ```
@@ -539,7 +540,7 @@ Putting it all together
                'repo_code': repo_code,
                'org_code': org_code,
                'image_url': image_url,
-               'url': url})
+               'url': url}).encode()
         req = urllib.request.Request(api_url+'/repositories', 
                data, 
                {'X-ArchivesSpace-Session': access_token})
