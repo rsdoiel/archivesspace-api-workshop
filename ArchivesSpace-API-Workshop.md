@@ -408,11 +408,15 @@ FIXME: remaining slides need to be written to lesson plan.
 
 --
 
-# What's next?
+Thank you
 
-## Shameless plug
+Presentation is at 
 
-At Caltech we've been working with the Go langauge and JavaScript
+[rsdoiel.github.io/archivesspace-api-workshop](https://rsdoiel.github.io/archivesspace-api-workshop)
 
-+ [Caltech Archives Integration Tools Project](http://github.com/caltechlibrary/cait)
+Slides can be downloaded at
+
+[github.com/rsdoiel/archivesspace-api-workshop/releases/latest](https://github.com/rsdoiel/archivesspace-api-workshop/releases/latest)
+
+Please feel free to fork and improve.
 

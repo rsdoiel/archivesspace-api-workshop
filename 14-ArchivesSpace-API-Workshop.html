@@ -5,7 +5,7 @@
 body {
 	max-width: 100%;
 	max-height: 100%;
-	margin: 10%;
+	margin: 5%;
 	padding: 0;
 	font-size: 24px;
 	font-family: sans-serif;
@@ -18,19 +18,26 @@ ul {
 
 nav {
 	position: absolute;
-   	bottom: 1em; 
+   	top: 0em; 
 	margin:0;
-	padding:0.24em;
+	padding:0;
 	width: 100%;
-	height: 4em;
+	height: auto;
 	text-align: left;
 	font-size: 60%;
 }
 
+a, a:hover, a:link, a:visited, a:focus, a:active {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    padding: 0;
+    margin: 0;
+}
+
 section, p {
-	max-width: 85%;
-	padding: 0.24em;
-	margin: 0.24em;
+	max-width: 90%;
 }
 
 code {
@@ -39,6 +46,11 @@ code {
    </style>
 </head>
 <body>
+	<nav>
+<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Home</a>
+<a rel="nav" href="13-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a rel="nav" href="15-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+	</nav>
 	<section><h1>Make an http connection</h1>
 
 <h2>Putting it all together</h2>
@@ -55,10 +67,6 @@ code {
         print(src)
 </code></pre>
 </section>
-	<nav>
-<a href="00-ArchivesSpace-API-Workshop.html">Home</a>
-<a href="13-ArchivesSpace-API-Workshop.html">Prev</a>
-<a href="15-ArchivesSpace-API-Workshop.html">Next</a>
-	</nav>
 </body>
 </html>
+
