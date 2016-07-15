@@ -51,12 +51,23 @@ code {
 <a rel="nav" href="16-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="18-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>Send our username and password</h1>
+	<section><h1>3. Authentication</h1>
 
-<p>Encode our password for sending with our request.</p>
+<h2>Send our username and password</h2>
 
-<pre><code class="language-python">    data = urllib.parse.urlencode({'password': password})
-    data = data.encode('ascii')
+<p>We need pass our username and password in our request.
+We need to keep track of the response. You don&rsquo;t need to
+type of the python comments.</p>
+
+<p>Launch our Python interpreter again.</p>
+
+<pre><code class="language-python">    import urllib.request
+
+    api_url = 'http://localhost:8089'
+    
+    # Hardcoding a username/password is BAD PRACTICE!!!!
+    username = &quot;admin&quot; # or what you named your account
+    password = &quot;admin&quot; # or what you set the password to
 </code></pre>
 </section>
 </body>

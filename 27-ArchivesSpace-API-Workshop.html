@@ -51,16 +51,32 @@ code {
 <a rel="nav" href="26-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="28-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>Working in batches</h1>
+	<section><h1>4. Repositories</h1>
+
+<h2>Creating our create_repo function</h2>
+
+<p>The elements we&rsquo;re change with each request will form the parameters in our function.
+They are two required elements and the rest are optional</p>
+
+<h3>required</h3>
 
 <ul>
-<li>getting a list of useful IDs</li>
-<li>iterating over the IDs</li>
-<li>managing process load
+<li>name</li>
+<li>repo_code (a unique screen we&rsquo;ll decide on)</li>
+</ul>
+
+<h3>optional</h3>
 
 <ul>
-<li>avoiding too much of a good thing</li>
-</ul></li>
+<li>org_code</li>
+<li>image_url</li>
+<li>url</li>
+</ul>
+
+<h3>What we also need</h3>
+
+<ul>
+<li>We will need to submit our access token too</li>
 </ul>
 </section>
 </body>
