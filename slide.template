@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+   {{- if .Title -}}<title>{{ .Title }}</title>{{- end}}
+   {{- if .CSSPath -}}
+   <link href="{{ .CSSPath }}" rel="stylesheet" />
+   {{else}}
+   <style>
+body {
+	max-width: 100%;
+	max-height: 100%;
+	margin: 5%;
+	padding: 0;
+	font-size: 24px;
+	font-family: sans-serif;
+}
+
+ul {
+	list-style: circle;
+	text-indent: 0.25em;
+}
+
+nav {
+	position: absolute;
+   	top: 0em; 
+	margin:0;
+	padding:0;
+	width: 100%;
+	height: auto;
+	text-align: left;
+	font-size: 60%;
+}
+
+a, a:hover, a:link, a:visited, a:focus, a:active {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    padding: 0;
+    margin: 0;
+}
+
+section, p {
+	max-width: 90%;
+}
+
+code {
+	color: teal;
+}
+   </style>
+   {{- end }}
+</head>
+<body>
+	<nav>
+{{ if ne .CurNo .FirstNo -}}
+<a rel="nav" href="{{printf "%02d-%s.html" .FirstNo .FName}}" title="Return to start of presentation">Start</a>
+{{- end}}
+{{ if gt .CurNo .FirstNo -}} 
+<a rel="nav" href="{{printf "%02d-%s.html" .PrevNo .FName}}" title="Previous slide">Prev</a>
+{{- end}}
+{{ if lt .CurNo .LastNo -}} 
+<a rel="nav" href="{{printf "%02d-%s.html" .NextNo .FName}}" title="Next slide">Next</a>
+{{- end}}
+	</nav>
+	<section>{{ .Content }}</section>
+</body>
+</html>
+

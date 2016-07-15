@@ -1,58 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-   <style>
-body {
-	max-width: 100%;
-	max-height: 100%;
-	margin: 10%;
-	padding: 0;
-	font-size: 24px;
-	font-family: sans-serif;
-}
-
-ul {
-	list-style: circle;
-	text-indent: 0.25em;
-}
-
-nav {
-	position: absolute;
-   	bottom: 1em; 
-	margin:0;
-	padding:0.24em;
-	width: 100%;
-	height: 4em;
-	text-align: left;
-	font-size: 60%;
-}
-
-section, p {
-	max-width: 85%;
-	padding: 0.24em;
-	margin: 0.24em;
-}
-
-code {
-	color: teal;
-}
-   </style>
+<head><link href="css/slides.css" rel="stylesheet" />
+   
 </head>
 <body>
-	<section><h1>Make an http connection</h1>
+	<nav>
+<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a rel="nav" href="11-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a rel="nav" href="13-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+	</nav>
+	<section><h1>2. Make an http connection</h1>
 
 <h2>Create a request object</h2>
 
-<pre><code class="language-python">    req = urllib.request.Request(&quot;http://localhost:8089&quot;)
+<pre><code class="language-python">    api_url = 'http://localhost:8089'
+    req = urllib.request.Request(api_url)
 </code></pre>
 
 <p>You will need to replace &ldquo;<a href="http://localhost:8089&quot;">http://localhost:8089&quot;</a> with your
 Workshop URL.</p>
 </section>
-	<nav>
-<a href="00-ArchivesSpace-API-Workshop.html">Home</a>
-<a href="11-ArchivesSpace-API-Workshop.html">Prev</a>
-<a href="13-ArchivesSpace-API-Workshop.html">Next</a>
-	</nav>
 </body>
 </html>
+

@@ -1,57 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-   <style>
-body {
-	max-width: 100%;
-	max-height: 100%;
-	margin: 10%;
-	padding: 0;
-	font-size: 24px;
-	font-family: sans-serif;
-}
-
-ul {
-	list-style: circle;
-	text-indent: 0.25em;
-}
-
-nav {
-	position: absolute;
-   	bottom: 1em; 
-	margin:0;
-	padding:0.24em;
-	width: 100%;
-	height: 4em;
-	text-align: left;
-	font-size: 60%;
-}
-
-section, p {
-	max-width: 85%;
-	padding: 0.24em;
-	margin: 0.24em;
-}
-
-code {
-	color: teal;
-}
-   </style>
+<head><link href="css/slides.css" rel="stylesheet" />
+   
 </head>
 <body>
-	<section><h1>Send our username and password</h1>
-
-<h2>IMPORTANT!!!!</h2>
-
-<p>I am going show a BAD practice by hardcoding a
-username and password. This is just to make teaching
-easier. In real life you want to use a configuration
-file or environment variables (my preferred).</p>
-</section>
 	<nav>
-<a href="00-ArchivesSpace-API-Workshop.html">Home</a>
-<a href="14-ArchivesSpace-API-Workshop.html">Prev</a>
-<a href="16-ArchivesSpace-API-Workshop.html">Next</a>
+<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a rel="nav" href="14-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a rel="nav" href="16-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
+	<section><h1>3. Authentication</h1>
+
+<h2>Basic ingredients</h2>
+
+<ul>
+<li>Make an http connection</li>
+<li>Send our username and pasword</li>
+<li>Save the access token returned</li>
+</ul>
+</section>
 </body>
 </html>
+
