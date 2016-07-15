@@ -20,11 +20,11 @@
                'repo_code': repo_code,
                'org_code': org_code,
                'image_url': image_url,
-               'url': url})
+               'url': url}).encode()
         req = urllib.request.Request(api_url+'/repositories', 
-                data, 
+                None, 
                 {'X-ArchivesSpace-Session': access_token})
-        with urllib.request.urlopen(req) as response:
+        with urllib.request.urlopen(req, data) as response:
             src = response.read().decode('UTF-8')
         return json.JSONDecoder().decode(src)
 </code></pre>
