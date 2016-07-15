@@ -56,7 +56,7 @@ Bookmark in your web browser: https://docs.python.org/3/library/index.html
 
 # Workshop Overview
 
-+ What we'll be convering
++ What we'll be covering
     + ArchivesSpace REST API
     + Using Python 3 for interacting with the REST API
 + More generally
