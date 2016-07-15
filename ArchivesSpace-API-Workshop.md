@@ -200,7 +200,7 @@ Exit your python3 interpreter
 
 ## Putting it all together
 
-Put this into a text file called [making-an-http-connection.py](making-an-http-connection.py)
+Put this into a text file called [make-an-http-connection.py](make-an-http-connection.py)
 
 ```python
     #!/usr/bin/env python3
@@ -436,7 +436,7 @@ We repeat the process to create another one.
     'http://localhost:8089/repositories'
 ```
 
-the bit with "-d" is what we're interested in.
+(the bit with "-d" is what we're interested in.)
 
 --
 
@@ -478,14 +478,15 @@ They are two required elements and the rest are optional
 
 Our function definition should look something like
 
-```
+```python
     def create_repo(api_url, access_token, name, repo_code, org_code = "", image_url = "", url = ""):
         '''This function sends a create request to the ArchivesSpace REST API'''
 ```
 
+Did we catch all the fields we might want to change?
+
 ```json
-    curl -H "X-ArchivesSpace-Session: $SESSION"
-    -d {
+    {
        "jsonmodel_type": "repository",
        "name": "Description: 11",
        "repo_code": "ASPACE REPO 2 -- 631024",
@@ -493,10 +494,7 @@ Our function definition should look something like
        "image_url": "http://www.example-3.com",
        "url": "http://www.example-4.com"
     } 
-    'http://localhost:8089/repositories'
 ```
-
-the bit with "-d" is what we're interested in.
 
 --
 
@@ -504,7 +502,7 @@ the bit with "-d" is what we're interested in.
 
 Now lets flesh out a **create_repo** function.
 
-```
+```python
     def create_repo(api_url, access_token, name, repo_code, org_code = "", image_url = "", url = ""):
         '''This function sends a create request to the ArchivesSpace REST API'''
         data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
@@ -576,8 +574,8 @@ FIXME: remaining slides need to be written to lesson plan.
 
 # 4. Repositories
 
-+ List a repository description
 + List all repositories descriptions
++ List a specific repository description
 + Update a repository
 + Delete a repository
 

@@ -12,7 +12,7 @@ function makePage () {
         page.shorthand > $html_page
 }
 # Presentation slides
-md2slides -template slide.template ArchivesSpace-API-Workshop.md
+md2slides -css css/slides.css -template slide.template ArchivesSpace-API-Workshop.md
 
 # index.html
 makePage README.md nav.md index.html
