@@ -51,19 +51,14 @@ code {
 <a rel="nav" href="17-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="19-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>Send our username and password</h1>
+	<section><h1>3. Authentication</h1>
 
-<p>Now with our data send our request.</p>
+<h2>Send our username and password</h2>
 
-<pre><code class="language-python">    req = urllib.request.Request(&quot;http://localhost:8089/users/&quot;+username+&quot;/login&quot;, data)
-    with urllib.request.urlopen(req) as response:
-        src = response.read().decode('UTF-8')
-        print(src)
-</code></pre>
+<p>Encode our password for sending with our request.</p>
 
-<p>Exit our python interpreter</p>
-
-<pre><code class="language-python">    exit()
+<pre><code class="language-python">    data = urllib.parse.urlencode({'password': password})
+    data = data.encode('ascii')
 </code></pre>
 </section>
 </body>

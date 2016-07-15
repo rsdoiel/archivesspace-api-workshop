@@ -51,31 +51,20 @@ code {
 <a rel="nav" href="21-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="23-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>Save the access token returned</h1>
+	<section><h1>3. Authentication</h1>
 
-<p>We just need to <strong>import json</strong> and modify our login
-function to parse the JSON response and return
-the session value. Change thess lines of <strong>login-simple.py</strong>.</p>
+<h2>Save the access token returned</h2>
 
-<pre><code>    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-        
-    def login (username, password):
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request('http://localhost:8089/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        result = self.jsonparse(src)
-        return result['session']
-    
-    print('Logging in')
-    s = login(input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
-    print(&quot;Your access token was: &quot;, s)
-    print('Success!')
+<p>We need to parse the JSON data into a Python object
+so we can save our access token.</p>
+
+<pre><code class="language-JSON">    {   
+       &quot;session&quot;: &quot;84467334ce001b924b0e6d529edf99e38385e471d4238177ab2e811dc5ac9e5a&quot;,
+       ...
+    }
 </code></pre>
+
+<p>The session value is our access token.</p>
 </section>
 </body>
 </html>

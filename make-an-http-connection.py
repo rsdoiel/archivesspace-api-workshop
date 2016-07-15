@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import urllib.request
 
-req = urllib.request.Request("http://localhost:8089")
+api_url = 'http://localhost:8089'
+req = urllib.request.Request(api_url)
 
 with urllib.request.urlopen(req) as response:
     src = response.read().decode('UTF-8')

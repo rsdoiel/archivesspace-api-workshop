@@ -169,7 +169,8 @@ In three parts
 ## Create a request object
 
 ```python
-    req = urllib.request.Request("http://localhost:8089")
+    api_url = 'http://localhost:8089'
+    req = urllib.request.Request(api_url)
 ```
 
 You will need to replace "http://localhost:8089" with your 
@@ -193,6 +194,7 @@ Exit your python3 interpreter
     exit()
 ```
 
+--
 
 # 2. Make an http connection
 
@@ -204,7 +206,8 @@ Put this into a text file called [making-an-http-connection.py](making-an-http-c
     #!/usr/bin/env python3
     import urllib.request
 
-    req = urllib.request.Request("http://localhost:8089")
+    api_url = 'http://localhost:8089'
+    req = urllib.request.Request(api_url)
 
     with urllib.request.urlopen(req) as response:
         src = response.read().decode('UTF-8')
@@ -248,6 +251,8 @@ Launch our Python interpreter again.
 
 ```python
     import urllib.request
+
+    api_url = 'http://localhost:8089'
     
     # Hardcoding a username/password is BAD PRACTICE!!!!
     username = "admin" # or what you named your account
@@ -276,7 +281,7 @@ Encode our password for sending with our request.
 Now with our data send our request.
 
 ```python
-    req = urllib.request.Request("http://localhost:8089/users/"+username+"/login", data)
+    req = urllib.request.Request(api_url+"/users/"+username+"/login", data)
     with urllib.request.urlopen(req) as response:
         src = response.read().decode('UTF-8')
         print(src)
@@ -297,27 +302,32 @@ Exit our python interpreter
 ### Putting it all together
 
 Put this into a text file called **login-simple.py**. We'll
-create a python function and prompt for username and password.
+create a python function and prompt for api url, username 
+and password.
 
 ```python
     #!/usr/bin/env python3
     import urllib.request
     import getpass
         
-    def login (username, password):
+    def login (api_url, username, password):
         data = urllib.parse.urlencode({'password': password})
         data = data.encode('ascii')
-        req = urllib.request.Request('http://localhost:8089/users/'+username+'/login', data)
+        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
         with urllib.request.urlopen(req) as response:
             src = response.read().decode('UTF-8')
         return src
     
     if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
         print('Logging in')
-        s = login(input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
         print(s)
         print('Success!')
 ```
+
 --
 
 # 3. Authentication
@@ -361,19 +371,22 @@ to [login.py](login.py) and make the changes.
     import getpass
     import json
         
-    def login (username, password):
+    def login (api_url, username, password):
         '''This function logs into the ArchivesSpace REST API returning an access token'''
         data = urllib.parse.urlencode({'password': password})
         data = data.encode('ascii')
-        req = urllib.request.Request('http://localhost:8089/users/'+username+'/login', data)
+        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
         with urllib.request.urlopen(req) as response:
             src = response.read().decode('UTF-8')
         result = json.JSONDecoder().decode(src)
         return result['session']
     
     if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
         print('Logging in')
-        s = login(input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
         print("Your access token was: ", s)
         print('Success!')
 ```
@@ -466,7 +479,7 @@ They are two required elements and the rest are optional
 Our function definition should look something like
 
 ```
-    def create_repo(access_token, name, repo_code, org_code = "", image_url = "", url = ""):
+    def create_repo(api_url, access_token, name, repo_code, org_code = "", image_url = "", url = ""):
         '''This function sends a create request to the ArchivesSpace REST API'''
 ```
 
@@ -492,7 +505,7 @@ the bit with "-d" is what we're interested in.
 Now lets flesh out a **create_repo** function.
 
 ```
-    def create_repo(access_token, name, repo_code, org_code = "", image_url = "", url = ""):
+    def create_repo(api_url, access_token, name, repo_code, org_code = "", image_url = "", url = ""):
         '''This function sends a create request to the ArchivesSpace REST API'''
         data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
                'name': name,
@@ -500,7 +513,7 @@ Now lets flesh out a **create_repo** function.
                'org_code': org_code,
                'image_url': image_url,
                'url': url})
-        req = urllib.request.Request('http://localhost:8089/repositories', 
+        req = urllib.request.Request(api_url+'/repositories', 
                 data, 
                 {'X-ArchivesSpace-Session': access_token})
         with urllib.request.urlopen(req) as response:

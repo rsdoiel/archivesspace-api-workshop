@@ -51,29 +51,21 @@ code {
 <a rel="nav" href="18-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="20-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>Send our username and password</h1>
+	<section><h1>3. Authentication</h1>
 
-<h2>Putting it all together</h2>
+<h1>Send our username and password</h1>
 
-<p>Put this into a text file called <strong>login-simple.py</strong>. We&rsquo;ll
-create a python function and prompt for username and password.</p>
+<p>Now with our data send our request.</p>
 
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-        
-    def login (username, password):
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request('http://localhost:8089/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        return src
-    
-    print('Logging in')
-    s = login(input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
-    print(s)
-    print('Success!')
+<pre><code class="language-python">    req = urllib.request.Request(&quot;http://localhost:8089/users/&quot;+username+&quot;/login&quot;, data)
+    with urllib.request.urlopen(req) as response:
+        src = response.read().decode('UTF-8')
+        print(src)
+</code></pre>
+
+<p>Exit our python interpreter</p>
+
+<pre><code class="language-python">    exit()
 </code></pre>
 </section>
 </body>

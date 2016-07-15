@@ -51,23 +51,27 @@ code {
 <a rel="nav" href="28-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="30-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>References</h1>
+	<section><h1>4. Repostories</h1>
 
-<ul>
-<li><a href="http://archivesspace.github.io/archivesspace/api/">ArchivesSpace REST API</a></li>
-<li><a href="https://docs.python.org/3.5/">Python 3 Docs</a>
+<p>Our function definition should look something like</p>
 
-<ul>
-<li><a href="https://docs.python.org/3/howto/urllib2.html">urllib2</a>
+<pre><code>    def create_repo(access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+</code></pre>
 
-<ul>
-<li><a href="http://www.voidspace.org.uk/python/articles/authentication.shtml">Basic Auth example</a></li>
-</ul></li>
-<li><a href="https://docs.python.org/3.5/library/json.html?highlight=json#module-json">JSON module</a></li>
-<li><a href="https://docs.python.org/3.5/library/os.html">OS module</a> (for using environment variables)</li>
-</ul></li>
-<li><a href="https://github.com/caltechlibrary/aspace-api-workshop">github.com/caltechlibrary/aspace-api-workshop</a></li>
-</ul>
+<pre><code class="language-json">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot;
+    -d {
+       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+       &quot;name&quot;: &quot;Description: 11&quot;,
+       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
+       &quot;org_code&quot;: &quot;970UV228G&quot;,
+       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
+       &quot;url&quot;: &quot;http://www.example-4.com&quot;
+    } 
+    'http://localhost:8089/repositories'
+</code></pre>
+
+<p>the bit with &ldquo;-d&rdquo; is what we&rsquo;re interested in.</p>
 </section>
 </body>
 </html>
