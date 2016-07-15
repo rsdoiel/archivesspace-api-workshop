@@ -5,7 +5,7 @@
 body {
 	max-width: 100%;
 	max-height: 100%;
-	margin: 10%;
+	margin: 5%;
 	padding: 0;
 	font-size: 24px;
 	font-family: sans-serif;
@@ -18,19 +18,26 @@ ul {
 
 nav {
 	position: absolute;
-   	bottom: 1em; 
+   	top: 0em; 
 	margin:0;
-	padding:0.24em;
+	padding:0;
 	width: 100%;
-	height: 4em;
+	height: auto;
 	text-align: left;
 	font-size: 60%;
 }
 
+a, a:hover, a:link, a:visited, a:focus, a:active {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    padding: 0;
+    margin: 0;
+}
+
 section, p {
-	max-width: 85%;
-	padding: 0.24em;
-	margin: 0.24em;
+	max-width: 90%;
 }
 
 code {
@@ -39,20 +46,23 @@ code {
    </style>
 </head>
 <body>
-	<section><h1>What&rsquo;s next?</h1>
-
-<h2>Shameless plug</h2>
-
-<p>At Caltech we&rsquo;ve been working with the Go langauge and JavaScript</p>
-
-<ul>
-<li><a href="http://github.com/caltechlibrary/cait">Caltech Archives Integration Tools Project</a></li>
-</ul>
-</section>
 	<nav>
-<a href="00-ArchivesSpace-API-Workshop.html">Home</a>
-<a href="29-ArchivesSpace-API-Workshop.html">Prev</a>
+<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Home</a>
+<a rel="nav" href="29-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 
 	</nav>
+	<section><p>Thank you</p>
+
+<p>Presentation is at</p>
+
+<p><a href="https://rsdoiel.github.io/archivesspace-api-workshop">rsdoiel.github.io/archivesspace-api-workshop</a></p>
+
+<p>Slides can be downloaded at</p>
+
+<p><a href="https://github.com/rsdoiel/archivesspace-api-workshop/releases/latest">github.com/rsdoiel/archivesspace-api-workshop/releases/latest</a></p>
+
+<p>Please feel free to fork and improve.</p>
+</section>
 </body>
 </html>
+
