@@ -55,7 +55,7 @@ code {
 
 <p>Now lets flesh out a <strong>create_repo</strong> function.</p>
 
-<pre><code>    def create_repo(access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+<pre><code>    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
         '''This function sends a create request to the ArchivesSpace REST API'''
         data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
                'name': name,
@@ -63,7 +63,7 @@ code {
                'org_code': org_code,
                'image_url': image_url,
                'url': url})
-        req = urllib.request.Request('http://localhost:8089/repositories', 
+        req = urllib.request.Request(api_url+'/repositories', 
                 data, 
                 {'X-ArchivesSpace-Session': access_token})
         with urllib.request.urlopen(req) as response:

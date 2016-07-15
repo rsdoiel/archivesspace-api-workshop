@@ -60,7 +60,8 @@ code {
 <pre><code class="language-python">    #!/usr/bin/env python3
     import urllib.request
 
-    req = urllib.request.Request(&quot;http://localhost:8089&quot;)
+    api_url = 'http://localhost:8089'
+    req = urllib.request.Request(api_url)
 
     with urllib.request.urlopen(req) as response:
         src = response.read().decode('UTF-8')
