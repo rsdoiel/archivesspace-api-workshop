@@ -13,16 +13,35 @@
 
 <h2>Save the access token returned</h2>
 
-<p>We need to parse the JSON data into a Python object
-so we can save our access token.</p>
+<p>We just need to <strong>import json</strong> and modify our login
+function to <strong>parse the JSON response and return
+the session value</strong>. Copy <a href="login-simple.py">login-simple.py</a>
+to <a href="login.py">login.py</a> and make the changes.</p>
 
-<pre><code class="language-JSON">    {   
-       &quot;session&quot;: &quot;84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a&quot;,
-       ...
-    }
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+    import json
+        
+    def login (api_url, username, password):
+        '''This function logs into the ArchivesSpace REST API returning an access token'''
+        data = urllib.parse.urlencode({'password': password})
+        data = data.encode('ascii')
+        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('UTF-8')
+        result = json.JSONDecoder().decode(src)
+        return result['session']
+    
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        print('Logging in')
+        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+        print(&quot;Your access token was: &quot;, s)
+        print('Success!')
 </code></pre>
-
-<p>The session value is our access token.</p>
 </section>
 </body>
 </html>

@@ -13,12 +13,20 @@
 
 <h2>Send our username and password</h2>
 
-<h3>IMPORTANT!!!!</h3>
+<p>We need pass our username and password in our request.
+We need to keep track of the response. You don&rsquo;t need to
+type of the python comments.</p>
 
-<p>I am going show a BAD practice by hardcoding a
-username and password. This is just to make teaching
-easier. In real life you want to use a configuration
-file or environment variables (my preferred).</p>
+<p>Launch our Python interpreter again.</p>
+
+<pre><code class="language-python">    import urllib.request
+    import getpass
+
+    api_url = 'http://localhost:8089'
+    
+    username = input('username (e.g. admin: ')
+    password = getpass.getpass('password: ') 
+</code></pre>
 </section>
 </body>
 </html>

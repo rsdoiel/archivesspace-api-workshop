@@ -13,28 +13,29 @@
 
 <h2>Creating our create_repo function</h2>
 
-<ul>
-<li>Go to <a href="http://archivesspace.github.io/archivesspace/api/#get-repositories">AS REST API docs</a>
+<p>The elements we&rsquo;re change with each request will form the parameters in our function.
+They are two required elements and the rest are optional</p>
+
+<h3>required</h3>
 
 <ul>
-<li>We&rsquo;re interested in &ldquo;Create a Repository&rdquo;</li>
-</ul></li>
-<li>Look at the example <strong>Curl</strong> request on the right</li>
+<li>name</li>
+<li>repo_code (a unique screen we&rsquo;ll decide on)</li>
 </ul>
 
-<pre><code class="language-json">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot;
-    -d {
-       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
-       &quot;name&quot;: &quot;Description: 11&quot;,
-       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
-       &quot;org_code&quot;: &quot;970UV228G&quot;,
-       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
-       &quot;url&quot;: &quot;http://www.example-4.com&quot;
-    } 
-    'http://localhost:8089/repositories'
-</code></pre>
+<h3>optional</h3>
 
-<p>(the bit with &ldquo;-d&rdquo; is what we&rsquo;re interested in.)</p>
+<ul>
+<li>org_code</li>
+<li>image_url</li>
+<li>url</li>
+</ul>
+
+<h3>What we also need</h3>
+
+<ul>
+<li>We will need to submit our access token too</li>
+</ul>
 </section>
 </body>
 </html>

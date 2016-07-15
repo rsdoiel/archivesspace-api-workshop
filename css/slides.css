@@ -14,13 +14,13 @@ ul {
 
 nav {
 	position: absolute;
-   	top: 0em; 
+   	top: 1.24em; 
 	margin:0;
 	padding:0;
 	width: 100%;
 	height: auto;
 	text-align: left;
-	font-size: 60%;
+	font-size: 70%;
 }
 
 a, a:hover, a:link, a:visited, a:focus, a:active {
@@ -55,4 +55,11 @@ section, p {
 code {
 	color: teal;
 }
-   </style>
+
+.language-shell {
+    color: orange;
+}
+
+.language-python: {
+    color: teal;
+}

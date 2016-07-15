@@ -11,35 +11,9 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h2>Send our username and password</h2>
+<h2>Notice the JSON about</h2>
 
-<h3>Putting it all together</h3>
-
-<p>Put this into a text file called <strong>login-simple.py</strong>. We&rsquo;ll
-create a python function and prompt for api url, username
-and password.</p>
-
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-        
-    def login (api_url, username, password):
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        return src
-    
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        print('Logging in')
-        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
-        print(s)
-        print('Success!')
-</code></pre>
+<p>Open <a href="example-login-response.json">example-login-response.json</a> in a new browser window.</p>
 </section>
 </body>
 </html>
