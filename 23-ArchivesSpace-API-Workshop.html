@@ -9,39 +9,18 @@
 <a rel="nav" href="22-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="24-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>3. Authentication</h1>
+	<section><h1>4. Repositories</h1>
 
-<h2>Save the access token returned</h2>
+<ul>
+<li>Creating a two repositories
 
-<p>We just need to <strong>import json</strong> and modify our login
-function to <strong>parse the JSON response and return
-the session value</strong>. Copy <a href="login-simple.py">login-simple.py</a>
-to <a href="login.py">login.py</a> and make the changes.</p>
-
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-        
-    def login (api_url, username, password):
-        '''This function logs into the ArchivesSpace REST API returning an access token'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        result = json.JSONDecoder().decode(src)
-        return result['session']
-    
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        print('Logging in')
-        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
-        print(&quot;Your access token was: &quot;, s)
-        print('Success!')
-</code></pre>
+<ul>
+<li>we&rsquo;ll keep the first and experiment with the second</li>
+</ul></li>
+<li>View the repository information</li>
+<li>List the available repositories</li>
+<li>Deleting the second repository</li>
+</ul>
 </section>
 </body>
 </html>

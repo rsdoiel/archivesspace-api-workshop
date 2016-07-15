@@ -231,19 +231,6 @@ Put this into a text file called [make-an-http-connection.py](make-an-http-conne
 
 ## Send our username and password
 
-### IMPORTANT!!!!
-
-I am going show a BAD practice by hardcoding a 
-username and password. This is just to make teaching 
-easier. In real life you want to use a configuration 
-file or environment variables (my preferred).
-
---
-
-# 3. Authentication
-
-## Send our username and password
-
 We need pass our username and password in our request.
 We need to keep track of the response. You don't need to
 type of the python comments.
@@ -252,12 +239,12 @@ Launch our Python interpreter again.
 
 ```python
     import urllib.request
+    import getpass
 
     api_url = 'http://localhost:8089'
     
-    # Hardcoding a username/password is BAD PRACTICE!!!!
-    username = "admin" # or what you named your account
-    password = "admin" # or what you set the password to
+    username = input('username (e.g. admin: ')
+    password = getpass.getpass('password: ') 
 ```
 
 --

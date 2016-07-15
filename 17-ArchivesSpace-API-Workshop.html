@@ -13,19 +13,10 @@
 
 <h2>Send our username and password</h2>
 
-<p>We need pass our username and password in our request.
-We need to keep track of the response. You don&rsquo;t need to
-type of the python comments.</p>
+<p>Encode our password for sending with our request.</p>
 
-<p>Launch our Python interpreter again.</p>
-
-<pre><code class="language-python">    import urllib.request
-
-    api_url = 'http://localhost:8089'
-    
-    # Hardcoding a username/password is BAD PRACTICE!!!!
-    username = &quot;admin&quot; # or what you named your account
-    password = &quot;admin&quot; # or what you set the password to
+<pre><code class="language-python">    data = urllib.parse.urlencode({'password': password})
+    data = data.encode('ascii')
 </code></pre>
 </section>
 </body>

@@ -11,9 +11,18 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h2>Notice the JSON about</h2>
+<h2>Save the access token returned</h2>
 
-<p>Open <a href="example-login-response.json">example-login-response.json</a> in a new browser window.</p>
+<p>We need to parse the JSON data into a Python object
+so we can save our access token.</p>
+
+<pre><code class="language-JSON">    {   
+       &quot;session&quot;: &quot;84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a&quot;,
+       ...
+    }
+</code></pre>
+
+<p>The session value is our access token.</p>
 </section>
 </body>
 </html>
