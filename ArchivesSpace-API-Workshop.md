@@ -21,7 +21,7 @@ Requirements for participants:
 + A laptop/device with network access
     + Linux (what I use), Mac OS X (which I am familiar with), or Windows (which I am very rusty on)
     + Python 3 installed including the python standard library (see https://docs.python.org/3/library/)
-        + Python 3 (v3.5.4) can be downloaded and from https://www.python.org/downloads/
+        + Python 3 (v3.5.2) can be downloaded and from https://www.python.org/downloads/
         + We’ll be making heavy use of http, json modules
 + A Text Editor (if they don’t have one I recommend Atom Editor at http://atom.io)
 + A web browser (recommend Firefox or Chrome with the JSONView plugin https://jsonview.com/)
@@ -41,8 +41,8 @@ Bookmark in your web browser: https://docs.python.org/3/library/index.html
 
 + Make sure you have a modern web browser
     + I suggest either Firefox or Chrome
-+ Install [Python 3.5.4](https://www.python.org/downloads/) if needed
-+ Make sure you have [Python 3.5.4](https://www.python.org/downloads/) 
++ Install [Python 3.5.2](https://www.python.org/downloads/) if needed
++ Make sure you have [Python 3.5.2](https://www.python.org/downloads/) 
 + Make sure you have a text editor
     + Examples
         + [Atom](http://atom.io)
@@ -99,7 +99,7 @@ Bookmark in your web browser: https://docs.python.org/3/library/index.html
 
 ## Python/your text editor
 
-+ Make sure you have [Python 3.5.4](https://www.python.org/downloads/) available
++ Make sure you have [Python 3.5.2](https://www.python.org/downloads/) available
     + try **python --version**
     + The website has easy installers for Windows and Mac OS X
 + Do you have a text editor?
@@ -347,7 +347,7 @@ so we can save our access token.
 
 ```JSON
     {   
-       "session": "84467334ce001b924b0e6d529edf99e38385e471d4238177ab2e811dc5ac9e5a",
+       "session": "84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a",
        ...
     }
 ```
