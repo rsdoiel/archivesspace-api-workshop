@@ -41,16 +41,15 @@ Bookmark in your web browser: https://docs.python.org/3/library/index.html
 
 + Make sure you have a modern web browser
     + I suggest either Firefox or Chrome
-+ Install [Python 3.5.2](https://www.python.org/downloads/) if needed
 + Make sure you have [Python 3.5.2](https://www.python.org/downloads/) 
+    + Install [Python 3.5.2](https://www.python.org/downloads/) if needed
 + Make sure you have a text editor
-    + Examples
-        + [Atom](http://atom.io)
-        + [Brackets](http://brackets.io)
-        + vi, emacs, nano, pico, etc
-    + Or the Python IDE that comes with Python
+    + The Python IDE has a text editor, it comes with Python
+    + [Atom](http://atom.io)
+    + [Brackets](http://brackets.io)
+    + vi, emacs, pico, nano, micro, etc
 + A test deployment ArchivesSpace is being provided as part of the Workshop
-    + You can install your own [Vagrant](http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/)
+    + You can install your own via [VirtualBox and Vagrant](http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/)
 
 --
 
