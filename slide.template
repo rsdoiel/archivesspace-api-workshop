@@ -53,7 +53,7 @@ code {
 <body>
 	<nav>
 {{ if ne .CurNo .FirstNo -}}
-<a rel="nav" href="{{printf "%02d-%s.html" .FirstNo .FName}}" title="Return to start of presentation">Home</a>
+<a rel="nav" href="{{printf "%02d-%s.html" .FirstNo .FName}}" title="Return to start of presentation">Start</a>
 {{- end}}
 {{ if gt .CurNo .FirstNo -}} 
 <a rel="nav" href="{{printf "%02d-%s.html" .PrevNo .FName}}" title="Previous slide">Prev</a>
