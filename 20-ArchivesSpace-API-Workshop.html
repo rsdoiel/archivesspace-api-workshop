@@ -13,40 +13,11 @@
 
 <h2>Send our username and password</h2>
 
-<h3>Putting it all together</h3>
+<p>Encode our password for sending with our request.</p>
 
-<p>Open the IDLE text editor and create an empty
-python script called <strong>login-simple.py</strong>. We&rsquo;ll
-create a python function and prompt for api url,
-username and password.</p>
-
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-        
-    def login (api_url, username, password):
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('utf-8')
-        # Notice we're adding the &quot;data&quot; to the url built with Request
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        return src
-    
-    if __name__ == '__main__':
-        # this is where we'll test what we're building
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = input('ArchivesSpace password: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        print('Logging in')
-        s = login(api_url, username, password)
-        print(s)
-        print('Success!')
+<pre><code class="language-python">    data = urllib.parse.urlencode({'password': password})
+    data = data.encode('utf-8')
 </code></pre>
-
-<p>Now &ldquo;Run&rdquo; the python script and see the results.</p>
 </section>
 </body>
 </html>

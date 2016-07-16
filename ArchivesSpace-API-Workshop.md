@@ -54,9 +54,6 @@ Requirements for participants:
 
 + ArchivesSpace REST API
 + Using Python 3 for interacting with the REST API
-+ More generally
-    + REST APIs as Data Sources
-    + Working with JSON data
 + Identifying helpful web resources for API work
 
 --
@@ -66,11 +63,10 @@ Requirements for participants:
 1. Setup
 2. Making an http connection
 3. Authentication
-4. Repositories
+4. Working with Repositories
 5. Working with Agents
 6. Working with Accessions
 7. Working with Digital Objects
-8. Working in Batches
 
 --
 
@@ -81,7 +77,9 @@ Requirements for participants:
 + Open the following in your browser tabs
     + [rsdoiel.github.io/archivesspace-api-workshop](https://rsdoiel.github.io/archivesspace-api-workshop/00-ArchivesSpace-API-Workshop.html) - so you can follow along
     + ArchivesSpace API docs [archivesspace.github.io/archivesspace/api/](http://archivesspace.github.io/archivesspace/api/)
+
 --
+
 # 1. Setup 
 
 ## ArchivesSpace
@@ -89,18 +87,27 @@ Requirements for participants:
 + Our hosts have provided us with test deployments of ArchivesSpace
     + See hand out or whiteboard for connection details
 + Make sure you can access ArchivesSpace Web UI from your web browser
-    + If you've setup a local copy this is usually http://localhost:8080
+    + usually http://localhost:8080
 + Make sure you can access ArchivesSpace API from your web browser
-    + If you've setup a local copy this is usually http://localhost:8089
+    + usually http://localhost:8089
 
 --
 
+# 1. Setup
+
+## ArchivesSpace
+
+1. Point your web browser at the ArchivesSpace web UI
+2. Make sure you can login
+3. In another browser tab point your web browser the API URL
+
+--
 
 # 1. Setup 
 
 ## Python Development Environment
 
-+ Start IDLE for Python 3 
++ Start IDLE for Python 3.5
     + confirm the reported version is 3.5.1 or better
 
 --
@@ -110,7 +117,10 @@ Requirements for participants:
 In three parts
 
 + using the Python interpreter
-+ import the urllib and getpass modules
++ import the three standard modules we'll use in the workshop
+    + urllib.request
+    + getpass
+    + json
 + make a connection with the request object
 
 --
@@ -120,10 +130,10 @@ In three parts
 ## Let's get started
 
 At this point your setup should be completed and we're
-going to start coding in Python 3.
+going to start working in the Python shell via IDLE.
 
-The next set of examples we're go into to run in Python's
-shell.
+IDLE is python's integrated development environment that
+comes standard with Python distributions.
 
 --
 
@@ -131,16 +141,29 @@ shell.
 
 ## launch python
 
-From a terminal on Linux try
+From a terminal on Linux I type ...
 
 ```shell
     idle-python3.5 &
 ```
 
-On Mac OS X or Windows 
+On Mac OS X or Windows you'll need to ...
 
 1. find your Python 3.5.2 installation folder.
 2. find **idle**, click/double click to start it.
+
+--
+
+# 2. Make an http connection
+
+## Recap and check
+
+Before we continue you should have the following
+running ...
+
++ ArchivesSpace
++ Your web browser
++ Python via IDLE
 
 --
 
@@ -184,7 +207,7 @@ This creates a **Request** object named *req*.
 
 ## Make the request, print results
 
-Now we can send our *req* and get back a response.
+Now we can send our *req* and get back a *response*.
 
 ```python
     with urllib.request.urlopen(req) as response:
