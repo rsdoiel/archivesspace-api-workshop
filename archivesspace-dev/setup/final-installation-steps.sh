@@ -179,10 +179,18 @@ function setupFinish {
     echo ""
 }
 
+function setUbuntu_16_04LTS() {
+    echo "Installing additional Ubuntu 16.04 LTS packages needed"
+    sudo apt install build-essential git curl zip unzip \
+         openjdk-8-jdk ant ant-contrib ant-optional \
+         maven mysql-server -y
+}
+
 #
 # Main
 #
 assertUsername vagrant "Try: sudo su vagrant"
+setupUbuntu_16_04_LTS
 setupUsers
 setupArchivesSpace
 setupMySQL
