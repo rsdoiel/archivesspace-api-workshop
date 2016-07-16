@@ -8,9 +8,7 @@
     + Archivist and Metadata Coordinator
     + Beinecke Rare Book and Manuscript Library
 
-[Presentation website](./)
-
-[Download slides](./archivesspace-api-workshop-slides.zip)
+[Download these slides and examples](./archivesspace-api-workshop-slides.zip)
 
 --
 
@@ -19,21 +17,22 @@
 Requirements for participants:
 
 + A laptop/device with network access
-    + Linux (what I use), Mac OS X (which I am familiar with), or Windows (which I am very rusty on)
+    + Linux (what I use), Mac OS X (which I am familiar with), or Windows (which I am very very rusty on)
     + Python 3 installed including the python standard library (see https://docs.python.org/3/library/)
         + Python 3 (v3.5.2) can be downloaded and from https://www.python.org/downloads/
-        + We’ll be making heavy use of http, json modules
-+ A Text Editor (if they don’t have one I recommend Atom Editor at http://atom.io)
-+ A web browser (recommend Firefox or Chrome with the JSONView plugin https://jsonview.com/)
-+ Access to ArchivesSpace REST API (will be provided at conference)
-    + If you have [Virtualbox]()/[Vagrant]() 
-    + Use [archivesspace-dev](https://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev) from the Workshop website
-
-Recommended:
-
-Read through https://docs.python.org/3/tutorial/index.html if they are not familiar with Python.
-Bookmark in your web browser: http://archivesspace.github.io/archivesspace/api/
-Bookmark in your web browser: https://docs.python.org/3/library/index.html
+        + We’ll be making heavy use of urllib and json modules
++ A Text Editor
+    + IDLE for Python 3 is what I will use in the Workshop
+    + other editor examples are [Atom](http://atom.io), [Brackets](http://brackets.io)
+    + or even vi, pico, nano, micro, emacs...
++ A web browser
+    + I recommend Firefox or Chrome
+    + with the [JSONView](https://jsonview.com/) plugin
++ Access to ArchivesSpace REST API
+    + The workshop hosts will provide access for Aug 2nd
+    + If you have [Virtualbox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/) 
+    checkout [archivesspace-dev](https://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev) from the Workshop website
++ A basic familiarity with Python
 
 --
 
@@ -50,6 +49,13 @@ Bookmark in your web browser: https://docs.python.org/3/library/index.html
     + vi, emacs, pico, nano, micro, etc
 + A test deployment ArchivesSpace is being provided as part of the Workshop
     + You can install your own via [VirtualBox and Vagrant](http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/)
++ Recommended reading
+    + Read through the [Python 3 tutorial](https://docs.python.org/3/tutorial/index.html) if they are not familiar with Python.
++ Bookmark in your web browser:
+    + [ArchivesSpace API Docs](http://archivesspace.github.io/archivesspace/api/)
+    + [Python Reference](https://docs.python.org/3/library/index.html)
+    + [This presentation website](https://rsdoiel.github.io/archivesspace-api-workshop)
+
 
 --
 
