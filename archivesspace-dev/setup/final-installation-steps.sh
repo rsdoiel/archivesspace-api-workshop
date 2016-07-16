@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+REVISION="v1.4.2"
 
 function assertUsername {
     USERNAME=$1
@@ -21,7 +22,7 @@ function assertUsername {
 }
 
 function setupUsers {
-    sudo adduser archivesspace
+    sudo adduser --system archivesspace
     sudo usermod -G vagrant,archivesspace vagrant
 }
 
@@ -42,7 +43,7 @@ function setupMySQL {
         echo "FLUSH PRIVILEGES;" >> archivesspace-mysql-setup.sql
         sudo mysql < archivesspace-mysql-setup.sql
         echo "Running the ArchivesSpace setup-database.sh script"
-        cd /usr/local/archivesspace
+        cd /archivesspace/$REVISION/archivesspace/
         bash scripts/setup-database.sh
         cd
         # Now make things more secure.
@@ -60,9 +61,8 @@ function setupArchivesSpace {
     # See https://www.youtube.com/watch?v=peRcBYqJHGc&index=19&list=PLJFitFaE9AY_DDlhl3Kq_vFeX27F1yt6I
     # for Video tutorial for similar steps on Cent OS 6.x
     echo "Adding archivesspace."
-    REVISION="v1.4.2"
     RELEASE_URL="https://github.com/archivesspace/archivesspace/releases/download/$REVISION/archivesspace-$REVISION.zip"
-    ZIP_FILE="$HOME/sync/archivesspace-$REVISION.zip"
+    ZIP_FILE="/vagrant/archivesspace-$REVISION.zip"
     if [ -f "$ZIP_FILE" ]; then
         echo "Using existing $ZIP_FILE"
     else
@@ -70,30 +70,27 @@ function setupArchivesSpace {
         echo "$RELEASE_URL"
         curl -L -k -O --url $RELEASE_URL
     fi
-    cd /usr/local/
+    sudo mkdir -p /archivesspace/$REVISION
+    sudo chown -R vagrant /archivesspace
+    cd /archivesspace/$REVISION
     echo "Unpacking $ZIP_FILE"
-    sudo unzip $ZIP_FILE
-    sudo ln -s /usr/local/archivesspace /archivesspace
-    # RedHat/centos needs to link with chkconfig, debian does something else..
-    sudo chkconfig --add /etc/init.d/archivesspace
+    unzip $ZIP_FILE
+    sudo ln -s /archivesspace/$REVISION/achivesspace/archivesspace.sh /etc/init.d/archivesspace
     echo "Copy in MySQL Java connection."
-    cd /usr/local/archivesspace/lib
+    cd /archivesspace/$REVISION/archivesspace/lib
     sudo curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.35/mysql-connector-java-5.1.35.jar
     # Setup MySQL connector for use with ArchivesSpace
     # Update config/config.rb
-    cd /usr/local/archivesspace
+    cd /archivesspace/$REVISION/archivesspace
     sudo chown $USER config/config.rb
     echo 'AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"' >> config/config.rb
     echo 'AppConfig[:compile_jasper] = true' >> config/config.rb
     echo 'AppConfig[:enable_jasper] = true' >> config/config.rb
 
     echo "Update ownership to be archivesspace user."
-    sudo chown -R archivesspace.archivesspace /usr/local/archivesspace
-    sudo chcon -R -h -t httpd_sys_script_rw_t /usr/local/archivesspace
+    sudo chown -R archivesspace.archivesspace /archivesspace/$REVISION/archivesspace
     # Finally make ArchivesSpace come up on boot as archivesspace user.
-    sudo ln -s /usr/local/archivesspace/archivesspace.sh /etc/init.d/archivesspace
-    sudo sed --in-place=.original -e "s/ARCHIVESSPACE_USER=/ARCHIVESSPACE_USER=archivesspace/g" /usr/local/archivesspace/archivesspace.sh
-    sudo chkconfig --level 3 archivesspace on
+    sudo sed --in-place=.original -e "s/ARCHIVESSPACE_USER=/ARCHIVESSPACE_USER=archivesspace/g" /archivesspace/$REVISION/archivesspace/archivesspace.sh
 }
 
 function setupJasperReportsFonts {
@@ -110,71 +107,19 @@ function setupJasperReportsFonts {
     sudo fc-cache -fv
 }
 
-function setupASpaceSourceCode {
-    cd
-    mkdir -p src
-    cd src
-    git clone https://github.com/caltechlibrary/aspace.git
-    echo "Source for gospace was installed in $HOME/src/aspace"
-    echo "You will need Golang 1.5 or better installed to compile and install it"
-    echo "    cd $HOME/src/aspace && make install"
-}
-
-function setupGolang {
-    # Save the path variable state
-    OLD_PATH=$PATH
-    cd
-    git clone https://github.com/golang/go go1.4
-    cd go1.4
-    git checkout go1.4.2
-    cd src
-    ./all.bash
-    cd
-    export PATH=$HOME/go1.4/bin:$PATH
-    git clone https://github.com/golang/go
-    cd go
-    git checkout go1.5.3
-    cd src
-    ./all.bash
-    # Restore the path variable state
-    export PATH=$OLD_PATH
-}
-
-function setupNginX {
-    # Remove legacy Archive
-    sudo cp $HOME/sync/etc/yum.repos.d/nginx.repo /etc/yum.repos.d/
-    sudo yum -y remove httpd
-    #sudo yum -y update
-    sudo yum -y install nginx
-    # Add our site's to NingX conf./
-    sudo cp -v $HOME/sync/etc/nginx/sites/archivesspace_dev.conf /etc/nginx/conf.d/
-    # Now start things up.
-    sudo systemctl nginx start
-    sudo systemctl nginx enable
-}
-
 function setupFinish {
-    cd
-    mkdir bin
-    cp -v $HOME/sync/setup/reset-archivesspace.sh bin/
-    cp -vR $HOME/sync/tests ./
-    sudo chown -R archivesspace /usr/local/archivesspace
+    sudo chown -R archivesspace /archivesspace
     echo ""
     echo "Web Access:"
     echo "    http://localhost:8089/ -- the backend"
     echo "    http://localhost:8080/ -- the staff interface"
     echo "    http://localhost:8081/ -- the public interface"
     echo "    http://localhost:8090/ -- the Solr admin console"
-    #echo "    http://localhost:8000/ -- ArchivesSpace behind NginX"
     echo ""
     echo "Bring up archivespace by "
     echo ""
     echo "    sudo /etc/init.d/archivesspace start"
     echo ""
-    #echo "Restart Nginx by "
-    #echo ""
-    #echo "    sudo systemctl restart nginx"
-    #echo ""
     echo "And you're ready to create a new repository, load data, and begin development."
     echo ""
 }
@@ -195,7 +140,4 @@ setupUsers
 setupArchivesSpace
 setupMySQL
 setupJasperReportsFonts
-#setupNginX
-#setupGolang
-#setupASpaceSourceCode
 setupFinish
