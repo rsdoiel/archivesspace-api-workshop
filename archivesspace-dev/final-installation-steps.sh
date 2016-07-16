@@ -65,7 +65,7 @@ EOT
 #
 # Setup ArchivesSpace
 #
-function setupArchivesSpace {
+function setupArchivesSpace() {
     # See https://www.youtube.com/watch?v=peRcBYqJHGc&index=19&list=PLJFitFaE9AY_DDlhl3Kq_vFeX27F1yt6I
     # for Video tutorial for similar steps on Cent OS 6.x
     echo "Adding archivesspace."
@@ -87,14 +87,14 @@ function setupArchivesSpace {
     echo "Working directory $(pwd)"
     echo "Unpacking $ZIP_FILE"
     unzip $ZIP_FILE
-    #echo "Copy in MySQL Java connection."
-    #cd /archivesspace/$REVISION/archivesspace/lib
-    #echo "Working directory $(pwd)"
-    #sudo curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.35/mysql-connector-java-5.1.35.jar
+    echo "Copy in MySQL Java connection."
+    cd /archivesspace/$REVISION/archivesspace/lib
+    echo "Working directory is now $(pwd)"
+    sudo curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.35/mysql-connector-java-5.1.35.jar
     # Setup MySQL connector for use with ArchivesSpace
     # Update config/config.rb
     cd /archivesspace/$REVISION/archivesspace
-    echo "Working directory $(pwd)"
+    echo "Working directory is now $(pwd)"
     sudo chown $USER /archivesspace/$REVISION/archivesspace/config/config.rb
     cat <<EOT >> /archivesspace/$REVISION/archivesspace/config/config.rb
 
@@ -110,7 +110,7 @@ EOT
     echo "Update ownership to be archivesspace user."
     sudo chown -R archivesspace.archivesspace /archivesspace/$REVISION/archivesspace
     echo "Link the startup to /etc/init.d/"
-    sudo ln -s /archivesspace/$REVISION/achivesspace/archivesspace.sh /etc/init.d/archivesspace
+    sudo ln -fs /archivesspace/$REVISION/achivesspace/archivesspace.sh /etc/init.d/archivesspace
 }
 
 function setupJasperReportsFonts() {
