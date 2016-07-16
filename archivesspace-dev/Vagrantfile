@@ -31,7 +31,7 @@ Vagrant.configure(2) do |config|
     echo ' Run'
     echo '    vagrant ssh'
     echo ' and then run'
-    echo '    bash /vagrant/setup/final-installation-steps.sh'
+    echo '    bash /vagrant/final-installation-steps.sh'
     echo ' To complete the installation.'
     echo ''
     echo ''
