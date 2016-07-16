@@ -9,28 +9,32 @@
 <a rel="nav" href="16-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="18-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>3. Authentication</h1>
+	<section><h1>2. Make an http connection</h1>
 
-<h2>Send our username and password</h2>
+<h2>If all gone well</h2>
 
-<p>We need pass our username and password in our request.
-We need to keep track of the response. You don&rsquo;t need to
-type of the python comments.</p>
+<ol>
+<li>The shell will have a message saying &ldquo;RESTART&rdquo;</li>
+<li>You&rsquo;ll be prompted for the ArchivesSpace API URL</li>
+<li>After entering it you&rsquo;ll see the JSON blob response below.</li>
+</ol>
 
-<p>Still in the shell type the following (you can skip
-the lines starting with &lsquo;#&rsquo;</p>
-
-<pre><code class="language-python">    import urllib.request
-    import getpass.getpass
-
-    api_url = input('ArchivesSpace API URL' ) # e.g. http://localhost:8089
-    
-    username = input('username (e.g. admin): ')
-    # We want to use getpass.getpass('password: ') so the
-    # password doesn't get echoed to the screen. In IDLE it'll show read and
-    # echo the password, ignore this for testing and development.
-    password = getpass.getpass('password: ')
+<pre><code class="language-python">    &gt;&gt;&gt; 
+    RESTART: /home/rsdoiel/Sites/archivespace-api-workshop/make-an-http-connection.py 
+    ArchivesSpace API URL: http://localhost:8089
+    {
+       &quot;databaseProductName&quot;: &quot;MySQL&quot;,
+       &quot;databaseProductVersion&quot;: &quot;5.6.31&quot;,
+       &quot;ruby_version&quot;: &quot;1.9&quot;,
+       &quot;host_os&quot;: &quot;linux&quot;,
+       &quot;host_cpu&quot;: &quot;x86_64&quot;,
+       &quot;build&quot;: &quot;java1.6&quot;,
+       &quot;archivesSpaceVersion&quot;: &quot;v1.4.2&quot;
+    }
+    &gt;&gt;&gt; 
 </code></pre>
+
+<p>Now we should be ready to learn how to authenticate with the API.</p>
 </section>
 </body>
 </html>

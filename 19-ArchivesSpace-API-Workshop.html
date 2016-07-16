@@ -11,17 +11,26 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h1>Send our username and password</h1>
+<h2>Send our username and password</h2>
 
-<p>Now with our data send our request.</p>
+<p>We need pass our username and password in our request.
+We need to keep track of the response. You don&rsquo;t need to
+type of the python comments.</p>
 
-<pre><code class="language-python">    req = urllib.request.Request(api_url+&quot;/users/&quot;+username+&quot;/login&quot;, data)
-    with urllib.request.urlopen(req) as response:
-        src = response.read().decode('UTF-8')
-    print(src)
+<p>Still in the shell type the following (you can skip
+the lines starting with &lsquo;#&rsquo;</p>
+
+<pre><code class="language-python">    import urllib.request
+    import getpass.getpass
+
+    api_url = input('ArchivesSpace API URL' ) # e.g. http://localhost:8089
+    
+    username = input('username (e.g. admin): ')
+    # We want to use getpass.getpass('password: ') so the
+    # password doesn't get echoed to the screen. In IDLE it'll show read and
+    # echo the password, ignore this for testing and development.
+    password = getpass.getpass('password: ')
 </code></pre>
-
-<p>You should see the type of response ArchivesSpace send back.</p>
 </section>
 </body>
 </html>

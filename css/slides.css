@@ -48,6 +48,11 @@ h3 {
     font-size: 95%;
 }
 
+em {
+    color: red;
+    font-style: italic;
+}
+
 section, p {
 	max-width: 90%;
 }
