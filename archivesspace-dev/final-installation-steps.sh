@@ -45,7 +45,7 @@ function setupMySQL {
         echo "Setting up MySQL users and creating database"
         touch archivesspace-mysql-setup.sql
         cat <<EOT >> archivesspace-mysql-setup.sql
-CREATE DATABASE archivesspace DEFAULT CHARACTER SET utf8;
+CREATE DATABASE IF NOT EXIST archivesspace DEFAULT CHARACTER SET utf8;
 GRANT ALL ON archivesspace.* TO 'as'@'localhost' IDENTIFIED BY 'as123';
 FLUSH PRIVILEGES;
 EOT
