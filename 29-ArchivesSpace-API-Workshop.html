@@ -11,26 +11,13 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<p>Now lets flesh out a <strong>create_repo</strong> function.</p>
+<h2>Use <strong>login.py</strong> as a template script</h2>
 
-<pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
-               'name': name,
-               'repo_code': repo_code,
-               'org_code': org_code,
-               'image_url': image_url,
-               'url': url}).encode()
-        req = urllib.request.Request(api_url+'/repositories', 
-                None, 
-                {'X-ArchivesSpace-Session': access_token})
-        with urllib.request.urlopen(req, data) as response:
-            src = response.read().decode('UTF-8')
-        return json.JSONDecoder().decode(src)
-</code></pre>
-
-<p>Notice how similar it is to our <strong>login</strong> function. Also how we
-add the header to pass along with our request.</p>
+<ol>
+<li>Save <a href="login.py">login.py</a> As <a href="create-repo.py">create-repo.py</a></li>
+<li>Close <strong>login.py</strong></li>
+<li>Open <a href="create-repo.py">create-repo.py</a></li>
+</ol>
 </section>
 </body>
 </html>

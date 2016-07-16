@@ -11,23 +11,13 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h2>Send our username and password</h2>
+<h2>Basic ingredients</h2>
 
-<p>We need pass our username and password in our request.
-We need to keep track of the response. You don&rsquo;t need to
-type of the python comments.</p>
-
-<p>Launch our Python interpreter again.</p>
-
-<pre><code class="language-python">    import urllib.request
-
-    api_url = input('ArchivesSpace API URL' ) # e.g. http://localhost:8089
-    
-    username = input('username (e.g. admin): ')
-    # In the real world you'd want to use getpass.getpass('password: ')
-    # But the python IDE repl throws a warning and shows the password anyway...
-    password = input('password: ')
-</code></pre>
+<ul>
+<li>Make an http connection</li>
+<li>Send our username and pasword to the API</li>
+<li>Save the access token returned</li>
+</ul>
 </section>
 </body>
 </html>

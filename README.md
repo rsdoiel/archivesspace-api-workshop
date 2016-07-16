@@ -9,8 +9,7 @@ Location: Robert W. Woodruff Library at the Atlanta University Center, Atlanta, 
 Date: Aug 2<sup>nd</sup>, 2016
 
 + [Abstract](abstract.html)
-+ [Workshop presentation](00-ArchivesSpace-API-Workshop.html)
-+ [Download the slides](https://github.com/rsdoiel/archivesspace-api-workshop/releases/latest)
++ [Workshop Presentation](00-ArchivesSpace-API-Workshop.html)
 
 ## Presenters
 
@@ -32,31 +31,23 @@ Requirements for participants:
     + Python 3 installed including the python standard library (see https://docs.python.org/3/library/)
         + Python 3 (v3.5.2) can be downloaded and from https://www.python.org/downloads/
         + We’ll be making heavy use of urllib and json modules
-+ A Text Editor
-    + IDLE for Python 3 is what I will use in the Workshop
-    + other editor examples are [Atom](http://atom.io), [Brackets](http://brackets.io)
-    + or even vi, pico, nano, micro, emacs...
++ A text Editor
 + A web browser
-    + I recommend Firefox or Chrome
-    + with the [JSONView](https://jsonview.com/) plugin
 + Access to ArchivesSpace REST API
     + The workshop hosts will provide access for Aug 2nd
-    + If you have [Virtualbox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/) 
-    checkout [archivesspace-dev](https://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev) from the Workshop website
+    + If you have [Virtualbox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/) installed
+      I have provided [archivesspace-dev](https://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev)
 + A basic familiarity with Python
 
 
 ## Before the workshop
 
 + Make sure you have a modern web browser
-    + I suggest either Firefox or Chrome
+    + Firefox or Chrome with the [JSONView](https://jsonview.com/) plugin recommented
 + Make sure you have [Python 3.5.2](https://www.python.org/downloads/) 
     + Install [Python 3.5.2](https://www.python.org/downloads/) if needed
 + Make sure you have a text editor
-    + The Python IDE has a text editor, it comes with Python
-    + [Atom](http://atom.io)
-    + [Brackets](http://brackets.io)
-    + vi, emacs, pico, nano, micro, etc
+    + IDLE for Python 3 is what I will use in the Workshop
 + A test deployment ArchivesSpace is being provided as part of the Workshop
     + You can install your own via [VirtualBox and Vagrant](http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/)
 + Recommended reading

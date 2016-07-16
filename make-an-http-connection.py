@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import urllib.request
+import json
+import getpass
 
 api_url = input('ArchivesSpace API URL: ')
 if api_url == '':
@@ -7,5 +9,5 @@ if api_url == '':
 req = urllib.request.Request(api_url)
 
 with urllib.request.urlopen(req) as response:
-    src = response.read().decode('UTF-8')
-print(src)
+    print(response.read().decode('utf-8'))
+

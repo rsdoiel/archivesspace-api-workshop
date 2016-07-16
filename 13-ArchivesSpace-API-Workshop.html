@@ -13,14 +13,10 @@
 
 <h2>Make the request, print results</h2>
 
+<p>Now we can send our <em>req</em> and get back a response.</p>
+
 <pre><code class="language-python">    with urllib.request.urlopen(req) as response:
-        src = response.read().decode('UTF-8')
-        print(src)
-</code></pre>
-
-<p>Exit your python3 interpreter</p>
-
-<pre><code class="language-python">    exit()
+        print(response.read().decode('UTF-8'))
 </code></pre>
 </section>
 </body>
