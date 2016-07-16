@@ -16,7 +16,7 @@
 <p>Encode our password for sending with our request.</p>
 
 <pre><code class="language-python">    data = urllib.parse.urlencode({'password': password})
-    data = data.encode('ascii')
+    data = data.encode('utf-8')
 </code></pre>
 </section>
 </body>

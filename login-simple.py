@@ -15,7 +15,7 @@ if __name__ == '__main__':
     api_url = input('ArchivesSpace API URL: ')
     if api_url == '':
         api_url = 'http://localhost:8089'
-    print('Logging in')
-    s = login(input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+    print('Logging in', api_url)
+    s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
     print(s)
     print('Success!')

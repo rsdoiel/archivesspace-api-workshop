@@ -17,15 +17,19 @@
 We need to keep track of the response. You don&rsquo;t need to
 type of the python comments.</p>
 
-<p>Launch our Python interpreter again.</p>
+<p>Still in the shell type the following (you can skip
+the lines starting with &lsquo;#&rsquo;</p>
 
 <pre><code class="language-python">    import urllib.request
+    import getpass.getpass
 
-    api_url = 'http://localhost:8089'
+    api_url = input('ArchivesSpace API URL' ) # e.g. http://localhost:8089
     
-    # Hardcoding a username/password is BAD PRACTICE!!!!
-    username = &quot;admin&quot; # or what you named your account
-    password = &quot;admin&quot; # or what you set the password to
+    username = input('username (e.g. admin): ')
+    # We want to use getpass.getpass('password: ') so the
+    # password doesn't get echoed to the screen. In IDLE it'll show read and
+    # echo the password, ignore this for testing and development.
+    password = getpass.getpass('password: ')
 </code></pre>
 </section>
 </body>

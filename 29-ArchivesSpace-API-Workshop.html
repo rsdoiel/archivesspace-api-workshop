@@ -9,25 +9,15 @@
 <a rel="nav" href="28-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="30-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repostories</h1>
+	<section><h1>4. Repositories</h1>
 
-<p>Our function definition should look something like</p>
+<h2>Use <strong>login.py</strong> as a template script</h2>
 
-<pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-</code></pre>
-
-<p>Did we catch all the fields we might want to change?</p>
-
-<pre><code class="language-json">    {
-       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
-       &quot;name&quot;: &quot;Description: 11&quot;,
-       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
-       &quot;org_code&quot;: &quot;970UV228G&quot;,
-       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
-       &quot;url&quot;: &quot;http://www.example-4.com&quot;
-    } 
-</code></pre>
+<ol>
+<li>Save <a href="login.py">login.py</a> As <a href="create-repo.py">create-repo.py</a></li>
+<li>Close <strong>login.py</strong></li>
+<li>Open <a href="create-repo.py">create-repo.py</a></li>
+</ol>
 </section>
 </body>
 </html>

@@ -8,9 +8,7 @@
     + Archivist and Metadata Coordinator
     + Beinecke Rare Book and Manuscript Library
 
-[Presentation website](./)
-
-[Download slides](./archivesspace-api-workshop-slides.zip)
+[Download these slides and examples](./archivesspace-api-workshop-slides.zip)
 
 --
 
@@ -19,50 +17,47 @@
 Requirements for participants:
 
 + A laptop/device with network access
-    + Linux (what I use), Mac OS X (which I am familiar with), or Windows (which I am very rusty on)
+    + Linux (what I use), Mac OS X (which I am familiar with), or Windows (which I am very very rusty on)
     + Python 3 installed including the python standard library (see https://docs.python.org/3/library/)
         + Python 3 (v3.5.2) can be downloaded and from https://www.python.org/downloads/
-        + We’ll be making heavy use of http, json modules
-+ A Text Editor (if they don’t have one I recommend Atom Editor at http://atom.io)
-+ A web browser (recommend Firefox or Chrome with the JSONView plugin https://jsonview.com/)
-+ Access to ArchivesSpace REST API (will be provided at conference)
-    + If you have [Virtualbox]()/[Vagrant]() 
-    + Use [archivesspace-dev](https://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev) from the Workshop website
-
-Recommended:
-
-Read through https://docs.python.org/3/tutorial/index.html if they are not familiar with Python.
-Bookmark in your web browser: http://archivesspace.github.io/archivesspace/api/
-Bookmark in your web browser: https://docs.python.org/3/library/index.html
+        + We’ll be making heavy use of urllib and json modules
++ A text Editor
++ A web browser
++ Access to ArchivesSpace REST API
+    + The workshop hosts will provide access for Aug 2nd
+    + If you have [Virtualbox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/) installed
+      I have provided [archivesspace-dev](https://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev)
++ A basic familiarity with Python
 
 --
 
 ## Before the workshop
 
 + Make sure you have a modern web browser
-    + I suggest either Firefox or Chrome
-+ Install [Python 3.5.2](https://www.python.org/downloads/) if needed
+    + Firefox or Chrome with the [JSONView](https://jsonview.com/) plugin recommented
 + Make sure you have [Python 3.5.2](https://www.python.org/downloads/) 
+    + Install [Python 3.5.2](https://www.python.org/downloads/) if needed
 + Make sure you have a text editor
-    + Examples
-        + [Atom](http://atom.io)
-        + [Brackets](http://brackets.io)
-        + vi, emacs, nano, pico, etc
-    + Or the Python IDE that comes with Python
+    + IDLE for Python 3 is what I will use in the Workshop
 + A test deployment ArchivesSpace is being provided as part of the Workshop
-    + You can install your own [Vagrant](http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/)
+    + You can install your own via [VirtualBox and Vagrant](http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/)
++ Recommended reading
+    + Read through the [Python 3 tutorial](https://docs.python.org/3/tutorial/index.html) if they are not familiar with Python.
++ Bookmark in your web browser:
+    + [ArchivesSpace API Docs](http://archivesspace.github.io/archivesspace/api/)
+    + [Python Reference](https://docs.python.org/3/library/index.html)
+    + [This presentation website](https://rsdoiel.github.io/archivesspace-api-workshop)
 
 --
 
-# Workshop Overview
+# What we'll be covering
 
-+ What we'll be covering
-    + ArchivesSpace REST API
-    + Using Python 3 for interacting with the REST API
++ ArchivesSpace REST API
++ Using Python 3 for interacting with the REST API
 + More generally
     + REST APIs as Data Sources
     + Working with JSON data
-+ Identifying helpful web resources
++ Identifying helpful web resources for API work
 
 --
 
@@ -83,45 +78,40 @@ Bookmark in your web browser: https://docs.python.org/3/library/index.html
 
 ## your web browser
 
-+ Bookmark the following
-    + [rsdoiel.github.io/archivesspace-api-workshop](https://rsdoiel.github.io/archivesspace-api-workshop) - so you can follow along
++ Open the following in your browser tabs
+    + [rsdoiel.github.io/archivesspace-api-workshop](https://rsdoiel.github.io/archivesspace-api-workshop/00-ArchivesSpace-API-Workshop.html) - so you can follow along
     + ArchivesSpace API docs [archivesspace.github.io/archivesspace/api/](http://archivesspace.github.io/archivesspace/api/)
-    + Python tutorial [docs.python.org/3/tutorial](https://docs.python.org/3/tutorial/index.html)
-    + Python library reference [docs.python.org/3/library](https://docs.python.org/3/library/index.html)
-+ Optional
-    + [JSONView](https://jsonview.com/) browser plugin (e.g. Firefox, Chrome)
-    + Stephen Dolan's [jq](https://stedolan.github.io/jq/) for the command line
-    + [Curl](https://curl.haxx.se/) for debugging web connections
-
 --
-
-# 1. Setup 
-
-## Python/your text editor
-
-+ Make sure you have [Python 3.5.2](https://www.python.org/downloads/) available
-    + try **python --version**
-    + The website has easy installers for Windows and Mac OS X
-+ Do you have a text editor?
-    + You can use [Python 3's IDE](https://www.python.org/downloads/)
-    + A text editor like [Atom](http://atom.io), [Brackets](http://brackets.io/), SubEthaEdit and Sublime
-    + Or event console based editors like vi, emacs, nano, pico
-
---
-
 # 1. Setup 
 
 ## ArchivesSpace
 
 + Our hosts have provided us with test deployments of ArchivesSpace
     + See hand out or whiteboard for connection details
-+ If you want to work on your own
-    + Under virtualbox/vagrant 
-    + try [github.com/rsdoiel/archivesspace-api-workshop](https://github.com/rsdoiel/archivesspace-api-workshop)/archivesspace-dev
-+ Make sure you can access ArchivesSpace from your web browser
-    + On a stock install check the following ports
-        + 8080 - ArchivesSpace Web UI (e.g. http://localhost:8080)
-        + 8089 - ArchivesSpace REST API (e.g. http://localhost:8089)
++ Make sure you can access ArchivesSpace Web UI from your web browser
+    + If you've setup a local copy this is usually http://localhost:8080
++ Make sure you can access ArchivesSpace API from your web browser
+    + If you've setup a local copy this is usually http://localhost:8089
+
+--
+
+
+# 1. Setup 
+
+## Python Development Environment
+
++ Start IDLE for Python 3 
+    + confirm the reported version is 3.5.1 or better
+
+--
+
+# 2. Make an http connection
+
+In three parts
+
++ using the Python interpreter
++ import the urllib and getpass modules
++ make a connection with the request object
 
 --
 
@@ -132,15 +122,8 @@ Bookmark in your web browser: https://docs.python.org/3/library/index.html
 At this point your setup should be completed and we're
 going to start coding in Python 3.
 
---
-
-# 2. Make an http connection
-
-In three parts
-
-+ launch the Python interpreter
-+ import the http client module
-+ make a connection with the request object
+The next set of examples we're go into to run in Python's
+shell.
 
 --
 
@@ -148,19 +131,34 @@ In three parts
 
 ## launch python
 
+From a terminal on Linux try
+
 ```shell
-    python3
+    idle-python3.5 &
 ```
+
+On Mac OS X or Windows 
+
+1. find your Python 3.5.2 installation folder.
+2. find **idle**, click/double click to start it.
 
 --
 
 # 2. Make an http connection
 
-## import the module
+## import modules
+
+Once **idle** starts it'll launch a Python Shell (also known as a Repl).
+
+Type the following in the shell.
 
 ```python
     import urllib.request
+    import json
+    import getpass
 ```
+
+These are the three modules we'll use through out our Workshop.
 
 --
 
@@ -168,13 +166,17 @@ In three parts
 
 ## Create a request object
 
+Continue in the Python shell.
+
 ```python
     api_url = 'http://localhost:8089'
     req = urllib.request.Request(api_url)
 ```
 
 You will need to replace "http://localhost:8089" with your 
-Workshop URL.
+Workshop API URL.
+
+This creates a **Request** object named *req*.
 
 --
 
@@ -182,16 +184,11 @@ Workshop URL.
 
 ## Make the request, print results
 
+Now we can send our *req* and get back a response.
+
 ```python
     with urllib.request.urlopen(req) as response:
-        src = response.read().decode('UTF-8')
-        print(src)
-```
-
-Exit your python3 interpreter 
-
-```python
-    exit()
+        print(response.read().decode('UTF-8'))
 ```
 
 --
@@ -205,14 +202,50 @@ Put this into a text file called [make-an-http-connection.py](make-an-http-conne
 ```python
     #!/usr/bin/env python3
     import urllib.request
+    import json
+    import getpass
 
-    api_url = 'http://localhost:8089'
+    api_url = input('ArchivesSpace API URL: ')
+    if api_url == '':
+        api_url = 'http://localhost:8089'
     req = urllib.request.Request(api_url)
 
     with urllib.request.urlopen(req) as response:
-        src = response.read().decode('UTF-8')
-        print(src)
+        print(response.read().decode('utf-8'))
+
 ```
+
+1. In the text menu click "Run" 
+2. click "Run Check"
+3. clicl "Run module"
+
+--
+
+# 2. Make an http connection
+
+## If all gone well
+
+1. The shell will have a message saying "RESTART"
+2. You'll be prompted for the ArchivesSpace API URL
+3. After entering it you'll see the JSON blob response below.
+
+```python
+    >>> 
+    RESTART: /home/rsdoiel/Sites/archivespace-api-workshop/make-an-http-connection.py 
+    ArchivesSpace API URL: http://localhost:8089
+    {
+       "databaseProductName": "MySQL",
+       "databaseProductVersion": "5.6.31",
+       "ruby_version": "1.9",
+       "host_os": "linux",
+       "host_cpu": "x86_64",
+       "build": "java1.6",
+       "archivesSpaceVersion": "v1.4.2"
+    }
+    >>> 
+```
+
+Now we should be ready to learn how to authenticate with the API.
 
 --
 
@@ -221,21 +254,8 @@ Put this into a text file called [make-an-http-connection.py](make-an-http-conne
 ## Basic ingredients
 
 + Make an http connection
-+ Send our username and pasword
++ Send our username and pasword to the API
 + Save the access token returned
-
---
-
-# 3. Authentication
-
-## Send our username and password
-
-### IMPORTANT!!!!
-
-I am going show a BAD practice by hardcoding a 
-username and password. This is just to make teaching 
-easier. In real life you want to use a configuration 
-file or environment variables (my preferred).
 
 --
 
@@ -247,16 +267,20 @@ We need pass our username and password in our request.
 We need to keep track of the response. You don't need to
 type of the python comments.
 
-Launch our Python interpreter again.
+Still in the shell type the following (you can skip
+the lines starting with '#'
 
 ```python
     import urllib.request
+    import getpass.getpass
 
-    api_url = 'http://localhost:8089'
+    api_url = input('ArchivesSpace API URL' ) # e.g. http://localhost:8089
     
-    # Hardcoding a username/password is BAD PRACTICE!!!!
-    username = "admin" # or what you named your account
-    password = "admin" # or what you set the password to
+    username = input('username (e.g. admin): ')
+    # We want to use getpass.getpass('password: ') so the
+    # password doesn't get echoed to the screen. In IDLE it'll show read and
+    # echo the password, ignore this for testing and development.
+    password = getpass.getpass('password: ')
 ```
 
 --
@@ -269,7 +293,7 @@ Encode our password for sending with our request.
 
 ```python
     data = urllib.parse.urlencode({'password': password})
-    data = data.encode('ascii')
+    data = data.encode('utf-8')
 ```
 
 --
@@ -284,14 +308,10 @@ Now with our data send our request.
     req = urllib.request.Request(api_url+"/users/"+username+"/login", data)
     with urllib.request.urlopen(req) as response:
         src = response.read().decode('UTF-8')
-        print(src)
+    print(src)
 ```
 
-Exit our python interpreter 
-
-```python
-    exit()
-```
+You should see the type of response ArchivesSpace send back.
 
 --
 
@@ -301,9 +321,10 @@ Exit our python interpreter
 
 ### Putting it all together
 
-Put this into a text file called **login-simple.py**. We'll
-create a python function and prompt for api url, username 
-and password.
+Open the IDLE text editor and create an empty
+python script called **login-simple.py**. We'll
+create a python function and prompt for api url, 
+username and password.
 
 ```python
     #!/usr/bin/env python3
@@ -312,21 +333,27 @@ and password.
         
     def login (api_url, username, password):
         data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
+        data = data.encode('utf-8')
+        # Notice we're adding the "data" to the url built with Request
         req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
         with urllib.request.urlopen(req) as response:
             src = response.read().decode('UTF-8')
         return src
     
     if __name__ == '__main__':
+        # this is where we'll test what we're building
         api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = input('ArchivesSpace password: ')
         if api_url == '':
             api_url = 'http://localhost:8089'
         print('Logging in')
-        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+        s = login(api_url, username, password)
         print(s)
         print('Success!')
 ```
+
+Now "Run" the python script and see the results.
 
 --
 
@@ -352,7 +379,16 @@ so we can save our access token.
     }
 ```
 
-The session value is our access token.
+The session value is our access token. We can pluck that single
+item out easiest if we turn the JSON blob into a Python map.
+
+--
+
+# 3. Authentication
+
+1. Save [login-simple.py](login-simple.py) as [login.py](login.py)
+2. Open [login.py]
+3. You can close the edit window for **login-simply.py**
 
 --
 
@@ -360,10 +396,10 @@ The session value is our access token.
 
 ## Save the access token returned
 
-We just need to **import json** and modify our login
+We need to use **import json** and modify our login
 function to **parse the JSON response and return 
-the session value**. Copy [login-simple.py](login-simple.py)
-to [login.py](login.py) and make the changes.
+only session value**. We'll also update our tests at in
+the **if __name__ == '__main__':** section at the bottom.
 
 ```python
     #!/usr/bin/env python3
@@ -374,7 +410,7 @@ to [login.py](login.py) and make the changes.
     def login (api_url, username, password):
         '''This function logs into the ArchivesSpace REST API returning an access token'''
         data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
+        data = data.encode('utf-8')
         req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
         with urllib.request.urlopen(req) as response:
             src = response.read().decode('UTF-8')
@@ -382,6 +418,7 @@ to [login.py](login.py) and make the changes.
         return result['session']
     
     if __name__ == '__main__':
+        # Our tests
         api_url = input('ArchivesSpace API URL: ')
         if api_url == '':
             api_url = 'http://localhost:8089'
@@ -391,14 +428,19 @@ to [login.py](login.py) and make the changes.
         print('Success!')
 ```
 
+If all has gone well we are ready to move onto working with repositories!
+
 --
 
 # 4. Repositories
 
-+ Creating a two repositories 
+## What we'll do in this section
+
++ Creating two repositories 
     + we'll keep the first and experiment with the second
-+ View the repository information
-+ List the available repositories
++ List the available repositories (should see the two we created)
++ View a specific repository 
++ Update a repository
 + Deleting the second repository
 
 --
@@ -411,16 +453,18 @@ Creating a repository requires
 + package a request to create a repository
 + send the request to create the repository saving the response
 
-We repeat the process to create another one.
+We repeat the process to create the second one.
+
 --
 
 # 4. Repositories
 
-## Creating our create_repo function
+## The detailings we need to know
 
 + Go to [AS REST API docs](http://archivesspace.github.io/archivesspace/api/#get-repositories)
     + We're interested in "Create a Repository"
-+  Look at the example **Curl** request on the right
+        + use your browser's find function
++  Look at the example **curl** request on the right
 
 
 ```json
@@ -436,7 +480,7 @@ We repeat the process to create another one.
     'http://localhost:8089/repositories'
 ```
 
-(the bit with "-d" is what we're interested in.)
+(the bit after the "-d" is what we're interested in.)
 
 --
 
@@ -444,13 +488,14 @@ We repeat the process to create another one.
 
 ## Creating our create_repo function
 
-The elements we're change with each request will form the parameters in our function.
-They are two required elements and the rest are optional
+The elements we change with each new create request will 
+form the parameters in our function. Two elements are required 
+and the rest are optional.
 
 ### required
 
 + name
-+ repo_code (a unique screen we'll decide on)
++ repo_code (needs to be unique)
 
 ### optional
 
@@ -460,17 +505,17 @@ They are two required elements and the rest are optional
 
 ### What we also need
 
-+ We will need to submit our access token too
++ We will need to submit our access token and provide the api url too
 
 --
 
 # 4. Repositories
 
-## Reusing our login function
+## Use **login.py** as a template script
 
-1. Copy [login.py](login.py) to [create-repo.py](create-repo.py)
-2. Remove everything except import statements and login function
-3. We're now read to add a new create_repo function
+1. Save [login.py](login.py) As [create-repo.py](create-repo.py)
+2. Close **login.py**
+3. Open [create-repo.py](create-repo.py)
 
 --
 
@@ -501,6 +546,8 @@ Did we catch all the fields we might want to change?
 # 4. Repositories
 
 Now lets flesh out a **create_repo** function.
+Like *login()* we need to create our data package,
+our request object and with "urlopen" get a response.
 
 ```python
     def create_repo(api_url, access_token, name, repo_code, org_code = "", image_url = "", url = ""):
@@ -510,17 +557,47 @@ Now lets flesh out a **create_repo** function.
                'repo_code': repo_code,
                'org_code': org_code,
                'image_url': image_url,
-               'url': url})
+               'url': url}).encode()
         req = urllib.request.Request(api_url+'/repositories', 
-                data, 
+                None, 
                 {'X-ArchivesSpace-Session': access_token})
-        with urllib.request.urlopen(req) as response:
+        with urllib.request.urlopen(req, data) as response:
             src = response.read().decode('UTF-8')
         return json.JSONDecoder().decode(src)
 ```
 
+--
+
+# 4. Repositories
+
 Notice how similar it is to our **login** function. Also how we
-add the header to pass along with our request.
+add the header to pass along with our request. Some of the important
+differences are
+
++ We're encoding *data* as JSON instead of urlencoding.
++ We've added a our auth token as a header parameter in the *Request*
++ *data* is passed via *urlopen* rather than in our *Request*
+
+```python
+    def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        data = json.JSONEncoder().encode({'jsonmodel_type': 'repository',
+               'name': name,
+               'repo_code': repo_code,
+               'org_code': org_code,
+               'image_url': image_url,
+               'url': url}).encode('utf-8')
+        req = urllib.request.Request(api_url+'/repositories', 
+                None, 
+                {'X-ArchivesSpace-Session': auth_token})
+        with urllib.request.urlopen(req, data) as response:
+            src = response.read().decode('UTF-8')
+        return json.JSONDecoder().decode(src)
+```
+
+You can copy and paste your def from our text editor to the repl and make
+sure it compiles. 
+
 
 --
 
@@ -551,7 +628,7 @@ Putting it all together
                'repo_code': repo_code,
                'org_code': org_code,
                'image_url': image_url,
-               'url': url})
+               'url': url}).encode()
         req = urllib.request.Request(api_url+'/repositories', 
                data, 
                {'X-ArchivesSpace-Session': access_token})

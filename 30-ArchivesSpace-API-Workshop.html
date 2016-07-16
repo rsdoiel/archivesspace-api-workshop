@@ -9,28 +9,25 @@
 <a rel="nav" href="29-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="31-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>4. Repostories</h1>
 
-<p>Now lets flesh out a <strong>create_repo</strong> function.</p>
+<p>Our function definition should look something like</p>
 
 <pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
         '''This function sends a create request to the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
-               'name': name,
-               'repo_code': repo_code,
-               'org_code': org_code,
-               'image_url': image_url,
-               'url': url})
-        req = urllib.request.Request(api_url+'/repositories', 
-                data, 
-                {'X-ArchivesSpace-Session': access_token})
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        return json.JSONDecoder().decode(src)
 </code></pre>
 
-<p>Notice how similar it is to our <strong>login</strong> function. Also how we
-add the header to pass along with our request.</p>
+<p>Did we catch all the fields we might want to change?</p>
+
+<pre><code class="language-json">    {
+       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+       &quot;name&quot;: &quot;Description: 11&quot;,
+       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
+       &quot;org_code&quot;: &quot;970UV228G&quot;,
+       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
+       &quot;url&quot;: &quot;http://www.example-4.com&quot;
+    } 
+</code></pre>
 </section>
 </body>
 </html>
