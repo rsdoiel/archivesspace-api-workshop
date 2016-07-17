@@ -244,7 +244,7 @@ Let's take what we learned and create a Python scripts called
 
 ```
 1. In IDLE click on the file name and create a new file
-2. Type in this script
+2. Type in the above
 3. Save the file as **make-an-http-connection.py**
 
 --
@@ -256,6 +256,8 @@ Let's take what we learned and create a Python scripts called
 1. In the editors' menu click "Run" 
 2. click "Run Check"
 3. clicl "Run module"
+
+We'll be doing this often as we evolve our scripts.
 
 --
 
@@ -353,10 +355,11 @@ You should see the type of response ArchivesSpace send back.
 
 ### Putting it all together
 
-Open the IDLE text editor and create an empty
-python script called **login-simple.py**. We'll
-create a python function and prompt for api url, 
-username and password.
+Open the IDLE text editor and create a new file
+called **login-simple.py**. 
+
+We'll create a python function and add prompts for api url, 
+username and password to test it.
 
 ```python
     #!/usr/bin/env python3
@@ -418,9 +421,7 @@ item out easiest if we turn the JSON blob into a Python variable.
 
 # 3. Authentication
 
-1. Save [login-simple.py](login-simple.py) as [login.py](login.py)
-2. Close **login-simply.py**
-3. Open [login.py]
++ Save [login-simple.py](login-simple.py) As [login.py](login.py)
 
 --
 
@@ -545,8 +546,8 @@ and the rest are optional.
 ## Use **login.py** as a template script
 
 1. Save [login.py](login.py) As [create-repo.py](create-repo.py)
-2. Close **login.py**
-3. Open [create-repo.py](create-repo.py)
+
+We're going to be adding to it.
 
 --
 
@@ -678,7 +679,178 @@ Putting it all together
 
 --
 
-FIXME: remaining slides need to be written to lesson plan.
+# 4. Repositories
+
+## Listing available resporitories
+
+We're going to create a new script called [list-repos.py](list-repos.py) by 
+using our previous [create-repo.py](create-repo.py) and adding to it.
+
+1. Save [create-repo.py](create-repo.py) AS [list-repos.py](list-repos.py)
+
+--
+
+# 4. Repositories
+
+## Adding a new list_repo function
+
+Like *login* and *create_repo* this function needs to contact the API.
+But the data we send is less. We need
+
++ Our api_url and auth_token
++ We need the URL path for listing repositories
+    + How do we find that path?
+
+--
+
+# 4. Repositories
+
+## ArchivesSpace API Docs
+
+The documentation about the API will help us know what to ask.
+Find "list repositories"
+
++ Change to your browser tab with the docs
++ Search for "Get a list of Repositories"
+
+The **curl** statement suggested looks like
+
+```Shell
+    curl -H "X-ArchivesSpace-Session: $SESSION" \
+        'http://localhost:8089/repositories'
+```
+
+Notice there is no "-d" listed. We only need to know the
+API URL and then add "/repositories" to it. We still need
+to send along our auth token in the header as normal.
+
+--
+
+# 4. Repositories
+
+## Let's give this a try in the shell
+
+We may need a fresh *auth_token* so let's login first. 
+After that we can build our request and send it. We'll
+wrap up by decoding the JSON response and pretty printing
+it.
+
+```Python
+    auth_token = login(api_url, username, password)
+    req = urllib.request.Request(api_url+'/repositories', None, {"X-ArchivesSpace-Session": auth_token})
+    with urllib.request.urlopen(req) as response:
+        src = response.read().decode('utf-8')
+    result = json.JSONDecoder().decode(src)
+    print(json.dumps(result, indent=4, sort_keys=True))
+```
+
+# 4. Repositories
+
+## Time to put this together in a script
+
+```Python
+    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+    import json
+    
+    def login (api_url, username, password):
+        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
+        data = urllib.parse.urlencode({'password': password})
+        data = data.encode('ascii')
+        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('UTF-8')
+        result = json.JSONDecoder().decode(src)
+        return result['session']
+
+    def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        # Data is getting attached to urlopen() and not req object to trigger a POST
+        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
+        data = json.JSONEncoder().encode({
+                    'jsonmodel_type': 'repository',
+                    'name': name,
+                    'repo_code': repo_code,
+                    'org_code': org_code,
+                    'image_url': image_url,
+                    'url': url
+                }).encode('utf-8')
+        # Add our auth_token to your req object
+        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req, data)
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+
+    def list_repos(api_url, auth_token):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+
+                                     
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login(api_url, username, password)
+        print('username', username, 'auth_token', auth_token)
+        repos = list_repos(api_url, auth_token)
+    print("repositores list", json.dumps(repos, indent=4))
+```
+
+# 4. Repositories
+
+## results should look something like
+
+```Python
+    username admin auth_token 9321ca79d94517d7018aa1ac4f1b6f2901b522c4b234d3ab9a4602fae9a8d72d
+    repositores list [
+        {
+            "last_modified_by": "admin",
+            "created_by": "admin",
+            "create_time": "2016-07-17T01:55:21Z",
+            "agent_representation": {
+                "ref": "/agents/corporate_entities/1"
+            },
+            "repo_code": "test001",
+            "name": "test001",
+            "lock_version": 0,
+            "system_mtime": "2016-07-17T01:55:21Z",
+            "user_mtime": "2016-07-17T01:55:21Z",
+            "jsonmodel_type": "repository",
+            "uri": "/repositories/2"
+        },
+        {
+            "last_modified_by": "admin",
+            "created_by": "admin",
+            "create_time": "2016-07-17T01:55:42Z",
+            "agent_representation": {
+                "ref": "/agents/corporate_entities/2"
+            },
+            "repo_code": "test002",
+            "name": "test002",
+            "lock_version": 0,
+            "system_mtime": "2016-07-17T01:55:42Z",
+            "user_mtime": "2016-07-17T01:55:42Z",
+            "jsonmodel_type": "repository",
+            "uri": "/repositories/3"
+        }
+    ]
+    >>> 
+```
+
+The URL field is what we want to look at. We need the that to request only a single
+repositories info.
+
+--
+
+FIXME: remaining slides need to be written to the lesson plan.
+
+--
 
 # 4. Repositories
 
