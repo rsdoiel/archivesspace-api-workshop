@@ -43,9 +43,11 @@ function setupMySQL {
         cd /vagrant/
         echo "Working directory now $(pwd)"
         echo "Setting up MySQL users and creating database"
-        touch archivesspace-mysql-setup.sql
-        cat <<EOT >> archivesspace-mysql-setup.sql
-CREATE DATABASE IF NOT EXIST archivesspace DEFAULT CHARACTER SET utf8;
+        if [ -f archivesspace-mysql-setup.sql ]; then
+            /bin/rm archivesspace-mysql-setup.sql
+        fi
+        cat <<EOT > archivesspace-mysql-setup.sql
+CREATE DATABASE IF NOT EXISTS archivesspace DEFAULT CHARACTER SET utf8;
 GRANT ALL ON archivesspace.* TO 'as'@'localhost' IDENTIFIED BY 'as123';
 FLUSH PRIVILEGES;
 EOT
@@ -56,7 +58,7 @@ EOT
         echo "Working directory now $(pwd)"
         bash scripts/setup-database.sh
         # Now make things more secure.
-        sudo mysql_secure_installation
+        #sudo mysql_secure_installation
     else
         echo "Skipping MySQL setup."
     fi
@@ -104,14 +106,8 @@ AppConfig[:compile_jasper] = true
 AppConfig[:enable_jasper] = true
 
 EOT
-
-    # Finally make ArchivesSpace come up on boot as archivesspace user.
-    sudo sed --in-place=.original -e "s/ARCHIVESSPACE_USER=/ARCHIVESSPACE_USER=archivesspace/g" /archivesspace/$REVISION/archivesspace/archivesspace.sh
-    echo "Update ownership to be archivesspace user."
-    sudo chown -R archivesspace.archivesspace /archivesspace/$REVISION/archivesspace
-    echo "Link the startup to /etc/init.d/"
-    sudo ln -fs /archivesspace/$REVISION/achivesspace/archivesspace.sh /etc/init.d/archivesspace
 }
+
 
 function setupJasperReportsFonts() {
     # Setup Jasper reports Add the TTF fonts required to run them.
@@ -136,9 +132,9 @@ function setupFinish() {
     echo "    http://localhost:8081/ -- the public interface"
     echo "    http://localhost:8090/ -- the Solr admin console"
     echo ""
-    echo "Bring up archivespace by "
+    echo "Start archivespace"
     echo ""
-    echo "    sudo /etc/init.d/archivesspace start"
+    echo "    sudo /archivesspace/v1.4.2/archivesspace/archivesspace.sh"
     echo ""
     echo "And you're ready to create a new repository, load data, and begin development."
     echo ""
@@ -146,6 +142,8 @@ function setupFinish() {
 
 function setupUbuntu() {
     echo "Installing additional Ubuntu 16.04 LTS packages needed"
+    sudo apt-get update
+    sudo do-release-upgrade -y
     sudo apt-get install build-essential git curl zip unzip \
          default-jdk ant ant-contrib ant-optional \
          maven mysql-server libmysql-java  -y
