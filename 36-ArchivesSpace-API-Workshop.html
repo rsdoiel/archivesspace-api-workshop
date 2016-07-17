@@ -17,8 +17,8 @@ differences are</p>
 
 <ul>
 <li>We&rsquo;re encoding <em>data</em> as JSON instead of urlencoding.</li>
-<li>We&rsquo;ve added a our auth token as a header parameter in the <em>Request</em></li>
-<li><em>data</em> is passed via <em>urlopen</em> rather than in our <em>Request</em></li>
+<li>We&rsquo;ve added an <em>auth_token</em> as a header parameter in the <em>Request</em></li>
+<li><em>data</em> is passed via <em>urlopen</em> rather than in our <em>Request</em> object</li>
 </ul>
 
 <pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
