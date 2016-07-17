@@ -11,30 +11,31 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<h2>If all gone well</h2>
+<h2>Putting it all together</h2>
 
-<ol>
-<li>The shell will have a message saying &ldquo;RESTART&rdquo;</li>
-<li>You&rsquo;ll be prompted for the ArchivesSpace API URL</li>
-<li>After entering it you&rsquo;ll see the JSON blob response below.</li>
-</ol>
+<p>Let&rsquo;s take what we learned and create a Python scripts called
+<a href="make-an-http-connection.py">make-an-http-connection.py</a>.</p>
 
-<pre><code class="language-python">    &gt;&gt;&gt; 
-    RESTART: /home/rsdoiel/Sites/archivespace-api-workshop/make-an-http-connection.py 
-    ArchivesSpace API URL: http://localhost:8089
-    {
-       &quot;databaseProductName&quot;: &quot;MySQL&quot;,
-       &quot;databaseProductVersion&quot;: &quot;5.6.31&quot;,
-       &quot;ruby_version&quot;: &quot;1.9&quot;,
-       &quot;host_os&quot;: &quot;linux&quot;,
-       &quot;host_cpu&quot;: &quot;x86_64&quot;,
-       &quot;build&quot;: &quot;java1.6&quot;,
-       &quot;archivesSpaceVersion&quot;: &quot;v1.4.2&quot;
-    }
-    &gt;&gt;&gt; 
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import json
+    import getpass
+
+    api_url = input('ArchivesSpace API URL: ')
+    if api_url == '':
+        api_url = 'http://localhost:8089'
+    req = urllib.request.Request(api_url)
+
+    with urllib.request.urlopen(req) as response:
+        print(response.read().decode('utf-8'))
+
 </code></pre>
 
-<p>Now we should be ready to learn how to authenticate with the API.</p>
+<ol>
+<li>In IDLE click on the file name and create a new file</li>
+<li>Type in this script</li>
+<li>Save the file as <strong>make-an-http-connection.py</strong></li>
+</ol>
 </section>
 </body>
 </html>

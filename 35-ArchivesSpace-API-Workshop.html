@@ -11,24 +11,11 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<p>Putting it all together</p>
+<p>Now lets flesh out a <strong>create_repo</strong> function.
+Like <em>login()</em> we need to create our data package,
+our request object and with &ldquo;urlopen&rdquo; get a response.</p>
 
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-    
-    def login (api_url, username, password):
-        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        result = json.JSONDecoder().decode(src)
-        return result['session']
-
-    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+<pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
         '''This function sends a create request to the ArchivesSpace REST API'''
         data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
                'name': name,
@@ -37,19 +24,11 @@
                'image_url': image_url,
                'url': url}).encode()
         req = urllib.request.Request(api_url+'/repositories', 
-               data, 
-               {'X-ArchivesSpace-Session': access_token})
-        with urllib.request.urlopen(req) as response:
+                None, 
+                {'X-ArchivesSpace-Session': access_token})
+        with urllib.request.urlopen(req, data) as response:
             src = response.read().decode('UTF-8')
         return json.JSONDecoder().decode(src)
-
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        access_token = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
-        repo = create_repo(api_url, access_token, input('Name: '), input('Repo Code: '), input('Org Code: '), input('Image URL: '),input('URL: '))
-        print(json.dumps(repo, sort_keys: False, indent: 4))
 </code></pre>
 </section>
 </body>

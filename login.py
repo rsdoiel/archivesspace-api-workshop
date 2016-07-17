@@ -6,10 +6,10 @@ import json
 def login (api_url, username, password):
     '''This function logs into the ArchivesSpace REST API returning an acccess token'''
     data = urllib.parse.urlencode({'password': password})
-    data = data.encode('ascii')
+    data = data.encode('utf-8')
     req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
     with urllib.request.urlopen(req) as response:
-        src = response.read().decode('UTF-8')
+        src = response.read().decode('utf-8')
     result = json.JSONDecoder().decode(src)
     auth_token = result['session']
     return auth_token
