@@ -32,9 +32,9 @@
 <li>Change to the sync directory and run the final-installation-step.sh
 
 <ul>
-<li><code>cd $HOME/sync &amp;&amp; bash setup/final-installation-step.sh</code></li>
+<li><code>cd /vagrant &amp;&amp; bash setup/final-installation-step.sh</code></li>
 </ul></li>
-<li>Wait for AS to startup and point your browser at <a href="http://localhost:8080">http://localhost:8080</a> to confirm</li>
+<li>Wait for ArchivesSpace to startup and point your browser at <a href="http://localhost:8080">http://localhost:8080</a> to confirm</li>
 </ol>
 
 <h3>Example local setup</h3>
@@ -42,10 +42,11 @@
 <p>Here&rsquo;s an example of what I would type on my Mac in a Terminal window for the whole process</p>
 
 <pre><code>        git clone https://github.com/rsdoiel/archivesspace-api-workshop
-        cd archivesspace-api-workshop/archivesspace_vagrant
+        cd archivesspace-api-workshop/archivesspace-dev
         vagrant up
         vagrant ssh
         # At this point I've SSH'd to the vagrante virtual machine instance
+        cd /vagrant
         bash setup/final-installation-step.sh
         # This take a little while to run, there are some prompts to answer
         # When complete we'll switch the archivesspace user and start archivesspace

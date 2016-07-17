@@ -13,38 +13,17 @@
 
 <h2>Save the access token returned</h2>
 
-<p>We need to use <strong>import json</strong> and modify our login
-function to <strong>parse the JSON response and return
-only session value</strong>. We&rsquo;ll also update our tests at in
-the <strong>if <strong>name</strong> == &lsquo;<strong>main</strong>&lsquo;:</strong> section at the bottom.</p>
+<p>We need to parse the JSON data into a Python object
+so we can save our access token.</p>
 
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-        
-    def login (api_url, username, password):
-        '''This function logs into the ArchivesSpace REST API returning an access token'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('utf-8')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        result = json.JSONDecoder().decode(src)
-        return result['session']
-    
-    if __name__ == '__main__':
-        # Our tests
-        api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        print('Logging in')
-        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
-        print(&quot;Your access token was: &quot;, s)
-        print('Success!')
+<pre><code class="language-JSON">    {   
+       &quot;session&quot;: &quot;84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a&quot;,
+       ...
+    }
 </code></pre>
 
-<p>If all has gone well we are ready to move onto working with repositories!</p>
+<p>The session value is our access token. We can pluck that single
+item out easiest if we turn the JSON blob into a Python variable.</p>
 </section>
 </body>
 </html>

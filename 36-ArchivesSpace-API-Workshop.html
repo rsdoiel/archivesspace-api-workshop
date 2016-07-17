@@ -9,16 +9,36 @@
 <a rel="nav" href="35-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="37-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><p>FIXME: remaining slides need to be written to lesson plan.</p>
+	<section><h1>4. Repositories</h1>
 
-<h1>4. Repositories</h1>
+<p>Notice how similar it is to our <strong>login</strong> function. Also how we
+add the header to pass along with our request. Some of the important
+differences are</p>
 
 <ul>
-<li>List all repositories descriptions</li>
-<li>List a specific repository description</li>
-<li>Update a repository</li>
-<li>Delete a repository</li>
+<li>We&rsquo;re encoding <em>data</em> as JSON instead of urlencoding.</li>
+<li>We&rsquo;ve added a our auth token as a header parameter in the <em>Request</em></li>
+<li><em>data</em> is passed via <em>urlopen</em> rather than in our <em>Request</em></li>
 </ul>
+
+<pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        data = json.JSONEncoder().encode({'jsonmodel_type': 'repository',
+               'name': name,
+               'repo_code': repo_code,
+               'org_code': org_code,
+               'image_url': image_url,
+               'url': url}).encode('utf-8')
+        req = urllib.request.Request(api_url+'/repositories', 
+                None, 
+                {'X-ArchivesSpace-Session': auth_token})
+        with urllib.request.urlopen(req, data) as response:
+            src = response.read().decode('UTF-8')
+        return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>You can copy and paste your def from our text editor to the repl and make
+sure it compiles.</p>
 </section>
 </body>
 </html>

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+REVISION="v1.4.2"
+
 if [ "$USER" != "vagrant" ] && [ "$USER" != "root" ]; then
 	echo "Run this script as the vagrant or root user."
 	exit 1
@@ -8,7 +10,7 @@ fi
 echo "Drop and create a blank DB"
 echo "DROP DATABASE IF EXISTS archivessapce;CREATE DATABASE IF NOT EXISTS archivesspace;" | sudo mysql
 echo "Clear any Solr indexes"
-cd /archivesspace
+cd /archivesspace/$REVISION/archivesspace
 sudo rm -rf data/frontend_cookie_secret_cookie_secret.dat \
 	data/public_cookie_secret_cookie_secret.dat \
 	data/indexer_state/ data/solr_backups/* \
@@ -18,9 +20,9 @@ echo
 echo "Ready to create a new ArchivesSpace DB environment"
 echo ""
 echo -e "\tsudo su - archivesspace"
-echo -e "\tcd /archivesspace && bash scripts/setup-database.sh && exit"
+echo -e "\tcd /archivesspace/$REVISION/archivesspace && bash scripts/setup-database.sh"
 echo ""
-echo "Then you can start ArchivesSpace in the usual way"
+echo "Exit back to the vagrant user, then restart ArchivesSpace in the usual way"
 echo ""
 echo -e "\tsudo /etc/init.d/archivesspace start"
 echo ""
