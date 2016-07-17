@@ -812,8 +812,12 @@ it.
         auth_token = login(api_url, username, password)
         print('username', username, 'auth_token', auth_token)
         repos = list_repos(api_url, auth_token)
-    print("repositores list", json.dumps(repos, indent=4))
+        print("repositores list", json.dumps(repos, indent=4))
 ```
+
+We've added our *list_repos* and changed the tests at the bottom.
+
+--
 
 # 4. Repositories
 
