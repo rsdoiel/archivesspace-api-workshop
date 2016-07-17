@@ -607,8 +607,8 @@ add the header to pass along with our request. Some of the important
 differences are
 
 + We're encoding *data* as JSON instead of urlencoding.
-+ We've added a our auth token as a header parameter in the *Request*
-+ *data* is passed via *urlopen* rather than in our *Request*
++ We've added an *auth_token* as a header parameter in the *Request*
++ *data* is passed via *urlopen* rather than in our *Request* object
 
 ```python
     def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
