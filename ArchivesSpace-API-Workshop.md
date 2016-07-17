@@ -746,12 +746,16 @@ it.
 
 ```Python
     auth_token = login(api_url, username, password)
-    req = urllib.request.Request(api_url+'/repositories', None, {"X-ArchivesSpace-Session": auth_token})
+    req = urllib.request.Request(api_url+'/repositories', 
+        None, 
+        {"X-ArchivesSpace-Session": auth_token})
     with urllib.request.urlopen(req) as response:
         src = response.read().decode('utf-8')
     result = json.JSONDecoder().decode(src)
     print(json.dumps(result, indent=4, sort_keys=True))
 ```
+
+--
 
 # 4. Repositories
 
