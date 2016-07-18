@@ -8,8 +8,10 @@ release:
 	./mk-release.sh
 
 publish:
-	./mk-release.sh
 	./mk-website.sh
+	./mk-release.sh
+	git add ??-ArchivesSpace-API-Workshop.html
+	git commit -am "save and publish"
 	./publish.sh
 
 clean:
