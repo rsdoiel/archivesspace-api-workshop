@@ -11,12 +11,17 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
+<h2>How do we know the path?</h2>
+
 <ul>
-<li>List all repositories descriptions</li>
-<li>List a specific repository description</li>
-<li>Update a repository</li>
-<li>Delete a repository</li>
+<li>In the API docs, look for &ldquo;Get a Repository by ID&rdquo;</li>
 </ul>
+
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        'http://localhost:8089/repositories/1'
+</code></pre>
+
+<p>It looks like we add the numeric id to the end of the page.</p>
 </section>
 </body>
 </html>
