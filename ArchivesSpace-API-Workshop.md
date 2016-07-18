@@ -861,10 +861,103 @@ We've added our *list_repos* and changed the tests at the bottom.
     >>> 
 ```
 
-The URL field is what we want to look at. We need the that to request only a single
-repositories info.
+What do we do if we want only a single repository?
 
 --
+
+# 4. Repositories
+
+## Getting a specific repositoriy
+
+1. known the repository id
+2. Using the appropriate path get data for the specific repository
+
+--
+
+# 4. Repositories
+
+## How do we know the path?
+
++ In the API docs, look for "Get a Repository by ID"
+
+```shell
+    curl -H "X-ArchivesSpace-Session: $SESSION" \
+        'http://localhost:8089/repositories/1'
+```
+
+It looks like we add the numeric id to the end of the page.
+
+--
+
+# 4. Repositories
+
+Let's modify our list_repos. Save [list-repos.py](list-repos.py) as [list-repo.py](list-repo.py).
+Now we modify the function *list_repos* and our tests.
+
+```Python
+    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+    import json
+        
+    def login (api_url, username, password):
+        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
+        data = urllib.parse.urlencode({'password': password})
+        data = data.encode('ascii')
+        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('UTF-8')
+        result = json.JSONDecoder().decode(src)
+        return result['session']
+    
+    def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        # Data is getting attached to urlopen() and not req object to trigger a POST
+        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
+        data = json.JSONEncoder().encode({
+                        'jsonmodel_type': 'repository',
+                        'name': name,
+                        'repo_code': repo_code,
+                        'org_code': org_code,
+                        'image_url': image_url,
+                        'url': url
+                    }).encode('utf-8')
+        # Add our auth_token to your req object
+        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req, data)
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+    def list_repos(api_url, auth_token, repo_id = 0):
+        '''List all the repositories, return the listing object'''
+        if repo_id > 0:
+            url = api_url+'/repositories/'+repo_id
+        else:
+            url = api_url+'/repositories'
+        req = urllib.request.Request(url, None, {'X-ArchivesSpace-Session': auth_token})
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+                                         
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login(api_url, username, password)
+        print('username', username, 'auth_token', auth_token)
+        repo_id = int(input('Enter repo id (or zero to list all repositories): '))
+        repos = list_repos(api_url, auth_token, repo_id)
+        print('repositores list', json.dumps(repos, indent=4))
+        
+```
+
+Are the results what you expected?
+
+--
+
 
 FIXME: remaining slides need to be written to the lesson plan.
 
@@ -872,8 +965,6 @@ FIXME: remaining slides need to be written to the lesson plan.
 
 # 4. Repositories
 
-+ List all repositories descriptions
-+ List a specific repository description
 + Update a repository
 + Delete a repository
 
