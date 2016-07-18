@@ -7,6 +7,7 @@
 + [Mark Custer](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
     + Archivist and Metadata Coordinator
     + Beinecke Rare Book and Manuscript Library
+    + Yale University Library
 
 [Download these slides and examples](./archivesspace-api-workshop-slides.zip)
 
