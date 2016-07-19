@@ -668,7 +668,10 @@ Putting it all together
                         'url': url
                     }).encode('utf-8')
         # Add our auth_token to your req object
-        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        req = urllib.request.Request(
+            api_url+'/repositories', 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req, data)
         src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
@@ -747,7 +750,8 @@ it.
 
 ```Python
     auth_token = login(api_url, username, password)
-    req = urllib.request.Request(api_url+'/repositories', 
+    req = urllib.request.Request(
+        api_url+'/repositories', 
         None, 
         {"X-ArchivesSpace-Session": auth_token})
     with urllib.request.urlopen(req) as response:
@@ -791,14 +795,20 @@ it.
                     'url': url
                 }).encode('utf-8')
         # Add our auth_token to your req object
-        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        req = urllib.request.Request(
+            api_url+'/repositories', 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req, data)
         src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
 
     def list_repos(api_url, auth_token):
         '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        req = urllib.request.Request(
+            api_url+'/repositories', 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
         with urllib.request.urlopen(req) as response:
             src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
@@ -858,7 +868,6 @@ We've added our *list_repos* and changed the tests at the bottom.
             "uri": "/repositories/3"
         }
     ]
-    >>> 
 ```
 
 What do we do if we want only a single repository?
@@ -885,7 +894,7 @@ What do we do if we want only a single repository?
         'http://localhost:8089/repositories/1'
 ```
 
-It looks like we add the numeric id to the end of the page.
+It looks like we add the numeric id to the end of the path (i.e. "/1").
 
 --
 
@@ -923,22 +932,36 @@ Now we modify the function *list_repos* and our tests.
                         'url': url
                     }).encode('utf-8')
         # Add our auth_token to your req object
-        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        req = urllib.request.Request(
+            api_url+'/repositories', 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req, data)
         src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
     
-    def list_repos(api_url, auth_token, repo_id = 0):
+    def list_repos(api_url, auth_token):
         '''List all the repositories, return the listing object'''
-        if repo_id > 0:
-            url = api_url+'/repositories/'+repo_id
-        else:
-            url = api_url+'/repositories'
-        req = urllib.request.Request(url, None, {'X-ArchivesSpace-Session': auth_token})
+        req = urllib.request.Request(
+            api_url+'/repositories', 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
         with urllib.request.urlopen(req) as response:
             src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
     
+    def list_repo(api_url, auth_token, repo_id):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            api_url+'/repositories/'+str(repo_id), 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+                                         
+    if __name__ == '__main__':
                                          
     if __name__ == '__main__':
         api_url = input('ArchivesSpace API URL: ')
@@ -948,7 +971,7 @@ Now we modify the function *list_repos* and our tests.
         password = getpass.getpass('ArchivesSpace password: ')
         auth_token = login(api_url, username, password)
         print('username', username, 'auth_token', auth_token)
-        repo_id = int(input('Enter repo id (or zero to list all repositories): '))
+        repo_id = int(input('Enter repo id (e.g. 2): '))
         repos = list_repos(api_url, auth_token, repo_id)
         print('repositores list', json.dumps(repos, indent=4))
         
@@ -958,17 +981,177 @@ Are the results what you expected?
 
 --
 
+# 4. Repositories
 
-FIXME: remaining slides need to be written to the lesson plan.
+## How do you update the repository definition?
+
+We use the update API call. Once again we need to check with the
+API documentation but this time search for "Update a repository". 
+
+On the right side the *curl* expression looks like
+
+```shell
+    curl -H "X-ArchivesSpace-Session: $SESSION" \
+    -d {
+       "jsonmodel_type": "repository",
+       "name": "Description: 11",
+       "repo_code": "ASPACE REPO 2 -- 631024",
+       "org_code": "970UV228G",
+       "image_url": "http://www.example-3.com",
+       "url": "http://www.example-4.com"
+    } \
+    'http://localhost:8089/repositories/1'
+```
+
+Note the following
+
+1. The repo id is at the end of the path like in list a specific repository
+2. We have another JSON data structure to submit and we do so with a "POST"
+3. We still need to maintain our token.
 
 --
 
 # 4. Repositories
 
-+ Update a repository
-+ Delete a repository
+## This is like *create* but we known the id!
+
+1. Save [list-repo.py](list-repo.py) as [update-repo](update-repo.py)
+2. copy create_repo function to update_repo so we can add the ID
+3. We'll update our tests to see if our changes work
+
+Your code should wind up looking something like this.
+
+```python
+    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+    import json
+        
+    def login (api_url, username, password):
+        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
+        data = urllib.parse.urlencode({'password': password})
+        data = data.encode('ascii')
+        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('UTF-8')
+        result = json.JSONDecoder().decode(src)
+        return result['session']
+    
+    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        # Data is getting attached to urlopen() and not req object to trigger a POST
+        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
+        data = json.JSONEncoder().encode({
+                        'jsonmodel_type': 'repository',
+                        'name': name,
+                        'repo_code': repo_code,
+                        'org_code': org_code,
+                        'image_url': image_url,
+                        'url': url
+                    }).encode('utf-8')
+        # Add our auth_token to your req object
+        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req, data)
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+    def list_repos(api_url, auth_token):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            api_url+'/repositories',
+            None,
+            {'X-ArchivesSpace-Session': auth_token})
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+    def list_repo(api_url, auth_token, repo_id):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            api_url+'/repositories/'+str(repo_id),
+            None,
+            {'X-ArchivesSpace-Session': auth_token})
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+    def update_repo(api_url, auth_token, repo_id, repo):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        # Data is getting attached to urlopen() and not req object to trigger a POST
+        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
+        data = json.JSONEncoder().encode(repo).encode('utf')
+        # Add our auth_token to your req object
+        req = urllib.request.Request(
+            api_url+'/repositories/'+str(repo_id),
+            None,
+            {'X-ArchivesSpace-Session': auth_token})
+        # Note we sending our repo as "data" in our urlopen (i.e. trigger a POST)
+        response = urllib.request.urlopen(req, data)
+        status = response.getcode()
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+    
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login(api_url, username, password)
+        print('username', username, 'auth_token', auth_token)
+        repos = list_repos(api_url, auth_token)
+        print('Pick a repository id to update', repos)
+        repo_id = int(input('Repository numeric id: '))
+        print('Getting repository record', repo_id)
+        repo = list_repo(api_url, auth_token, repo_id)
+        repo["name"] = input('old name is'+repo['name']+', provide a new name: ')
+        print('Now we update')
+        result = update_repo(api_url, auth_token, repo_id, repo)
+        print("Result is", result)
+```
+
+Run this updated version and see how it works. Note you can also use the other
+methods in the module like *list_repos()* as well as *list_repo()*.
 
 --
+
+# 4. Repositories
+
+## Now we can Delete a repository too
+
+As you may suspect we're beginning to see allot of repitition in our code. We'll
+live with it for now. To delete a repository take a look at the docs. You can
+find it by searching for "Delete a Repository". The *curl* looks like this ...
+
+```shell
+    curl -H "X-ArchivesSpace-Session: $SESSION" \
+        -X DELETE \
+        'http://localhost:8089/repositories/:repo_id'
+```
+
+Notice it looks allot like our *list_repo()* curl example but with an "-X DELETE".
+There are four common methods in HTTP transaction - GET, POST, PUT and DELETE.
+DELETE does what it sounds like. It send a "DELETE" method call to the API requesting
+the repository to be deleted. Note deleting a record via the API is permanent. There is no
+"UNDO"!!!!
+
+1. Save [update-repo.py](update-repo.py) As [delete-repo.py](delete-repo.py)
+2. Copy *list_repo()* function definition to *delete_repo*
+3. Now we just need to modify the default methods to send a delete and look for an HTTP status code of 200
+
+This is how things should look
+
+```
+
+```
+
+--
+
+FIXME: remaining slides need to be written to the lesson plan.
+
+--
+
 
 
 # Working with Agents

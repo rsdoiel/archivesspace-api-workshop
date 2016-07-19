@@ -33,7 +33,10 @@ def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url =
 
 def list_repos(api_url, auth_token):
     '''List all the repositories, return the listing object'''
-    req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+    req = urllib.request.Request(
+        api_url+'/repositories',
+        None,
+        {'X-ArchivesSpace-Session': auth_token})
     with urllib.request.urlopen(req) as response:
         src = response.read().decode('utf-8')
     return json.JSONDecoder().decode(src)
