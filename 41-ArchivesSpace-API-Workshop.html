@@ -19,7 +19,8 @@ wrap up by decoding the JSON response and pretty printing
 it.</p>
 
 <pre><code class="language-Python">    auth_token = login(api_url, username, password)
-    req = urllib.request.Request(api_url+'/repositories', 
+    req = urllib.request.Request(
+        api_url+'/repositories', 
         None, 
         {&quot;X-ArchivesSpace-Session&quot;: auth_token})
     with urllib.request.urlopen(req) as response:

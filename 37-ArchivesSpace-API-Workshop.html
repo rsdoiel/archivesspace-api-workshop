@@ -42,7 +42,10 @@
                         'url': url
                     }).encode('utf-8')
         # Add our auth_token to your req object
-        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        req = urllib.request.Request(
+            api_url+'/repositories', 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req, data)
         src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)

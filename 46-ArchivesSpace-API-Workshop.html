@@ -42,22 +42,36 @@ Now we modify the function <em>list_repos</em> and our tests.</p>
                         'url': url
                     }).encode('utf-8')
         # Add our auth_token to your req object
-        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        req = urllib.request.Request(
+            api_url+'/repositories', 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req, data)
         src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
     
-    def list_repos(api_url, auth_token, repo_id = 0):
+    def list_repos(api_url, auth_token):
         '''List all the repositories, return the listing object'''
-        if repo_id &gt; 0:
-            url = api_url+'/repositories/'+repo_id
-        else:
-            url = api_url+'/repositories'
-        req = urllib.request.Request(url, None, {'X-ArchivesSpace-Session': auth_token})
+        req = urllib.request.Request(
+            api_url+'/repositories', 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
         with urllib.request.urlopen(req) as response:
             src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
     
+    def list_repo(api_url, auth_token, repo_id):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            api_url+'/repositories/'+str(repo_id), 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+                                         
+    if __name__ == '__main__':
                                          
     if __name__ == '__main__':
         api_url = input('ArchivesSpace API URL: ')
@@ -67,7 +81,7 @@ Now we modify the function <em>list_repos</em> and our tests.</p>
         password = getpass.getpass('ArchivesSpace password: ')
         auth_token = login(api_url, username, password)
         print('username', username, 'auth_token', auth_token)
-        repo_id = int(input('Enter repo id (or zero to list all repositories): '))
+        repo_id = int(input('Enter repo id (e.g. 2): '))
         repos = list_repos(api_url, auth_token, repo_id)
         print('repositores list', json.dumps(repos, indent=4))
         
