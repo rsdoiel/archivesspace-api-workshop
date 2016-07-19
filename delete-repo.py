@@ -44,7 +44,7 @@ def list_repos(api_url, auth_token):
 def list_repo(api_url, auth_token, repo_id):
     '''List all the repositories, return the listing object'''
     req = urllib.request.Request(
-        api_url+'/repositories/'+string(repo_id),
+        api_url+'/repositories/'+str(repo_id),
         None,
         {'X-ArchivesSpace-Session': auth_token})
     with urllib.request.urlopen(req) as response:
@@ -71,11 +71,11 @@ def delete_repo(api_url, auth_token, repo_id):
     '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
     # Notice we've added a method = 'DELETE' in our Request object.
     req = urllib.request.Request(
-        api_url+'/repositories/'+string(repo_id),
-        None,
-        {'X-ArchivesSpace-Session': auth_token},
+        url = api_url+'/repositories/'+str(repo_id),
+        data = None,
+        headers = {'X-ArchivesSpace-Session': auth_token},
         method = 'DELETE')
-    reponse = urllib.request.urlopen(req)
+    response = urllib.request.urlopen(req)
     status = response.getcode()
     src = response.read().decode('utf-8')
     return json.JSONDecoder().decode(src)
@@ -95,6 +95,7 @@ if __name__ == '__main__':
     repo_id = int(input('Repository numeric id to delete: '))
     result = delete_repo(api_url, auth_token, repo_id)
     print("Result is", result)
+    print(list_repos(api_url, auth_token))
     
     
     

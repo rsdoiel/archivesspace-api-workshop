@@ -44,7 +44,7 @@ def list_repos(api_url, auth_token):
 def list_repo(api_url, auth_token, repo_id):
     '''List all the repositories, return the listing object'''
     req = urllib.request.Request(
-        api_url+'/repositories/'+string(repo_id),
+        api_url+'/repositories/'+str(repo_id),
         None,
         {'X-ArchivesSpace-Session': auth_token})
     with urllib.request.urlopen(req) as response:
