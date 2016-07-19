@@ -7,9 +7,8 @@ def login (api_url, username, password):
     data = urllib.parse.urlencode({'password': password})
     data = data.encode('ascii')
     req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-    with urllib.request.urlopen(req) as response:
-        src = response.read().decode('UTF-8')
-    return src
+    response = urllib.request.urlopen(req)
+    return response.read().decode('UTF-8')
 
 if __name__ == '__main__':
     api_url = input('ArchivesSpace API URL: ')

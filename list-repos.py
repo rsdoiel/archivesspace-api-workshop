@@ -8,9 +8,8 @@ def login (api_url, username, password):
     data = urllib.parse.urlencode({'password': password})
     data = data.encode('ascii')
     req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-    with urllib.request.urlopen(req) as response:
-        src = response.read().decode('UTF-8')
-    result = json.JSONDecoder().decode(src)
+    response =  urllib.request.urlopen(req)
+    result = json.JSONDecoder().decode(response.read().decode('UTF-8'))
     return result['session']
 
 def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
@@ -28,8 +27,7 @@ def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url =
     # Add our auth_token to your req object
     req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
     response = urllib.request.urlopen(req, data)
-    src = response.read().decode('utf-8')
-    return json.JSONDecoder().decode(src)
+    return json.JSONDecoder().decode(response.read().decode('utf-8'))
 
 def list_repos(api_url, auth_token):
     '''List all the repositories, return the listing object'''
@@ -37,9 +35,8 @@ def list_repos(api_url, auth_token):
         api_url+'/repositories',
         None,
         {'X-ArchivesSpace-Session': auth_token})
-    with urllib.request.urlopen(req) as response:
-        src = response.read().decode('utf-8')
-    return json.JSONDecoder().decode(src)
+    response = urllib.request.urlopen(req)
+    return json.JSONDecoder().decode(response.read().decode('utf-8'))
 
                                      
 if __name__ == '__main__':

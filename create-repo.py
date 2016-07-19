@@ -8,11 +8,10 @@ def login (api_url, username, password):
     data = urllib.parse.urlencode({'password': password})
     data = data.encode('ascii')
     req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-    with urllib.request.urlopen(req) as response:
-        src = response.read().decode('UTF-8')
-    result = json.JSONDecoder().decode(src)
-    auth_token = result['session']
-    return auth_token
+    response = urllib.request.urlopen(req)
+    result = json.JSONDecoder().decode(response.read().decode('UTF-8'))
+    # Session in the property that holds our auth_token value.
+    return result['session']
 
 def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
     '''This function sends a create request to the ArchivesSpace REST API'''
@@ -29,8 +28,7 @@ def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url =
     # Add our auth_token to your req object
     req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
     response = urllib.request.urlopen(req, data)
-    src = response.read().decode('utf-8')
-    return json.JSONDecoder().decode(src)
+    return json.JSONDecoder().decode(response.read().decode('utf-8'))
 
 if __name__ == '__main__':
     api_url = input('ArchivesSpace API URL: ')

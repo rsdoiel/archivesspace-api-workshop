@@ -13,34 +13,26 @@
 
 --
 
-## Requirements
+# Introducing the ArchivesSpace REST API using Python 3
 
-Requirements for participants:
+Before we begin ...
+
+## Required
 
 + A laptop/device with network access
     + e.g. Linux (what I use), Mac OS X (which I am familiar with), or Windows (which I am very very rusty on)
 + Python 3.5 installed including the python standard library (see https://docs.python.org/3/library/)
     + Python 3 (v3.5.2) can be downloaded and from https://www.python.org/downloads/
 + A text editor
+    + *IDLE for Python 3* is fine for the workshop
 + A web browser
-+ Access to ArchivesSpace REST API
-    + The workshop hosts will provide access for Aug 2nd
-    + If you have [Virtualbox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/) installed
-      I have provided [archivesspace-dev](https://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev)
+    + Firefox or Chrome with the [JSONView](https://jsonview.com/) plugin recommended
++ A test deployment ArchivesSpace is being provided as part of the Workshop
+    + Or you can install your own via [VirtualBox and Vagrant](http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/)
 + A basic familiarity with Python and ArchivesSpace
 
---
+## Suggested
 
-## Before the workshop
-
-+ Make sure you have a modern web browser
-    + Firefox or Chrome with the [JSONView](https://jsonview.com/) plugin recommended
-+ Make sure you have [Python 3.5.2](https://www.python.org/downloads/) 
-    + Install [Python 3.5.2](https://www.python.org/downloads/) if needed
-+ Make sure you have a text editor
-    + IDLE for Python 3 is what I will use in the Workshop
-+ A test deployment ArchivesSpace is being provided as part of the Workshop
-    + You can install your own via [VirtualBox and Vagrant](http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/)
 + Bookmark in your web browser:
     + [ArchivesSpace API Docs](http://archivesspace.github.io/archivesspace/api/)
     + [Python Reference](https://docs.python.org/3/library/index.html)
@@ -50,23 +42,18 @@ Requirements for participants:
 
 --
 
-# What we'll be covering
+# Introducing the ArchivesSpace REST API using Python 3
 
-+ ArchivesSpace REST API
-+ Using Python 3 for interacting with the REST API
-+ Identifying helpful web resources for API work
-
---
-
-# Workshop structure
+## Workshop structure
 
 1. Setup
 2. Making an http connection
 3. Authentication
 4. Working with Repositories
 5. Working with Agents
+7. Working with Batches
 6. Working with Accessions
-7. Working with Digital Objects
+8. Other ArchivesSpace Models
 
 --
 
@@ -209,8 +196,8 @@ The goal is to creates a **Request** object named *req*.
 Now we can send our *req* and get back a *response*.
 
 ```python
-    with urllib.request.urlopen(req) as response:
-        print(response.read().decode('UTF-8'))
+    response = urllib.request.urlopen(req)
+    print(response.read().decode('UTF-8'))
 ```
 
 --
@@ -240,8 +227,8 @@ Let's take what we learned and create a Python scripts called
         api_url = 'http://localhost:8089'
     req = urllib.request.Request(api_url)
 
-    with urllib.request.urlopen(req) as response:
-        print(response.read().decode('utf-8'))
+    response = urllib.request.urlopen(req)
+    print(response.read().decode('utf-8'))
 
 ```
 1. In IDLE click on the file name and create a new file
@@ -342,8 +329,8 @@ Now with our data send our request.
 
 ```python
     req = urllib.request.Request(api_url+"/users/"+username+"/login", data)
-    with urllib.request.urlopen(req) as response:
-        print(response.read().decode('UTF-8'))
+    response = urllib.request.urlopen(req)
+    print(response.read().decode('UTF-8'))
 ```
 
 You should see the type of response ArchivesSpace send back.
@@ -372,9 +359,8 @@ username and password to test it.
         data = data.encode('utf-8')
         # Notice we're adding the "data" to the url built with Request
         req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        return src
+        response = urllib.request.urlopen(req)
+        return response.read().decode('UTF-8')
     
     if __name__ == '__main__':
         # this is where we'll test what we're building
@@ -432,22 +418,16 @@ item out easiest if we turn the JSON blob into a Python variable.
 
 We need to modify our login function to "decode" the JSON 
 response and return only session value. We'll also update our 
-tests at the bottom.
+tests at the bottom.  (We're modifying *login* and the testing)
 
 ```python
-    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-        
     def login (api_url, username, password):
         '''This function logs into the ArchivesSpace REST API returning an access token'''
         data = urllib.parse.urlencode({'password': password})
         data = data.encode('utf-8')
         req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('utf-8')
-        result = json.JSONDecoder().decode(src)
+        response = urllib.request.urlopen(req)
+        result = json.JSONDecoder().decode(response.read().decode('utf-8'))
         return result['session']
     
     if __name__ == '__main__':
@@ -548,7 +528,8 @@ and the rest are optional.
 
 1. Save [login.py](login.py) As [create-repo.py](create-repo.py)
 
-We're going to be adding to it.
+We're going to be adding a *create_repo* function and modifying the
+testing we did in **login.py**.
 
 --
 
@@ -594,9 +575,8 @@ our request object and with "urlopen" get a response.
         req = urllib.request.Request(api_url+'/repositories', 
                 None, 
                 {'X-ArchivesSpace-Session': access_token})
-        with urllib.request.urlopen(req, data) as response:
-            src = response.read().decode('UTF-8')
-        return json.JSONDecoder().decode(src)
+        response = urllib.request.urlopen(req, data)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
 ```
 
 --
@@ -623,9 +603,8 @@ differences are
         req = urllib.request.Request(api_url+'/repositories', 
                 None, 
                 {'X-ArchivesSpace-Session': auth_token})
-        with urllib.request.urlopen(req, data) as response:
-            src = response.read().decode('UTF-8')
-        return json.JSONDecoder().decode(src)
+        response = urllib.request.urlopen(req, data)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
 ```
 
 You can copy and paste your def from our text editor to the repl and make
@@ -636,25 +615,9 @@ sure it compiles.
 
 # 4. Repositories
 
-Putting it all together
+Putting it all together (starting after our *login* function)
 
 ```python
-    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-        
-    def login (api_url, username, password):
-        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        result = json.JSONDecoder().decode(src)
-        auth_token = result['session']
-        return auth_token
-    
     def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
         '''This function sends a create request to the ArchivesSpace REST API'''
         # Data is getting attached to urlopen() and not req object to trigger a POST
@@ -673,8 +636,7 @@ Putting it all together
             None, 
             {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req, data)
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
     
     if __name__ == '__main__':
         api_url = input('ArchivesSpace API URL: ')
@@ -700,6 +662,9 @@ We're going to create a new script called [list-repos.py](list-repos.py) by
 using our previous [create-repo.py](create-repo.py) and adding to it.
 
 1. Save [create-repo.py](create-repo.py) AS [list-repos.py](list-repos.py)
+
+(Like before we're adding to the previous program and changing the testing done
+at the end.)
 
 --
 
@@ -754,9 +719,8 @@ it.
         api_url+'/repositories', 
         None, 
         {"X-ArchivesSpace-Session": auth_token})
-    with urllib.request.urlopen(req) as response:
-        src = response.read().decode('utf-8')
-    result = json.JSONDecoder().decode(src)
+    response = urllib.request.urlopen(req)
+    result = json.JSONDecoder().decode(response.read().decode('utf-8'))
     print(json.dumps(result, indent=4, sort_keys=True))
 ```
 
@@ -766,52 +730,18 @@ it.
 
 ## Time to put this together in a script
 
+Add *list_repos* function after *create_repo* and update the testing section
+at the bottom.
+
 ```Python
-    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-    
-    def login (api_url, username, password):
-        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        result = json.JSONDecoder().decode(src)
-        return result['session']
-
-    def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        # Data is getting attached to urlopen() and not req object to trigger a POST
-        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
-        data = json.JSONEncoder().encode({
-                    'jsonmodel_type': 'repository',
-                    'name': name,
-                    'repo_code': repo_code,
-                    'org_code': org_code,
-                    'image_url': image_url,
-                    'url': url
-                }).encode('utf-8')
-        # Add our auth_token to your req object
-        req = urllib.request.Request(
-            api_url+'/repositories', 
-            None, 
-            {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req, data)
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-
     def list_repos(api_url, auth_token):
         '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
             api_url+'/repositories', 
             None, 
             {'X-ArchivesSpace-Session': auth_token})
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
+        response = urllib.request.urlopen(req)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
 
                                      
     if __name__ == '__main__':
@@ -901,68 +831,18 @@ It looks like we add the numeric id to the end of the path (i.e. "/1").
 # 4. Repositories
 
 Let's modify our list_repos. Save [list-repos.py](list-repos.py) as [list-repo.py](list-repo.py).
-Now we modify the function *list_repos* and our tests.
+Now we add a new *list_repo* after  the function *list_repos* as well as update our tests.
 
 ```Python
-    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-        
-    def login (api_url, username, password):
-        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        result = json.JSONDecoder().decode(src)
-        return result['session']
-    
-    def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        # Data is getting attached to urlopen() and not req object to trigger a POST
-        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
-        data = json.JSONEncoder().encode({
-                        'jsonmodel_type': 'repository',
-                        'name': name,
-                        'repo_code': repo_code,
-                        'org_code': org_code,
-                        'image_url': image_url,
-                        'url': url
-                    }).encode('utf-8')
-        # Add our auth_token to your req object
-        req = urllib.request.Request(
-            api_url+'/repositories', 
-            None, 
-            {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req, data)
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
-    def list_repos(api_url, auth_token):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            api_url+'/repositories', 
-            None, 
-            {'X-ArchivesSpace-Session': auth_token})
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
     def list_repo(api_url, auth_token, repo_id):
         '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
             api_url+'/repositories/'+str(repo_id), 
             None, 
             {'X-ArchivesSpace-Session': auth_token})
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
+        response = urllib.request.urlopen(req)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
     
-                                         
-    if __name__ == '__main__':
-                                         
     if __name__ == '__main__':
         api_url = input('ArchivesSpace API URL: ')
         if api_url == '':
@@ -1016,70 +896,17 @@ Note the following
 ## This is like *create* but we known the id!
 
 1. Save [list-repo.py](list-repo.py) as [update-repo](update-repo.py)
-2. copy create_repo function to update_repo so we can add the ID
-3. We'll update our tests to see if our changes work
+2. copy *create_repo* function to *update_repo* adding it after *list_repo*
+3. We'll also update our tests at the end of the file 
 
 Your code should wind up looking something like this.
 
 ```python
-    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-        
-    def login (api_url, username, password):
-        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        result = json.JSONDecoder().decode(src)
-        return result['session']
-    
-    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        # Data is getting attached to urlopen() and not req object to trigger a POST
-        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
-        data = json.JSONEncoder().encode({
-                        'jsonmodel_type': 'repository',
-                        'name': name,
-                        'repo_code': repo_code,
-                        'org_code': org_code,
-                        'image_url': image_url,
-                        'url': url
-                    }).encode('utf-8')
-        # Add our auth_token to your req object
-        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req, data)
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
-    def list_repos(api_url, auth_token):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            api_url+'/repositories',
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
-    def list_repo(api_url, auth_token, repo_id):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id),
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
     def update_repo(api_url, auth_token, repo_id, repo):
         '''This function sends a create request to the ArchivesSpace REST API'''
         # Data is getting attached to urlopen() and not req object to trigger a POST
         # ArchivesSpace API likes JSON encoding rather than URL encoding like login
-        data = json.JSONEncoder().encode(repo).encode('utf')
+        data = json.JSONEncoder().encode(repo).encode('utf-8')
         # Add our auth_token to your req object
         req = urllib.request.Request(
             api_url+'/repositories/'+str(repo_id),
@@ -1087,10 +914,7 @@ Your code should wind up looking something like this.
             {'X-ArchivesSpace-Session': auth_token})
         # Note we sending our repo as "data" in our urlopen (i.e. trigger a POST)
         response = urllib.request.urlopen(req, data)
-        status = response.getcode()
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
     
     if __name__ == '__main__':
         api_url = input('ArchivesSpace API URL: ')
@@ -1137,81 +961,12 @@ the repository to be deleted. Note deleting a record via the API is permanent. T
 "UNDO"!!!!
 
 1. Save [update-repo.py](update-repo.py) As [delete-repo.py](delete-repo.py)
-2. Copy *list_repo()* function definition to *delete_repo*
-3. Now we just need to modify the default methods to send a delete and look for an HTTP status code of 200
+2. Copy *list_repo()* function definition to *delete_repo* after *update_repo*
+3. We need to modify the default test methods once again
 
 This is how things should look
 
-```
-    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-        
-    def login (api_url, username, password):
-        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        result = json.JSONDecoder().decode(src)
-        return result['session']
-    
-    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        # Data is getting attached to urlopen() and not req object to trigger a POST
-        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
-        data = json.JSONEncoder().encode({
-                        'jsonmodel_type': 'repository',
-                        'name': name,
-                        'repo_code': repo_code,
-                        'org_code': org_code,
-                        'image_url': image_url,
-                        'url': url
-                    }).encode('utf-8')
-        # Add our auth_token to your req object
-        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req, data)
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
-    def list_repos(api_url, auth_token):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            api_url+'/repositories',
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
-    def list_repo(api_url, auth_token, repo_id):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id),
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
-    def update_repo(api_url, auth_token, repo_id, repo):
-        '''This function sends a updates a repository via ArchivesSpace REST API'''
-        # Data is getting attached to urlopen() and not req object to trigger a POST
-        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
-        data = json.JSONEncoder().encode(repo).encode('utf')
-        # Add our auth_token to your req object
-        req = urllib.request.Request(
-            api_url+'/repositories/'+repo_id,
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
-        # Note we sending our repo as "data" in our urlopen (i.e. trigger a POST)
-        response = urllib.request.urlopen(req, data)
-        status = response.getcode()
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
+```Python
     def delete_repo(api_url, auth_token, repo_id):
         '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
         # Notice we've added a method = 'DELETE' in our Request object.
@@ -1221,11 +976,7 @@ This is how things should look
             headers = {'X-ArchivesSpace-Session': auth_token},
             method = 'DELETE')
         response = urllib.request.urlopen(req)
-        status = response.getcode()
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-    
-    
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
     
     if __name__ == '__main__':
         api_url = input('ArchivesSpace API URL: ')
@@ -1245,21 +996,200 @@ This is how things should look
 
 --
 
+# 4 Repositories
+
+## Our progress so far
+
+This is what our cumulative efforts should look like so far.
+
+```Python
+    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+    import json
+        
+    def login (api_url, username, password):
+        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
+        data = urllib.parse.urlencode({'password': password})
+        data = data.encode('ascii')
+        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        response = urllib.request.urlopen(req)
+        result = json.JSONDecoder().decode(response.read().decode('UTF-8'))
+        return result['session']
+    
+    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        # Data is getting attached to urlopen() and not req object to trigger a POST
+        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
+        data = json.JSONEncoder().encode({
+                        'jsonmodel_type': 'repository',
+                        'name': name,
+                        'repo_code': repo_code,
+                        'org_code': org_code,
+                        'image_url': image_url,
+                        'url': url
+                    }).encode('utf-8')
+        # Add our auth_token to your req object
+        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req, data)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    def list_repos(api_url, auth_token):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            api_url+'/repositories',
+            None,
+            {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    def list_repo(api_url, auth_token, repo_id):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            api_url+'/repositories/'+str(repo_id),
+            None,
+            {'X-ArchivesSpace-Session': auth_token})
+        response =  urllib.request.urlopen(req)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    def update_repo(api_url, auth_token, repo_id, repo):
+        '''This function sends a updates a repository via ArchivesSpace REST API'''
+        # Data is getting attached to urlopen() and not req object to trigger a POST
+        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
+        data = json.JSONEncoder().encode(repo).encode('utf-8')
+        # Add our auth_token to your req object
+        req = urllib.request.Request(
+            api_url+'/repositories/'+repo_id,
+            None,
+            {'X-ArchivesSpace-Session': auth_token})
+        # Note we sending our repo as "data" in our urlopen (i.e. trigger a POST)
+        response = urllib.request.urlopen(req, data)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    def delete_repo(api_url, auth_token, repo_id):
+        '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
+        # Notice we've added a method = 'DELETE' in our Request object.
+        req = urllib.request.Request(
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'DELETE')
+        response = urllib.request.urlopen(req)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login(api_url, username, password)
+        print('username', username, 'auth_token', auth_token)
+        repos = list_repos(api_url, auth_token)
+        print('Pick a repository id to update', repos)
+        repo_id = int(input('Repository numeric id to delete: '))
+        result = delete_repo(api_url, auth_token, repo_id)
+        print("Result is", result)
+        print(list_repos(api_url, auth_token))
+        
+```
+
+--
+
+# 4. Repositories
+
+What we've done for logging in and working with repositories is going
+to be repeated for each of the other models we work with today.
+
+1. Save [delete-repo.py](delete-repo.py) As [repo.py](repo.py)
+2. We now have a python module for authenticating and working with repository records
+3. As a homework assign, merge the tests into this final repo.py file.
+
+--
+
+# 5. Working with Agents
+
+## Our recipe approach
+
+1. Look up in the API Docs the activity want to use
+2. Look at the HTTP method required (e.g. GET, POST, DELETE)
+3. Look at any data that needs to be sent, noting how (e.g. a JSON blob or as part of a path)
+4. Using our work with repositories and authentication as a guide writing similar functionality for Agents
+
+--
+
+# 5. Working with Agents
+
+Suggested functions
+
++ create_agent (CREATE)
++ list_agents  (READ)
++ list_agent   (READ)
++ update_agent (UPDATE)
++ delete_agent (DELETE)
+
+These are our basic CRUD operations as functions working with the API.
+
+--
+
+# 5. Working with Agents
+
+## create_agent
+
+1. Look at the API documentation
+    + First problem. We have many calls starting with "/agent/".  Lets look at them individually
+2. Can we write a *create_agent* function that works for corporate_entities, families, people, and software
+    + What are our function parameters?
+
+--
+
+# 5. Working with Agents
+
+## create_agent
+
+1. import our usual modules
+2. import repo (so we can skip re-writing that code)
+3. define our create_agent
+4. add our tests at the botton of our script in the *if* block
+
+--
+
+# 5. Working with Agents
+
+## list_agents
+
+
+--
+
+# 5. Working with Agents
+
+## Update an Agent
+
+--
+
+# 5. Working with Agents
+
+## List Agents ID
+
+--
+
+# 5. Working with Agents
+
+## Delete an Agent
+
+--
+
 FIXME: remaining slides need to be written to the lesson plan.
 
 --
 
 
+# Working in Batches
 
-# Working with Agents
-
-+ Creating two Agents
-+ View an Agent details
-+ Update an Agent
-+ List Agents ID
-+ Delete an Agent
-
---
++ getting a list of useful IDs
++ iterating over the IDs
++ managing process load
+    + avoiding too much of a good thing
 
 # Working with Accessions
 
@@ -1268,17 +1198,6 @@ FIXME: remaining slides need to be written to the lesson plan.
 + Updating an Accession
 + Listing Accession IDs
 + Deleting an Accession
-
---
-
-# Working in batches
-
-+ getting a list of useful IDs
-+ iterating over the IDs
-+ managing process load
-    + avoiding too much of a good thing
-
---
 
 #  Other ArchivesSpace models
 

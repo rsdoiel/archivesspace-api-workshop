@@ -30,9 +30,8 @@ class ArchivesSpaceAPI:
         data = urllib.parse.urlencode({'password': self.password})
         data = data.encode('ascii')
         req = urllib.request.Request(self.api_url+'/users/'+self.username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        result = self.jsonparse(src)
+        response = urllib.request.urlopen(req)
+        result = self.jsonparse(response.read().decode('UTF-8'))
         self.auth_token = result['session']
         return result
 
@@ -44,16 +43,14 @@ class ArchivesSpaceAPI:
             'name': name,
         }).encode('ascii')
         req = urllib.request.Request(self.api_url+'/repositories', None, {'X-ArchivesSpace-Session': self.auth_token})
-        with urllib.request.urlopen(req, data) as response:
-            src = response.read().decode('UTF-8')
-        return json.JSONDecoder().decode(src)
+        response =  urllib.request.urlopen(req, data)
+        return json.JSONDecoder().decode(response.read().decode('UTF-8'))
 
 
     def listRepositories(self):
         req = urllib.request.Request(self.api_url+'/repositories', None, {'X-ArchivesSpace-Session': self.auth_token})
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        return self.jsonparse(src)
+        response = urllib.request.urlopen(req)
+        return self.jsonparse(response.read().decode('UTF-8'))
 
     def getRepository(self, repo_id):
         raise Exception('getRepository(%s)' % repo_id)
