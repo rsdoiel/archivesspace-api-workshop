@@ -9,37 +9,32 @@
 <a rel="nav" href="18-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="20-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>3. Authentication</h1>
+	<section><h1>2. Make an http connection</h1>
 
-<h2>Send our username and password</h2>
+<h2>If all gone well</h2>
 
-<h3>Putting it all together</h3>
+<ol>
+<li>The shell will have a message saying &ldquo;RESTART&rdquo;</li>
+<li>You&rsquo;ll be prompted for the ArchivesSpace API URL</li>
+<li>After entering it you&rsquo;ll see the JSON blob response below.</li>
+</ol>
 
-<p>Put this into a text file called <strong>login-simple.py</strong>. We&rsquo;ll
-create a python function and prompt for api url, username
-and password.</p>
-
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-        
-    def login (api_url, username, password):
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        with urllib.request.urlopen(req) as response:
-            src = response.read().decode('UTF-8')
-        return src
-    
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        print('Logging in')
-        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
-        print(s)
-        print('Success!')
+<pre><code class="language-python">    &gt;&gt;&gt; 
+    RESTART: /home/rsdoiel/Sites/archivespace-api-workshop/make-an-http-connection.py 
+    ArchivesSpace API URL: http://localhost:8089
+    {
+       &quot;databaseProductName&quot;: &quot;MySQL&quot;,
+       &quot;databaseProductVersion&quot;: &quot;5.6.31&quot;,
+       &quot;ruby_version&quot;: &quot;1.9&quot;,
+       &quot;host_os&quot;: &quot;linux&quot;,
+       &quot;host_cpu&quot;: &quot;x86_64&quot;,
+       &quot;build&quot;: &quot;java1.6&quot;,
+       &quot;archivesSpaceVersion&quot;: &quot;v1.4.2&quot;
+    }
+    &gt;&gt;&gt; 
 </code></pre>
+
+<p>Now we should be ready to learn how to authenticate with the API.</p>
 </section>
 </body>
 </html>

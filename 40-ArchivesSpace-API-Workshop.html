@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><link href="css/slides.css" rel="stylesheet" />
+   
+</head>
+<body>
+	<nav>
+<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a rel="nav" href="39-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a rel="nav" href="41-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+	</nav>
+	<section><h1>4. Repositories</h1>
+
+<h2>ArchivesSpace API Docs</h2>
+
+<p>The documentation about the API will help us know what to ask.
+Find &ldquo;list repositories&rdquo;</p>
+
+<ul>
+<li>Change to your browser tab with the docs</li>
+<li>Search for &ldquo;Get a list of Repositories&rdquo;</li>
+</ul>
+
+<p>The <strong>curl</strong> statement suggested looks like</p>
+
+<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        'http://localhost:8089/repositories'
+</code></pre>
+
+<p>Notice there is no &ldquo;-d&rdquo; listed. We only need to know the
+API URL and then add &ldquo;/repositories&rdquo; to it. We still need
+to send along our auth token in the header as normal.</p>
+</section>
+</body>
+</html>
+

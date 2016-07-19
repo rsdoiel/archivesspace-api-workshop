@@ -8,8 +8,8 @@ release:
 	./mk-release.sh
 
 publish:
-	./mk-release.sh
 	./mk-website.sh
+	./mk-release.sh
 	./publish.sh
 
 clean:

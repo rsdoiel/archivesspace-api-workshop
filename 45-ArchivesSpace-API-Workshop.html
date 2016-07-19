@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head><link href="css/slides.css" rel="stylesheet" />
+   
+</head>
+<body>
+	<nav>
+<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a rel="nav" href="44-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a rel="nav" href="46-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+	</nav>
+	<section><h1>4. Repositories</h1>
+
+<h2>How do we know the path?</h2>
+
+<ul>
+<li>In the API docs, look for &ldquo;Get a Repository by ID&rdquo;</li>
+</ul>
+
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        'http://localhost:8089/repositories/1'
+</code></pre>
+
+<p>It looks like we add the numeric id to the end of the path (i.e. &ldquo;/1&rdquo;).</p>
+</section>
+</body>
+</html>
+

@@ -94,3 +94,7 @@ ENV/
 *.zip
 *.pyc
 .vagrant
+archivesspace-dev/archivesspace-mysql-setup.sql
+archivesspace-dev/msttcorefonts.tar.gz
+archivesspace-dev/msttcorefonts/
+

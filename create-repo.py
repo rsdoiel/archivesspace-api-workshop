@@ -43,5 +43,4 @@ if __name__ == '__main__':
     auth_token = login(api_url, username, password)
     print('username', username, 'auth_token', auth_token)
     repo = create_repo(api_url, auth_token, name, repo_code)
-    print(json.dumps(repo))
-
+    print(json.dumps(repo, indent=4))

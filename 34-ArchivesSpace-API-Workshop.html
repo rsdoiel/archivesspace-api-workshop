@@ -9,17 +9,25 @@
 <a rel="nav" href="33-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="35-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>Working in batches</h1>
+	<section><h1>4. Repostories</h1>
 
-<ul>
-<li>getting a list of useful IDs</li>
-<li>iterating over the IDs</li>
-<li>managing process load
+<p>Our function definition should look something like</p>
 
-<ul>
-<li>avoiding too much of a good thing</li>
-</ul></li>
-</ul>
+<pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+</code></pre>
+
+<p>Did we catch all the fields we might want to change?</p>
+
+<pre><code class="language-json">    {
+       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+       &quot;name&quot;: &quot;Description: 11&quot;,
+       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
+       &quot;org_code&quot;: &quot;970UV228G&quot;,
+       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
+       &quot;url&quot;: &quot;http://www.example-4.com&quot;
+    } 
+</code></pre>
 </section>
 </body>
 </html>

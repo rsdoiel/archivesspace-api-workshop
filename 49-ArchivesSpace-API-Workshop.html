@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head><link href="css/slides.css" rel="stylesheet" />
+   
+</head>
+<body>
+	<nav>
+<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a rel="nav" href="48-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a rel="nav" href="50-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+	</nav>
+	<section><h1>4. Repositories</h1>
+
+<h2>Now we can Delete a repository too</h2>
+
+<p>As you may suspect we&rsquo;re beginning to see allot of repitition in our code. We&rsquo;ll
+live with it for now. To delete a repository take a look at the docs. You can
+find it by searching for &ldquo;Delete a Repository&rdquo;. The <em>curl</em> looks like this &hellip;</p>
+
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        -X DELETE \
+        'http://localhost:8089/repositories/:repo_id'
+</code></pre>
+
+<p>Notice it looks allot like our <em>list_repo()</em> curl example but with an &ldquo;-X DELETE&rdquo;.
+There are four common methods in HTTP transaction - GET, POST, PUT and DELETE.
+DELETE does what it sounds like. It send a &ldquo;DELETE&rdquo; method call to the API requesting
+the repository to be deleted. Note deleting a record via the API is permanent. There is no
+&ldquo;UNDO&rdquo;!!!!</p>
+
+<ol>
+<li>Save <a href="update-repo.py">update-repo.py</a> As <a href="delete-repo.py">delete-repo.py</a></li>
+<li>Copy <em>list_repo()</em> function definition to <em>delete_repo</em></li>
+<li>Now we just need to modify the default methods to send a delete and look for an HTTP status code of 200</li>
+</ol>
+
+<p>This is how things should look</p>
+
+<pre><code>
+</code></pre>
+</section>
+</body>
+</html>
+

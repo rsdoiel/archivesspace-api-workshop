@@ -9,33 +9,21 @@
 <a rel="nav" href="25-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="27-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>3. Authentication</h1>
 
-<h2>Creating our create_repo function</h2>
+<h2>Save the access token returned</h2>
 
-<p>The elements we&rsquo;re change with each request will form the parameters in our function.
-They are two required elements and the rest are optional</p>
+<p>We need to parse the JSON data into a Python object
+so we can save our access token.</p>
 
-<h3>required</h3>
+<pre><code class="language-JSON">    {   
+       &quot;session&quot;: &quot;84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a&quot;,
+       ...
+    }
+</code></pre>
 
-<ul>
-<li>name</li>
-<li>repo_code (a unique screen we&rsquo;ll decide on)</li>
-</ul>
-
-<h3>optional</h3>
-
-<ul>
-<li>org_code</li>
-<li>image_url</li>
-<li>url</li>
-</ul>
-
-<h3>What we also need</h3>
-
-<ul>
-<li>We will need to submit our access token too</li>
-</ul>
+<p>The session value is our access token. We can pluck that single
+item out easiest if we turn the JSON blob into a Python variable.</p>
 </section>
 </body>
 </html>

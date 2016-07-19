@@ -11,17 +11,18 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<h2>Make the request, print results</h2>
+<h2>import modules</h2>
 
-<pre><code class="language-python">    with urllib.request.urlopen(req) as response:
-        src = response.read().decode('UTF-8')
-        print(src)
+<p>Once <strong>idle</strong> starts it&rsquo;ll launch a Python Shell (also known as a Repl).</p>
+
+<p>Type the following in the shell.</p>
+
+<pre><code class="language-python">    import urllib.request
+    import json
+    import getpass
 </code></pre>
 
-<p>Exit your python3 interpreter</p>
-
-<pre><code class="language-python">    exit()
-</code></pre>
+<p>These are the three modules we&rsquo;ll use through out our Workshop.</p>
 </section>
 </body>
 </html>

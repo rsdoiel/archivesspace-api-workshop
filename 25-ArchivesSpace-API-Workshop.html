@@ -9,32 +9,11 @@
 <a rel="nav" href="24-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="26-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>3. Authentication</h1>
 
-<h2>Creating our create_repo function</h2>
+<h2>Let&rsquo;s a closer look at the JSON results</h2>
 
-<ul>
-<li>Go to <a href="http://archivesspace.github.io/archivesspace/api/#get-repositories">AS REST API docs</a>
-
-<ul>
-<li>We&rsquo;re interested in &ldquo;Create a Repository&rdquo;</li>
-</ul></li>
-<li>Look at the example <strong>Curl</strong> request on the right</li>
-</ul>
-
-<pre><code class="language-json">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot;
-    -d {
-       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
-       &quot;name&quot;: &quot;Description: 11&quot;,
-       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
-       &quot;org_code&quot;: &quot;970UV228G&quot;,
-       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
-       &quot;url&quot;: &quot;http://www.example-4.com&quot;
-    } 
-    'http://localhost:8089/repositories'
-</code></pre>
-
-<p>(the bit with &ldquo;-d&rdquo; is what we&rsquo;re interested in.)</p>
+<p>Open <a href="example-login-response.json">example-login-response.json</a> in a new browser window.</p>
 </section>
 </body>
 </html>

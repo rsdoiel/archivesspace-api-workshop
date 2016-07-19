@@ -9,18 +9,18 @@
 <a rel="nav" href="22-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="24-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>3. Authentication</h1>
 
-<ul>
-<li>Creating a two repositories
+<h1>Send our username and password</h1>
 
-<ul>
-<li>we&rsquo;ll keep the first and experiment with the second</li>
-</ul></li>
-<li>View the repository information</li>
-<li>List the available repositories</li>
-<li>Deleting the second repository</li>
-</ul>
+<p>Now with our data send our request.</p>
+
+<pre><code class="language-python">    req = urllib.request.Request(api_url+&quot;/users/&quot;+username+&quot;/login&quot;, data)
+    with urllib.request.urlopen(req) as response:
+        print(response.read().decode('UTF-8'))
+</code></pre>
+
+<p>You should see the type of response ArchivesSpace send back.</p>
 </section>
 </body>
 </html>

@@ -9,17 +9,45 @@
 <a rel="nav" href="23-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="25-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>3. Authentication</h1>
 
-<p>Creating a repository requires</p>
+<h2>Send our username and password</h2>
 
-<ul>
-<li>login to API with appropriate account (e.g. admin)</li>
-<li>package a request to create a repository</li>
-<li>send the request to create the repository saving the response</li>
-</ul>
+<h3>Putting it all together</h3>
 
-<p>We repeat the process to create another one.</p>
+<p>Open the IDLE text editor and create a new file
+called <strong>login-simple.py</strong>.</p>
+
+<p>We&rsquo;ll create a python function and add prompts for api url,
+username and password to test it.</p>
+
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+        
+    def login (api_url, username, password):
+        data = urllib.parse.urlencode({'password': password})
+        data = data.encode('utf-8')
+        # Notice we're adding the &quot;data&quot; to the url built with Request
+        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        with urllib.request.urlopen(req) as response:
+            src = response.read().decode('UTF-8')
+        return src
+    
+    if __name__ == '__main__':
+        # this is where we'll test what we're building
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = input('ArchivesSpace password: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        print('Logging in')
+        s = login(api_url, username, password)
+        print(s)
+        print('Success!')
+</code></pre>
+
+<p>Now &ldquo;Run&rdquo; the python script and see the results like we did before.</p>
 </section>
 </body>
 </html>
