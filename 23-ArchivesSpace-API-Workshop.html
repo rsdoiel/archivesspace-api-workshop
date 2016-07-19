@@ -11,16 +11,9 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h1>Send our username and password</h1>
+<h2>Let&rsquo;s a closer look at the JSON results</h2>
 
-<p>Now with our data send our request.</p>
-
-<pre><code class="language-python">    req = urllib.request.Request(api_url+&quot;/users/&quot;+username+&quot;/login&quot;, data)
-    with urllib.request.urlopen(req) as response:
-        print(response.read().decode('UTF-8'))
-</code></pre>
-
-<p>You should see the type of response ArchivesSpace send back.</p>
+<p>Open <a href="example-login-response.json">example-login-response.json</a> in a new browser window.</p>
 </section>
 </body>
 </html>

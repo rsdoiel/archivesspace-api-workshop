@@ -11,12 +11,33 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Getting a specific repositoriy</h2>
+<p>Let&rsquo;s modify our list_repos. Save <a href="list-repos.py">list-repos.py</a> as <a href="list-repo.py">list-repo.py</a>.
+Now we add a new <em>list_repo</em> after  the function <em>list_repos</em> as well as update our tests.</p>
 
-<ol>
-<li>known the repository id</li>
-<li>Using the appropriate path get data for the specific repository</li>
-</ol>
+<pre><code class="language-Python">    def list_repo(api_url, auth_token, repo_id):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            api_url+'/repositories/'+str(repo_id), 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login(api_url, username, password)
+        print('username', username, 'auth_token', auth_token)
+        repo_id = int(input('Enter repo id (e.g. 2): '))
+        repos = list_repos(api_url, auth_token, repo_id)
+        print('repositores list', json.dumps(repos, indent=4))
+        
+</code></pre>
+
+<p>Are the results what you expected?</p>
 </section>
 </body>
 </html>

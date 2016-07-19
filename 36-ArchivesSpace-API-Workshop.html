@@ -11,34 +11,17 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<p>Notice how similar it is to our <strong>login</strong> function. Also how we
-add the header to pass along with our request. Some of the important
-differences are</p>
+<h2>Listing available resporitories</h2>
 
-<ul>
-<li>We&rsquo;re encoding <em>data</em> as JSON instead of urlencoding.</li>
-<li>We&rsquo;ve added an <em>auth_token</em> as a header parameter in the <em>Request</em></li>
-<li><em>data</em> is passed via <em>urlopen</em> rather than in our <em>Request</em> object</li>
-</ul>
+<p>We&rsquo;re going to create a new script called <a href="list-repos.py">list-repos.py</a> by
+using our previous <a href="create-repo.py">create-repo.py</a> and adding to it.</p>
 
-<pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        data = json.JSONEncoder().encode({'jsonmodel_type': 'repository',
-               'name': name,
-               'repo_code': repo_code,
-               'org_code': org_code,
-               'image_url': image_url,
-               'url': url}).encode('utf-8')
-        req = urllib.request.Request(api_url+'/repositories', 
-                None, 
-                {'X-ArchivesSpace-Session': auth_token})
-        with urllib.request.urlopen(req, data) as response:
-            src = response.read().decode('UTF-8')
-        return json.JSONDecoder().decode(src)
-</code></pre>
+<ol>
+<li>Save <a href="create-repo.py">create-repo.py</a> AS <a href="list-repos.py">list-repos.py</a></li>
+</ol>
 
-<p>You can copy and paste your def from our text editor to the repl and make
-sure it compiles.</p>
+<p>(Like before we&rsquo;re adding to the previous program and changing the testing done
+at the end.)</p>
 </section>
 </body>
 </html>
