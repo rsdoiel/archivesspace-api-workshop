@@ -1247,6 +1247,10 @@ This is how things should look
 
 FIXME: remaining slides need to be written to the lesson plan.
 
++ Need to add a re-cap of all the things covered so far.
++ Need to shorten the examples with links to the full files
++ during workshop display files in IDLE to get the syntax highlighting
+
 --
 
 
