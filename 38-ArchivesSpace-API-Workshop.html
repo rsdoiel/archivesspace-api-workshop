@@ -11,25 +11,42 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>ArchivesSpace API Docs</h2>
+<p>Putting it all together, add the following after the <em>login</em> function and
+update the <em>if</em> block to match.</p>
 
-<p>The documentation about the API will help us know what to ask.
-Find &ldquo;list repositories&rdquo;</p>
-
-<ul>
-<li>Change to your browser tab with the docs</li>
-<li>Search for &ldquo;Get a list of Repositories&rdquo;</li>
-</ul>
-
-<p>The <strong>curl</strong> statement suggested looks like</p>
-
-<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-        'http://localhost:8089/repositories'
+<pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        # Data is getting attached to urlopen() and not req object to trigger a POST
+        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
+        data = json.JSONEncoder().encode({
+                        'jsonmodel_type': 'repository',
+                        'name': name,
+                        'repo_code': repo_code,
+                        'org_code': org_code,
+                        'image_url': image_url,
+                        'url': url
+                    }).encode('utf-8')
+        # Add our auth_token to your req object
+        req = urllib.request.Request(
+            api_url+'/repositories', 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req, data)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        name = input('Repo name: ')
+        repo_code = input('Repo code: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        auth_token = login(api_url, username, password)
+        print('username', username, 'auth_token', auth_token)
+        repo = create_repo(api_url, auth_token, name, repo_code)
+        print(json.dumps(repo, indent=4))
 </code></pre>
-
-<p>Notice there is no &ldquo;-d&rdquo; listed. We only need to know the
-API URL and then add &ldquo;/repositories&rdquo; to it. We still need
-to send along our auth token in the header as normal.</p>
 </section>
 </body>
 </html>

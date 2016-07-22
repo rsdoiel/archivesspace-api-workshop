@@ -11,24 +11,32 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<p>Now lets flesh out a <strong>create_repo</strong> function.
-Like <em>login()</em> we need to create our data package,
-our request object and with &ldquo;urlopen&rdquo; get a response.</p>
+<h2>Creating our create_repo function</h2>
 
-<pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
-               'name': name,
-               'repo_code': repo_code,
-               'org_code': org_code,
-               'image_url': image_url,
-               'url': url}).encode()
-        req = urllib.request.Request(api_url+'/repositories', 
-                None, 
-                {'X-ArchivesSpace-Session': access_token})
-        response = urllib.request.urlopen(req, data)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-</code></pre>
+<p>The elements we change with each new create request will
+form the parameters in our function. Two elements are required
+and the rest are optional.</p>
+
+<h3>required</h3>
+
+<ul>
+<li>name</li>
+<li>repo_code (needs to be unique)</li>
+</ul>
+
+<h3>optional</h3>
+
+<ul>
+<li>org_code</li>
+<li>image_url</li>
+<li>url</li>
+</ul>
+
+<h3>What we also need</h3>
+
+<ul>
+<li>We will need to submit our access token and provide the api url too</li>
+</ul>
 </section>
 </body>
 </html>

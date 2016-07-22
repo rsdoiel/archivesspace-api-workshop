@@ -11,22 +11,19 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Let&rsquo;s give this a try in the shell</h2>
+<h2>Adding a new list_repo function</h2>
 
-<p>We may need a fresh <em>auth_token</em> so let&rsquo;s login first.
-After that we can build our request and send it. We&rsquo;ll
-wrap up by decoding the JSON response and pretty printing
-it.</p>
+<p>Like <em>login</em> and <em>create_repo</em> this function needs to contact the API.
+But the data we send is less. We need</p>
 
-<pre><code class="language-Python">    auth_token = login(api_url, username, password)
-    req = urllib.request.Request(
-        api_url+'/repositories', 
-        None, 
-        {&quot;X-ArchivesSpace-Session&quot;: auth_token})
-    response = urllib.request.urlopen(req)
-    result = json.JSONDecoder().decode(response.read().decode('utf-8'))
-    print(json.dumps(result, indent=4, sort_keys=True))
-</code></pre>
+<ul>
+<li>Our api_url and auth_token</li>
+<li>We need the URL path for listing repositories
+
+<ul>
+<li>How do we find that path?</li>
+</ul></li>
+</ul>
 </section>
 </body>
 </html>

@@ -9,7 +9,7 @@
     + Beinecke Rare Book and Manuscript Library
     + Yale University Library
 
-[Download these slides and examples](./archivesspace-api-workshop-slides.zip)
+[Download these slides and examples](https://github.com/rsdoiel/archivesspace-api-workshop/releases/latest)
 
 --
 
@@ -28,7 +28,7 @@ Before we begin ...
 + A web browser
     + Firefox or Chrome with the [JSONView](https://jsonview.com/) plugin recommended
 + A test deployment ArchivesSpace is being provided as part of the Workshop
-    + Or you can install your own via [VirtualBox and Vagrant](http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/)
+    + Or you can install your own via [VirtualBox and Vagrant](./archivesspace-dev/)
 + A basic familiarity with Python and ArchivesSpace
 
 ## Suggested
@@ -51,9 +51,8 @@ Before we begin ...
 3. Authentication
 4. Working with Repositories
 5. Working with Agents
-7. Working with Batches
 6. Working with Accessions
-8. Other ArchivesSpace Models
+7. Other ArchivesSpace Models
 
 --
 
@@ -97,6 +96,94 @@ Open the following in your web browser tabs
 
 + Start IDLE for Python 3.5
     + confirm the reported version is 3.5.1 or better
+
+--
+
+# 1. Setup
+
+## About the code
+
+The basic organization is as follows
+
+1. import block
+2. defined some functions
+3. and a `if __name == '__main__':` block at the end
+
+--
+
+# 1. Setup
+
+## About the code
+
+### The import block
+
+This stock import block, as we'll see in the coming code, doesn't change.
+
+```Python
+    #!/usr/bin/env python3
+    import urllib.request
+    import json
+    import getpass
+```
+
+To keep the workshop simple we're only using these three standard libraries.
+
+--
+
+# 1. Setup
+
+## About the code
+
+### The functions we define
+
+In The middle section will add our functions. Between each section of the workshop
+we'll copy the previous sections code forward into a new file.  Refine and adding as
+we move through the API.  The goal isn't to have allot of files but to allow you to
+see how the code evolves overtime into a python module you can use to explore the
+ArchivesSpace REST API on your own.
+
+--
+
+# 1. Setup
+
+## About the code
+
+### The closing *if* block
+
+At the end of each of our Python scripts you can see an *if* block. This is
+where we'll place our test code. To keep our tests managable we'll rewrite this
+for each file we create to test the new functions we'll add.  In a production environment
+you would allow the tests to accumulate so you could always test all aspects of the module
+we're create.  In the workshop setting that is not practical. If we have time we'll
+pull all the tests together at the end when we create our final *as_api.py* module.
+
+# 1. Setup
+
+## About the code
+
+[helloworld.py](helloworld.py) is an example that could serve as a template
+
+```Python
+    #!/usr/bin/env python3
+    import urllib.request
+    import json
+    import getpass
+    
+    # This is where we add our functions
+    def hello_world():
+        return 'Hello World!!!'
+    
+    
+    # This is where we put our tests
+    if __name__ == '__main__':
+        hw = hello_world()
+        if hw == 'Hello World!!!':
+            print('Success!! ', hw)
+        else:
+            print('Ooops something went wrong, should say "Hello World!!!"')
+```
+
+You shold see "Success!! Hello World!!!" when you run the program.
 
 --
 
@@ -344,7 +431,7 @@ You should see the type of response ArchivesSpace send back.
 ### Putting it all together
 
 Open the IDLE text editor and create a new file
-called **login-simple.py**. 
+called **login.py**. 
 
 We'll create a python function and add prompts for api url, 
 username and password to test it.
@@ -408,17 +495,12 @@ item out easiest if we turn the JSON blob into a Python variable.
 
 # 3. Authentication
 
-+ Save [login-simple.py](login-simple.py) As [login.py](login.py)
-
---
-
-# 3. Authentication
-
 ## Save the access token returned
 
 We need to modify our login function to "decode" the JSON 
 response and return only session value. We'll also update our 
-tests at the bottom.  (We're modifying *login* and the testing)
+tests at the bottom.  (We're modifying *login* function and the 
+testing in the closing *if* block)
 
 ```python
     def login (api_url, username, password):
@@ -522,25 +604,7 @@ and the rest are optional.
 
 --
 
-# 4. Repositories
-
-## Use **login.py** as a template script
-
-1. Save [login.py](login.py) As [create-repo.py](create-repo.py)
-
-We're going to be adding a *create_repo* function and modifying the
-testing we did in **login.py**.
-
---
-
 # 4. Repostories
-
-Our function definition should look something like
-
-```python
-    def create_repo(api_url, access_token, name, repo_code, org_code = "", image_url = "", url = ""):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-```
 
 Did we catch all the fields we might want to change?
 
@@ -559,9 +623,22 @@ Did we catch all the fields we might want to change?
 
 # 4. Repositories
 
-Now lets flesh out a **create_repo** function.
-Like *login()* we need to create our data package,
-our request object and with "urlopen" get a response.
+## Use **login.py** as our template script
+
+1. Save [login.py](login.py) As [repo.py](repo.py)
+
+We're going to be adding a *create_repo* function and modifying the
+testing in the *if* block.
+
+--
+
+# 4. Repositories
+
+Lets create our **create_repo** function.
+
+Similar to our *login()* we need to create a data package,
+a request object and with "urlopen" send our request so we can
+get a response.
 
 ```python
     def create_repo(api_url, access_token, name, repo_code, org_code = "", image_url = "", url = ""):
@@ -584,8 +661,8 @@ our request object and with "urlopen" get a response.
 # 4. Repositories
 
 Notice how similar it is to our **login** function. Also how we
-add the header to pass along with our request. Some of the important
-differences are
+add the header to pass along our *auth_token* with our request. 
+Some of the important differences are
 
 + We're encoding *data* as JSON instead of urlencoding.
 + We've added an *auth_token* as a header parameter in the *Request*
@@ -615,7 +692,8 @@ sure it compiles.
 
 # 4. Repositories
 
-Putting it all together (starting after our *login* function)
+Putting it all together, add the following after the *login* function and
+update the *if* block to match.
 
 ```python
     def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
@@ -656,20 +734,6 @@ Putting it all together (starting after our *login* function)
 
 # 4. Repositories
 
-## Listing available resporitories
-
-We're going to create a new script called [list-repos.py](list-repos.py) by 
-using our previous [create-repo.py](create-repo.py) and adding to it.
-
-1. Save [create-repo.py](create-repo.py) AS [list-repos.py](list-repos.py)
-
-(Like before we're adding to the previous program and changing the testing done
-at the end.)
-
---
-
-# 4. Repositories
-
 ## Adding a new list_repo function
 
 Like *login* and *create_repo* this function needs to contact the API.
@@ -686,10 +750,10 @@ But the data we send is less. We need
 ## ArchivesSpace API Docs
 
 The documentation about the API will help us know what to ask.
-Find "list repositories"
 
 + Change to your browser tab with the docs
-+ Search for "Get a list of Repositories"
++ Using your web browser's find function search for 
+    + "Get a list of Repositories"
 
 The **curl** statement suggested looks like
 
@@ -723,6 +787,9 @@ it.
     result = json.JSONDecoder().decode(response.read().decode('utf-8'))
     print(json.dumps(result, indent=4, sort_keys=True))
 ```
+
++ How are the results organized?
++ How does this compare with the API document?
 
 --
 
@@ -800,7 +867,8 @@ We've added our *list_repos* and changed the tests at the bottom.
     ]
 ```
 
-What do we do if we want only a single repository?
+This response is a JavaScript array. What do we do if we want only a 
+single repository?
 
 --
 
@@ -830,8 +898,10 @@ It looks like we add the numeric id to the end of the path (i.e. "/1").
 
 # 4. Repositories
 
-Let's modify our list_repos. Save [list-repos.py](list-repos.py) as [list-repo.py](list-repo.py).
-Now we add a new *list_repo* after  the function *list_repos* as well as update our tests.
+## adding list_repo
+
+Let's copy and modify our list_repos definition to *list_repo*. Paste it after
+the function *list_repos*. We'll be update the *if* block too.
 
 ```Python
     def list_repo(api_url, auth_token, repo_id):
@@ -857,7 +927,7 @@ Now we add a new *list_repo* after  the function *list_repos* as well as update 
         
 ```
 
-Are the results what you expected?
+Are the results what you expected? Are we still getting an array?
 
 --
 
@@ -893,11 +963,13 @@ Note the following
 
 # 4. Repositories
 
-## This is like *create* but we known the id!
+## Update Repository
 
-1. Save [list-repo.py](list-repo.py) as [update-repo](update-repo.py)
-2. copy *create_repo* function to *update_repo* adding it after *list_repo*
-3. We'll also update our tests at the end of the file 
+What functions have we implement that are similar? What does the documentation
+suggest?
+
+1. copy *create_repo* function to *update_repo* adding it after *list_repo*
+2. We'll also update our tests at the end of the file 
 
 Your code should wind up looking something like this.
 
@@ -942,9 +1014,9 @@ methods in the module like *list_repos()* as well as *list_repo()*.
 
 # 4. Repositories
 
-## Now we can Delete a repository too
+## Finally we can delete a repository too
 
-As you may suspect we're beginning to see allot of repitition in our code. We'll
+As you may suspect we're beginning to see allot of repetition in our code. We'll
 live with it for now. To delete a repository take a look at the docs. You can
 find it by searching for "Delete a Repository". The *curl* looks like this ...
 
@@ -955,14 +1027,13 @@ find it by searching for "Delete a Repository". The *curl* looks like this ...
 ```
 
 Notice it looks allot like our *list_repo()* curl example but with an "-X DELETE".
-There are four common methods in HTTP transaction - GET, POST, PUT and DELETE.
-DELETE does what it sounds like. It send a "DELETE" method call to the API requesting
+There are four common methods in HTTP transactions - GET, POST, PUT and DELETE.
+DELETE does what it sounds like. It'll send a "DELETE" method call to the API requesting
 the repository to be deleted. Note deleting a record via the API is permanent. There is no
 "UNDO"!!!!
 
-1. Save [update-repo.py](update-repo.py) As [delete-repo.py](delete-repo.py)
-2. Copy *list_repo()* function definition to *delete_repo* after *update_repo*
-3. We need to modify the default test methods once again
+1. Copy *list_repo()* function definition to *delete_repo* after *update_repo*
+2. We need to modify the default test methods once again
 
 This is how things should look
 
@@ -1094,31 +1165,35 @@ This is what our cumulative efforts should look like so far.
         
 ```
 
---
-
-# 4. Repositories
-
-What we've done for logging in and working with repositories is going
-to be repeated for each of the other models we work with today.
-
-1. Save [delete-repo.py](delete-repo.py) As [repo.py](repo.py)
-2. We now have a python module for authenticating and working with repository records
-3. As a homework assign, merge the tests into this final repo.py file.
+In an ideal world we'd have one or more tests of each of the function we define
+in **repo.py**.
 
 --
 
 # 5. Working with Agents
 
-## Our recipe approach
-
-1. Look up in the API Docs the activity want to use
-2. Look at the HTTP method required (e.g. GET, POST, DELETE)
-3. Look at any data that needs to be sent, noting how (e.g. a JSON blob or as part of a path)
-4. Using our work with repositories and authentication as a guide writing similar functionality for Agents
+Each ArchivesSpace API Model tends to have its own nuances based on the schema.
+Agents is not an exception but it will give us a change to explore writing API
+calls that need a bit more information then is convient to pass as a bunch of single
+parameters in our definition.
 
 --
 
 # 5. Working with Agents
+
+## Our recipe
+
+1. Look up in the API Docs the object module that applies
+    + Is there more than one?
+2. Look up in the API Docs the activity want to use
+3. Look at the HTTP method required (e.g. GET, POST, DELETE)
+4. Look at any data that needs to be sent, noting how it is sent (e.g. a JSON blob or as part of a path)
+
+--
+
+# 5. Working with Agents
+
+## Sorting the HTTP methods we need to use
 
 Suggested functions
 
@@ -1134,23 +1209,56 @@ These are our basic CRUD operations as functions working with the API.
 
 # 5. Working with Agents
 
-## create_agent
+## How about types of agents?
 
-1. Look at the API documentation
-    + First problem. We have many calls starting with "/agent/".  Lets look at them individually
-2. Can we write a *create_agent* function that works for corporate_entities, families, people, and software
-    + What are our function parameters?
+ArchivesSpace stores the agent type in the schema but it also uses it when
+organizing API access via the URL (e.g. /agents/software, /agents/people).  
+
+These are the types we'll accomodate.
+
++ corporate_entities
++ families
++ people
++ software
 
 --
 
 # 5. Working with Agents
 
-## create_agent
+## create_agent recipe
 
 1. import our usual modules
-2. import repo (so we can skip re-writing that code)
-3. define our create_agent
-4. add our tests at the botton of our script in the *if* block
+2. define our create_agent
+3. add our tests at the botton of our script in the *if* block
+
+--
+
+# 5. Working with Agents
+
+## create_agent concerns
+
+The API docs we want to read closely are the models/schema for
+the specific agent type we want to handle.  The API will validate
+our fields so we'll need to handle the response case where the API
+is trying to tell us we're missing a required field or something else
+is out of order.
+
+This has the benefit of keep our code simple but does mean we need more
+code evaluating the response.
+
+--
+
+# 5. Working with Agents
+
+## create_agent code will need:
+
+1. Save [repo.py](repo.py) As [agent.py](agent.py)
+2. We'll create our function create_code, we need
+    + api_url
+    + auth_token
+    + agent_type
+    + the rest of the agent data (see the API docs)
+3. Add tests for each type of agent we want to support
 
 --
 

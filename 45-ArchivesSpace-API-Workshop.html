@@ -11,32 +11,17 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>How do you update the repository definition?</h2>
+<h2>How do we know the path?</h2>
 
-<p>We use the update API call. Once again we need to check with the
-API documentation but this time search for &ldquo;Update a repository&rdquo;.</p>
-
-<p>On the right side the <em>curl</em> expression looks like</p>
+<ul>
+<li>In the API docs, look for &ldquo;Get a Repository by ID&rdquo;</li>
+</ul>
 
 <pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-    -d {
-       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
-       &quot;name&quot;: &quot;Description: 11&quot;,
-       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
-       &quot;org_code&quot;: &quot;970UV228G&quot;,
-       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
-       &quot;url&quot;: &quot;http://www.example-4.com&quot;
-    } \
-    'http://localhost:8089/repositories/1'
+        'http://localhost:8089/repositories/1'
 </code></pre>
 
-<p>Note the following</p>
-
-<ol>
-<li>The repo id is at the end of the path like in list a specific repository</li>
-<li>We have another JSON data structure to submit and we do so with a &ldquo;POST&rdquo;</li>
-<li>We still need to maintain our token.</li>
-</ol>
+<p>It looks like we add the numeric id to the end of the path (i.e. &ldquo;/1&rdquo;).</p>
 </section>
 </body>
 </html>

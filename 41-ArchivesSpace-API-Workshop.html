@@ -11,44 +11,27 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>results should look something like</h2>
+<h2>Let&rsquo;s give this a try in the shell</h2>
 
-<pre><code class="language-Python">    username admin auth_token 9321ca79d94517d7018aa1ac4f1b6f2901b522c4b234d3ab9a4602fae9a8d72d
-    repositores list [
-        {
-            &quot;last_modified_by&quot;: &quot;admin&quot;,
-            &quot;created_by&quot;: &quot;admin&quot;,
-            &quot;create_time&quot;: &quot;2016-07-17T01:55:21Z&quot;,
-            &quot;agent_representation&quot;: {
-                &quot;ref&quot;: &quot;/agents/corporate_entities/1&quot;
-            },
-            &quot;repo_code&quot;: &quot;test001&quot;,
-            &quot;name&quot;: &quot;test001&quot;,
-            &quot;lock_version&quot;: 0,
-            &quot;system_mtime&quot;: &quot;2016-07-17T01:55:21Z&quot;,
-            &quot;user_mtime&quot;: &quot;2016-07-17T01:55:21Z&quot;,
-            &quot;jsonmodel_type&quot;: &quot;repository&quot;,
-            &quot;uri&quot;: &quot;/repositories/2&quot;
-        },
-        {
-            &quot;last_modified_by&quot;: &quot;admin&quot;,
-            &quot;created_by&quot;: &quot;admin&quot;,
-            &quot;create_time&quot;: &quot;2016-07-17T01:55:42Z&quot;,
-            &quot;agent_representation&quot;: {
-                &quot;ref&quot;: &quot;/agents/corporate_entities/2&quot;
-            },
-            &quot;repo_code&quot;: &quot;test002&quot;,
-            &quot;name&quot;: &quot;test002&quot;,
-            &quot;lock_version&quot;: 0,
-            &quot;system_mtime&quot;: &quot;2016-07-17T01:55:42Z&quot;,
-            &quot;user_mtime&quot;: &quot;2016-07-17T01:55:42Z&quot;,
-            &quot;jsonmodel_type&quot;: &quot;repository&quot;,
-            &quot;uri&quot;: &quot;/repositories/3&quot;
-        }
-    ]
+<p>We may need a fresh <em>auth_token</em> so let&rsquo;s login first.
+After that we can build our request and send it. We&rsquo;ll
+wrap up by decoding the JSON response and pretty printing
+it.</p>
+
+<pre><code class="language-Python">    auth_token = login(api_url, username, password)
+    req = urllib.request.Request(
+        api_url+'/repositories', 
+        None, 
+        {&quot;X-ArchivesSpace-Session&quot;: auth_token})
+    response = urllib.request.urlopen(req)
+    result = json.JSONDecoder().decode(response.read().decode('utf-8'))
+    print(json.dumps(result, indent=4, sort_keys=True))
 </code></pre>
 
-<p>What do we do if we want only a single repository?</p>
+<ul>
+<li>How are the results organized?</li>
+<li>How does this compare with the API document?</li>
+</ul>
 </section>
 </body>
 </html>

@@ -9,23 +9,33 @@
 <a rel="nav" href="18-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="20-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>3. Authentication</h1>
+	<section><h1>2. Make an http connection</h1>
 
-<h2>Send our username and password</h2>
+<h2>Putting it all together</h2>
 
-<p>We need pass our username and password in our request.
-We need to keep track of the response. You don&rsquo;t need to
-type of the python comments.</p>
+<p>Let&rsquo;s take what we learned and create a Python scripts called
+<a href="make-an-http-connection.py">make-an-http-connection.py</a>.</p>
 
-<p>Close the text editor and go back in the shell.
-Type the following (you can skip the lines starting with &lsquo;#&rsquo;)</p>
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import json
+    import getpass
 
-<pre><code class="language-python">    username = input('username (e.g. admin): ')
-    # We want to use getpass.getpass('password: ') so the
-    # password doesn't get echoed to the screen. In IDLE it'll show read and
-    # echo the password, ignore this for testing and development.
-    password = getpass.getpass('password: ')
+    api_url = input('ArchivesSpace API URL: ')
+    if api_url == '':
+        api_url = 'http://localhost:8089'
+    req = urllib.request.Request(api_url)
+
+    response = urllib.request.urlopen(req)
+    print(response.read().decode('utf-8'))
+
 </code></pre>
+
+<ol>
+<li>In IDLE click on the file name and create a new file</li>
+<li>Type in the above</li>
+<li>Save the file as <strong>make-an-http-connection.py</strong></li>
+</ol>
 </section>
 </body>
 </html>

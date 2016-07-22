@@ -11,17 +11,26 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Listing available resporitories</h2>
+<p>Lets create our <strong>create_repo</strong> function.</p>
 
-<p>We&rsquo;re going to create a new script called <a href="list-repos.py">list-repos.py</a> by
-using our previous <a href="create-repo.py">create-repo.py</a> and adding to it.</p>
+<p>Similar to our <em>login()</em> we need to create a data package,
+a request object and with &ldquo;urlopen&rdquo; send our request so we can
+get a response.</p>
 
-<ol>
-<li>Save <a href="create-repo.py">create-repo.py</a> AS <a href="list-repos.py">list-repos.py</a></li>
-</ol>
-
-<p>(Like before we&rsquo;re adding to the previous program and changing the testing done
-at the end.)</p>
+<pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
+               'name': name,
+               'repo_code': repo_code,
+               'org_code': org_code,
+               'image_url': image_url,
+               'url': url}).encode()
+        req = urllib.request.Request(api_url+'/repositories', 
+                None, 
+                {'X-ArchivesSpace-Session': access_token})
+        response = urllib.request.urlopen(req, data)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+</code></pre>
 </section>
 </body>
 </html>

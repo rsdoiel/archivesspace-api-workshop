@@ -11,33 +11,42 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h2>Save the access token returned</h2>
+<h2>Send our username and password</h2>
 
-<p>We need to modify our login function to &ldquo;decode&rdquo; the JSON
-response and return only session value. We&rsquo;ll also update our
-tests at the bottom.  (We&rsquo;re modifying <em>login</em> and the testing)</p>
+<h3>Putting it all together</h3>
 
-<pre><code class="language-python">    def login (api_url, username, password):
-        '''This function logs into the ArchivesSpace REST API returning an access token'''
+<p>Open the IDLE text editor and create a new file
+called <strong>login.py</strong>.</p>
+
+<p>We&rsquo;ll create a python function and add prompts for api url,
+username and password to test it.</p>
+
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+        
+    def login (api_url, username, password):
         data = urllib.parse.urlencode({'password': password})
         data = data.encode('utf-8')
+        # Notice we're adding the &quot;data&quot; to the url built with Request
         req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
         response = urllib.request.urlopen(req)
-        result = json.JSONDecoder().decode(response.read().decode('utf-8'))
-        return result['session']
+        return response.read().decode('UTF-8')
     
     if __name__ == '__main__':
-        # Our tests
+        # this is where we'll test what we're building
         api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = input('ArchivesSpace password: ')
         if api_url == '':
             api_url = 'http://localhost:8089'
         print('Logging in')
-        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
-        print(&quot;Your access token was: &quot;, s)
+        s = login(api_url, username, password)
+        print(s)
         print('Success!')
 </code></pre>
 
-<p>If all has gone well we are ready to move onto working with repositories!</p>
+<p>Now &ldquo;Run&rdquo; the python script and see the results like we did before.</p>
 </section>
 </body>
 </html>

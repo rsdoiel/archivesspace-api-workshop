@@ -9,36 +9,36 @@
 <a rel="nav" href="28-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="30-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>3. Authentication</h1>
 
-<h2>The detailings we need to know</h2>
+<h2>Save the access token returned</h2>
 
-<ul>
-<li>Go to <a href="http://archivesspace.github.io/archivesspace/api/#get-repositories">AS REST API docs</a>
+<p>We need to modify our login function to &ldquo;decode&rdquo; the JSON
+response and return only session value. We&rsquo;ll also update our
+tests at the bottom.  (We&rsquo;re modifying <em>login</em> function and the
+testing in the closing <em>if</em> block)</p>
 
-<ul>
-<li>We&rsquo;re interested in &ldquo;Create a Repository&rdquo;
-
-<ul>
-<li>use your browser&rsquo;s find function</li>
-</ul></li>
-</ul></li>
-<li>Look at the example <strong>curl</strong> request on the right</li>
-</ul>
-
-<pre><code class="language-json">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot;
-    -d {
-       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
-       &quot;name&quot;: &quot;Description: 11&quot;,
-       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
-       &quot;org_code&quot;: &quot;970UV228G&quot;,
-       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
-       &quot;url&quot;: &quot;http://www.example-4.com&quot;
-    } 
-    'http://localhost:8089/repositories'
+<pre><code class="language-python">    def login (api_url, username, password):
+        '''This function logs into the ArchivesSpace REST API returning an access token'''
+        data = urllib.parse.urlencode({'password': password})
+        data = data.encode('utf-8')
+        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        response = urllib.request.urlopen(req)
+        result = json.JSONDecoder().decode(response.read().decode('utf-8'))
+        return result['session']
+    
+    if __name__ == '__main__':
+        # Our tests
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        print('Logging in')
+        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+        print(&quot;Your access token was: &quot;, s)
+        print('Success!')
 </code></pre>
 
-<p>(the bit after the &ldquo;-d&rdquo; is what we&rsquo;re interested in.)</p>
+<p>If all has gone well we are ready to move onto working with repositories!</p>
 </section>
 </body>
 </html>

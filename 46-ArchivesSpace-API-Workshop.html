@@ -11,28 +11,18 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>This is like <em>create</em> but we known the id!</h2>
+<h2>adding list_repo</h2>
 
-<ol>
-<li>Save <a href="list-repo.py">list-repo.py</a> as <a href="update-repo.py">update-repo</a></li>
-<li>copy <em>create_repo</em> function to <em>update_repo</em> adding it after <em>list_repo</em></li>
-<li>We&rsquo;ll also update our tests at the end of the file</li>
-</ol>
+<p>Let&rsquo;s copy and modify our list_repos definition to <em>list_repo</em>. Paste it after
+the function <em>list_repos</em>. We&rsquo;ll be update the <em>if</em> block too.</p>
 
-<p>Your code should wind up looking something like this.</p>
-
-<pre><code class="language-python">    def update_repo(api_url, auth_token, repo_id, repo):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        # Data is getting attached to urlopen() and not req object to trigger a POST
-        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
-        data = json.JSONEncoder().encode(repo).encode('utf-8')
-        # Add our auth_token to your req object
+<pre><code class="language-Python">    def list_repo(api_url, auth_token, repo_id):
+        '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id),
-            None,
+            api_url+'/repositories/'+str(repo_id), 
+            None, 
             {'X-ArchivesSpace-Session': auth_token})
-        # Note we sending our repo as &quot;data&quot; in our urlopen (i.e. trigger a POST)
-        response = urllib.request.urlopen(req, data)
+        response = urllib.request.urlopen(req)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
     
     if __name__ == '__main__':
@@ -43,19 +33,13 @@
         password = getpass.getpass('ArchivesSpace password: ')
         auth_token = login(api_url, username, password)
         print('username', username, 'auth_token', auth_token)
-        repos = list_repos(api_url, auth_token)
-        print('Pick a repository id to update', repos)
-        repo_id = int(input('Repository numeric id: '))
-        print('Getting repository record', repo_id)
-        repo = list_repo(api_url, auth_token, repo_id)
-        repo[&quot;name&quot;] = input('old name is'+repo['name']+', provide a new name: ')
-        print('Now we update')
-        result = update_repo(api_url, auth_token, repo_id, repo)
-        print(&quot;Result is&quot;, result)
+        repo_id = int(input('Enter repo id (e.g. 2): '))
+        repos = list_repos(api_url, auth_token, repo_id)
+        print('repositores list', json.dumps(repos, indent=4))
+        
 </code></pre>
 
-<p>Run this updated version and see how it works. Note you can also use the other
-methods in the module like <em>list_repos()</em> as well as <em>list_repo()</em>.</p>
+<p>Are the results what you expected? Are we still getting an array?</p>
 </section>
 </body>
 </html>
