@@ -1035,8 +1035,6 @@ the repository to be deleted. Note deleting a record via the API is permanent. T
 1. Copy *list_repo()* function definition to *delete_repo* after *update_repo*
 2. We need to modify the default test methods once again
 
-Download and take a look at [repo.py](repo.py) in your text editor.
-
 --
 
 # 4 Repositories
