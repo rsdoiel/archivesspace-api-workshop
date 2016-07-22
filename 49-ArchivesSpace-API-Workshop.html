@@ -33,34 +33,7 @@ the repository to be deleted. Note deleting a record via the API is permanent. T
 <li>We need to modify the default test methods once again</li>
 </ol>
 
-<p>This is how things should look</p>
-
-<pre><code class="language-Python">    def delete_repo(api_url, auth_token, repo_id):
-        '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
-        # Notice we've added a method = 'DELETE' in our Request object.
-        req = urllib.request.Request(
-            url = api_url+'/repositories/'+str(repo_id),
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token},
-            method = 'DELETE')
-        response = urllib.request.urlopen(req)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
-        repos = list_repos(api_url, auth_token)
-        print('Pick a repository id to update', repos)
-        repo_id = int(input('Repository numeric id to delete: '))
-        result = delete_repo(api_url, auth_token, repo_id)
-        print(&quot;Result is&quot;, result)
-        print(list_repos(api_url, auth_token))
-</code></pre>
+<p>This is how things should look - <a href="repo.py">repo.py</a></p>
 </section>
 </body>
 </html>
