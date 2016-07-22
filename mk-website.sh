@@ -20,6 +20,9 @@ makePage README.md nav.md index.html
 # abstract.html
 makePage Abstract.md nav.md abstract.html 
 
+# install.html (slide presentation)
+makePage INSTALL.md nav.md install.html
+
 # archivesspace-dev/index.html
 makePage archivesspace-dev/README.md archivesspace-dev/nav.md archivesspace-dev/index.html
 
