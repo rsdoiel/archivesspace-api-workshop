@@ -11,17 +11,28 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Listing available resporitories</h2>
+<h2>ArchivesSpace API Docs</h2>
 
-<p>We&rsquo;re going to create a new script called <a href="list-repos.py">list-repos.py</a> by
-using our previous <a href="create-repo.py">create-repo.py</a> and adding to it.</p>
+<p>The documentation about the API will help us know what to ask.</p>
 
-<ol>
-<li>Save <a href="create-repo.py">create-repo.py</a> AS <a href="list-repos.py">list-repos.py</a></li>
-</ol>
+<ul>
+<li>Change to your browser tab with the docs</li>
+<li>Using your web browser&rsquo;s find function search for
 
-<p>(Like before we&rsquo;re adding to the previous program and changing the testing done
-at the end.)</p>
+<ul>
+<li>&ldquo;Get a list of Repositories&rdquo;</li>
+</ul></li>
+</ul>
+
+<p>The <strong>curl</strong> statement suggested looks like</p>
+
+<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        'http://localhost:8089/repositories'
+</code></pre>
+
+<p>Notice there is no &ldquo;-d&rdquo; listed. We only need to know the
+API URL and then add &ldquo;/repositories&rdquo; to it. We still need
+to send along our auth token in the header as normal.</p>
 </section>
 </body>
 </html>

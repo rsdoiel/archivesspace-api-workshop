@@ -11,9 +11,34 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<ul>
-<li>Save <a href="login-simple.py">login-simple.py</a> As <a href="login.py">login.py</a></li>
-</ul>
+<h2>Save the access token returned</h2>
+
+<p>We need to modify our login function to &ldquo;decode&rdquo; the JSON
+response and return only session value. We&rsquo;ll also update our
+tests at the bottom.  (We&rsquo;re modifying <em>login</em> function and the
+testing in the closing <em>if</em> block)</p>
+
+<pre><code class="language-python">    def login (api_url, username, password):
+        '''This function logs into the ArchivesSpace REST API returning an access token'''
+        data = urllib.parse.urlencode({'password': password})
+        data = data.encode('utf-8')
+        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        response = urllib.request.urlopen(req)
+        result = json.JSONDecoder().decode(response.read().decode('utf-8'))
+        return result['session']
+    
+    if __name__ == '__main__':
+        # Our tests
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        print('Logging in')
+        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+        print(&quot;Your access token was: &quot;, s)
+        print('Success!')
+</code></pre>
+
+<p>If all has gone well we are ready to move onto working with repositories!</p>
 </section>
 </body>
 </html>

@@ -11,25 +11,34 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>ArchivesSpace API Docs</h2>
+<h2>Time to put this together in a script</h2>
 
-<p>The documentation about the API will help us know what to ask.
-Find &ldquo;list repositories&rdquo;</p>
+<p>Add <em>list_repos</em> function after <em>create_repo</em> and update the testing section
+at the bottom.</p>
 
-<ul>
-<li>Change to your browser tab with the docs</li>
-<li>Search for &ldquo;Get a list of Repositories&rdquo;</li>
-</ul>
+<pre><code class="language-Python">    def list_repos(api_url, auth_token):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            api_url+'/repositories', 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
 
-<p>The <strong>curl</strong> statement suggested looks like</p>
-
-<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-        'http://localhost:8089/repositories'
+                                     
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login(api_url, username, password)
+        print('username', username, 'auth_token', auth_token)
+        repos = list_repos(api_url, auth_token)
+        print(&quot;repositores list&quot;, json.dumps(repos, indent=4))
 </code></pre>
 
-<p>Notice there is no &ldquo;-d&rdquo; listed. We only need to know the
-API URL and then add &ldquo;/repositories&rdquo; to it. We still need
-to send along our auth token in the header as normal.</p>
+<p>We&rsquo;ve added our <em>list_repos</em> and changed the tests at the bottom.</p>
 </section>
 </body>
 </html>
