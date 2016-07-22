@@ -11,24 +11,34 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<p>Now lets flesh out a <strong>create_repo</strong> function.
-Like <em>login()</em> we need to create our data package,
-our request object and with &ldquo;urlopen&rdquo; get a response.</p>
+<h2>The detailings we need to know</h2>
 
-<pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
-               'name': name,
-               'repo_code': repo_code,
-               'org_code': org_code,
-               'image_url': image_url,
-               'url': url}).encode()
-        req = urllib.request.Request(api_url+'/repositories', 
-                None, 
-                {'X-ArchivesSpace-Session': access_token})
-        response = urllib.request.urlopen(req, data)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+<ul>
+<li>Go to <a href="http://archivesspace.github.io/archivesspace/api/#get-repositories">AS REST API docs</a>
+
+<ul>
+<li>We&rsquo;re interested in &ldquo;Create a Repository&rdquo;
+
+<ul>
+<li>use your browser&rsquo;s find function</li>
+</ul></li>
+</ul></li>
+<li>Look at the example <strong>curl</strong> request on the right</li>
+</ul>
+
+<pre><code class="language-json">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot;
+    -d {
+       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+       &quot;name&quot;: &quot;Description: 11&quot;,
+       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
+       &quot;org_code&quot;: &quot;970UV228G&quot;,
+       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
+       &quot;url&quot;: &quot;http://www.example-4.com&quot;
+    } 
+    'http://localhost:8089/repositories'
 </code></pre>
+
+<p>(the bit after the &ldquo;-d&rdquo; is what we&rsquo;re interested in.)</p>
 </section>
 </body>
 </html>

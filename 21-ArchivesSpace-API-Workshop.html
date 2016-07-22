@@ -9,18 +9,32 @@
 <a rel="nav" href="20-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="22-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>3. Authentication</h1>
+	<section><h1>2. Make an http connection</h1>
 
-<h1>Send our username and password</h1>
+<h2>If all gone well</h2>
 
-<p>Now with our data send our request.</p>
+<ol>
+<li>The shell will have a message saying &ldquo;RESTART&rdquo;</li>
+<li>You&rsquo;ll be prompted for the ArchivesSpace API URL</li>
+<li>After entering it you&rsquo;ll see the JSON blob response below.</li>
+</ol>
 
-<pre><code class="language-python">    req = urllib.request.Request(api_url+&quot;/users/&quot;+username+&quot;/login&quot;, data)
-    response = urllib.request.urlopen(req)
-    print(response.read().decode('UTF-8'))
+<pre><code class="language-python">    &gt;&gt;&gt; 
+    RESTART: /home/rsdoiel/Sites/archivespace-api-workshop/make-an-http-connection.py 
+    ArchivesSpace API URL: http://localhost:8089
+    {
+       &quot;databaseProductName&quot;: &quot;MySQL&quot;,
+       &quot;databaseProductVersion&quot;: &quot;5.6.31&quot;,
+       &quot;ruby_version&quot;: &quot;1.9&quot;,
+       &quot;host_os&quot;: &quot;linux&quot;,
+       &quot;host_cpu&quot;: &quot;x86_64&quot;,
+       &quot;build&quot;: &quot;java1.6&quot;,
+       &quot;archivesSpaceVersion&quot;: &quot;v1.4.2&quot;
+    }
+    &gt;&gt;&gt; 
 </code></pre>
 
-<p>You should see the type of response ArchivesSpace send back.</p>
+<p>Now we should be ready to learn how to authenticate with the API.</p>
 </section>
 </body>
 </html>

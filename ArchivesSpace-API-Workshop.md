@@ -100,6 +100,94 @@ Open the following in your web browser tabs
 
 --
 
+# 1. Setup
+
+## About the code
+
+The basic organization is as follows
+
+1. import block
+2. defined some functions
+3. and a `if __name == '__main__':` block at the end
+
+--
+
+# 1. Setup
+
+## About the code
+
+### The import block
+
+This stock import block, as we'll see in the coming code, doesn't change.
+
+```Python
+    #!/usr/bin/env python3
+    import urllib.request
+    import json
+    import getpass
+```
+
+To keep the workshop simple we're only using these three standard libraries.
+
+--
+
+# 1. Setup
+
+## About the code
+
+### The functions we define
+
+In The middle section will add our functions. Between each section of the workshop
+we'll copy the previous sections code forward into a new file.  Refine and adding as
+we move through the API.  The goal isn't to have allot of files but to allow you to
+see how the code evolves overtime into a python module you can use to explore the
+ArchivesSpace REST API on your own.
+
+--
+
+# 1. Setup
+
+## About the code
+
+### The closing *if* block
+
+At the end of each of our Python scripts you can see an *if* block. This is
+where we'll place our test code. To keep our tests managable we'll rewrite this
+for each file we create to test the new functions we'll add.  In a production environment
+you would allow the tests to accumulate so you could always test all aspects of the module
+we're create.  In the workshop setting that is not practical. If we have time we'll
+pull all the tests together at the end when we create our final *as_api.py* module.
+
+# 1. Setup
+
+## About the code
+
+[helloworld.py](helloworld.py) is an example that could serve as a template
+
+```Python
+    #!/usr/bin/env python3
+    import urllib.request
+    import json
+    import getpass
+    
+    # This is where we add our functions
+    def hello_world():
+        return 'Hello World!!!'
+    
+    
+    # This is where we put our tests
+    if __name__ == '__main__':
+        hw = hello_world()
+        if hw == 'Hello World!!!':
+            print('Success!! ', hw)
+        else:
+            print('Ooops something went wrong, should say "Hello World!!!"')
+```
+
+You shold see "Success!! Hello World!!!" when you run the program.
+
+--
+
 # 2. Make an http connection
 
 Up next, these three things

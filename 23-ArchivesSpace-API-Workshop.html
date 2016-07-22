@@ -11,9 +11,21 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h2>Let&rsquo;s a closer look at the JSON results</h2>
+<h2>Send our username and password</h2>
 
-<p>Open <a href="example-login-response.json">example-login-response.json</a> in a new browser window.</p>
+<p>We need pass our username and password in our request.
+We need to keep track of the response. You don&rsquo;t need to
+type of the python comments.</p>
+
+<p>Close the text editor and go back in the shell.
+Type the following (you can skip the lines starting with &lsquo;#&rsquo;)</p>
+
+<pre><code class="language-python">    username = input('username (e.g. admin): ')
+    # We want to use getpass.getpass('password: ') so the
+    # password doesn't get echoed to the screen. In IDLE it'll show read and
+    # echo the password, ignore this for testing and development.
+    password = getpass.getpass('password: ')
+</code></pre>
 </section>
 </body>
 </html>

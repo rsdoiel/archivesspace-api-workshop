@@ -9,19 +9,25 @@
 <a rel="nav" href="35-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="37-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>4. Repostories</h1>
 
-<h2>Listing available resporitories</h2>
+<p>Our function definition should look something like</p>
 
-<p>We&rsquo;re going to create a new script called <a href="list-repos.py">list-repos.py</a> by
-using our previous <a href="create-repo.py">create-repo.py</a> and adding to it.</p>
+<pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+</code></pre>
 
-<ol>
-<li>Save <a href="create-repo.py">create-repo.py</a> AS <a href="list-repos.py">list-repos.py</a></li>
-</ol>
+<p>Did we catch all the fields we might want to change?</p>
 
-<p>(Like before we&rsquo;re adding to the previous program and changing the testing done
-at the end.)</p>
+<pre><code class="language-json">    {
+       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+       &quot;name&quot;: &quot;Description: 11&quot;,
+       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
+       &quot;org_code&quot;: &quot;970UV228G&quot;,
+       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
+       &quot;url&quot;: &quot;http://www.example-4.com&quot;
+    } 
+</code></pre>
 </section>
 </body>
 </html>

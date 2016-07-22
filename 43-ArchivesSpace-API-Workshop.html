@@ -11,17 +11,22 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>How do we know the path?</h2>
+<h2>Let&rsquo;s give this a try in the shell</h2>
 
-<ul>
-<li>In the API docs, look for &ldquo;Get a Repository by ID&rdquo;</li>
-</ul>
+<p>We may need a fresh <em>auth_token</em> so let&rsquo;s login first.
+After that we can build our request and send it. We&rsquo;ll
+wrap up by decoding the JSON response and pretty printing
+it.</p>
 
-<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-        'http://localhost:8089/repositories/1'
+<pre><code class="language-Python">    auth_token = login(api_url, username, password)
+    req = urllib.request.Request(
+        api_url+'/repositories', 
+        None, 
+        {&quot;X-ArchivesSpace-Session&quot;: auth_token})
+    response = urllib.request.urlopen(req)
+    result = json.JSONDecoder().decode(response.read().decode('utf-8'))
+    print(json.dumps(result, indent=4, sort_keys=True))
 </code></pre>
-
-<p>It looks like we add the numeric id to the end of the path (i.e. &ldquo;/1&rdquo;).</p>
 </section>
 </body>
 </html>

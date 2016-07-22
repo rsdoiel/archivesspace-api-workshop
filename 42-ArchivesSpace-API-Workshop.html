@@ -11,12 +11,25 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Getting a specific repositoriy</h2>
+<h2>ArchivesSpace API Docs</h2>
 
-<ol>
-<li>known the repository id</li>
-<li>Using the appropriate path get data for the specific repository</li>
-</ol>
+<p>The documentation about the API will help us know what to ask.
+Find &ldquo;list repositories&rdquo;</p>
+
+<ul>
+<li>Change to your browser tab with the docs</li>
+<li>Search for &ldquo;Get a list of Repositories&rdquo;</li>
+</ul>
+
+<p>The <strong>curl</strong> statement suggested looks like</p>
+
+<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        'http://localhost:8089/repositories'
+</code></pre>
+
+<p>Notice there is no &ldquo;-d&rdquo; listed. We only need to know the
+API URL and then add &ldquo;/repositories&rdquo; to it. We still need
+to send along our auth token in the header as normal.</p>
 </section>
 </body>
 </html>

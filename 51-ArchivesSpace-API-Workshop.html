@@ -9,19 +9,59 @@
 <a rel="nav" href="50-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="52-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>5. Working with Agents</h1>
+	<section><h1>4. Repositories</h1>
 
-<p>Suggested functions</p>
+<h2>Now we can Delete a repository too</h2>
 
-<ul>
-<li>create_agent (CREATE)</li>
-<li>list_agents  (READ)</li>
-<li>list_agent   (READ)</li>
-<li>update_agent (UPDATE)</li>
-<li>delete_agent (DELETE)</li>
-</ul>
+<p>As you may suspect we&rsquo;re beginning to see allot of repitition in our code. We&rsquo;ll
+live with it for now. To delete a repository take a look at the docs. You can
+find it by searching for &ldquo;Delete a Repository&rdquo;. The <em>curl</em> looks like this &hellip;</p>
 
-<p>These are our basic CRUD operations as functions working with the API.</p>
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        -X DELETE \
+        'http://localhost:8089/repositories/:repo_id'
+</code></pre>
+
+<p>Notice it looks allot like our <em>list_repo()</em> curl example but with an &ldquo;-X DELETE&rdquo;.
+There are four common methods in HTTP transaction - GET, POST, PUT and DELETE.
+DELETE does what it sounds like. It send a &ldquo;DELETE&rdquo; method call to the API requesting
+the repository to be deleted. Note deleting a record via the API is permanent. There is no
+&ldquo;UNDO&rdquo;!!!!</p>
+
+<ol>
+<li>Save <a href="update-repo.py">update-repo.py</a> As <a href="delete-repo.py">delete-repo.py</a></li>
+<li>Copy <em>list_repo()</em> function definition to <em>delete_repo</em> after <em>update_repo</em></li>
+<li>We need to modify the default test methods once again</li>
+</ol>
+
+<p>This is how things should look</p>
+
+<pre><code class="language-Python">    def delete_repo(api_url, auth_token, repo_id):
+        '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
+        # Notice we've added a method = 'DELETE' in our Request object.
+        req = urllib.request.Request(
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'DELETE')
+        response = urllib.request.urlopen(req)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        if api_url == '':
+            api_url = 'http://localhost:8089'
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login(api_url, username, password)
+        print('username', username, 'auth_token', auth_token)
+        repos = list_repos(api_url, auth_token)
+        print('Pick a repository id to update', repos)
+        repo_id = int(input('Repository numeric id to delete: '))
+        result = delete_repo(api_url, auth_token, repo_id)
+        print(&quot;Result is&quot;, result)
+        print(list_repos(api_url, auth_token))
+</code></pre>
 </section>
 </body>
 </html>

@@ -11,25 +11,33 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>ArchivesSpace API Docs</h2>
-
-<p>The documentation about the API will help us know what to ask.
-Find &ldquo;list repositories&rdquo;</p>
+<p>Notice how similar it is to our <strong>login</strong> function. Also how we
+add the header to pass along with our request. Some of the important
+differences are</p>
 
 <ul>
-<li>Change to your browser tab with the docs</li>
-<li>Search for &ldquo;Get a list of Repositories&rdquo;</li>
+<li>We&rsquo;re encoding <em>data</em> as JSON instead of urlencoding.</li>
+<li>We&rsquo;ve added an <em>auth_token</em> as a header parameter in the <em>Request</em></li>
+<li><em>data</em> is passed via <em>urlopen</em> rather than in our <em>Request</em> object</li>
 </ul>
 
-<p>The <strong>curl</strong> statement suggested looks like</p>
-
-<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-        'http://localhost:8089/repositories'
+<pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        data = json.JSONEncoder().encode({'jsonmodel_type': 'repository',
+               'name': name,
+               'repo_code': repo_code,
+               'org_code': org_code,
+               'image_url': image_url,
+               'url': url}).encode('utf-8')
+        req = urllib.request.Request(api_url+'/repositories', 
+                None, 
+                {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req, data)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
 </code></pre>
 
-<p>Notice there is no &ldquo;-d&rdquo; listed. We only need to know the
-API URL and then add &ldquo;/repositories&rdquo; to it. We still need
-to send along our auth token in the header as normal.</p>
+<p>You can copy and paste your def from our text editor to the repl and make
+sure it compiles.</p>
 </section>
 </body>
 </html>

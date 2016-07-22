@@ -11,15 +11,18 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<h2>Once you&rsquo;ve save your script</h2>
+<h2>Create a request object</h2>
 
-<ol>
-<li>In the editors&rsquo; menu click &ldquo;Run&rdquo;</li>
-<li>click &ldquo;Run Check&rdquo;</li>
-<li>clicl &ldquo;Run module&rdquo;</li>
-</ol>
+<p>Continue in the Python shell and add</p>
 
-<p>We&rsquo;ll be doing this often as we evolve our scripts.</p>
+<pre><code class="language-python">    api_url = 'http://localhost:8089'
+    req = urllib.request.Request(api_url)
+</code></pre>
+
+<p>You will need to replace &ldquo;<a href="http://localhost:8089&quot;">http://localhost:8089&quot;</a> with your
+Workshop API URL.</p>
+
+<p>The goal is to creates a <strong>Request</strong> object named <em>req</em>.</p>
 </section>
 </body>
 </html>

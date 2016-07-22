@@ -9,17 +9,21 @@
 <a rel="nav" href="27-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="29-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>3. Authentication</h1>
 
-<p>Creating a repository requires</p>
+<h2>Save the access token returned</h2>
 
-<ul>
-<li>login to API with appropriate account (e.g. admin)</li>
-<li>package a request to create a repository</li>
-<li>send the request to create the repository saving the response</li>
-</ul>
+<p>We need to parse the JSON data into a Python object
+so we can save our access token.</p>
 
-<p>We repeat the process to create the second one.</p>
+<pre><code class="language-JSON">    {   
+       &quot;session&quot;: &quot;84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a&quot;,
+       ...
+    }
+</code></pre>
+
+<p>The session value is our access token. We can pluck that single
+item out easiest if we turn the JSON blob into a Python variable.</p>
 </section>
 </body>
 </html>

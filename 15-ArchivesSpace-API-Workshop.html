@@ -11,31 +11,18 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<h2>Putting it all together</h2>
+<h2>import modules</h2>
 
-<p>Let&rsquo;s take what we learned and create a Python scripts called
-<a href="make-an-http-connection.py">make-an-http-connection.py</a>.</p>
+<p>Once <strong>idle</strong> starts it&rsquo;ll launch a Python Shell (also known as a Repl).</p>
 
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
+<p>Type the following in the shell.</p>
+
+<pre><code class="language-python">    import urllib.request
     import json
     import getpass
-
-    api_url = input('ArchivesSpace API URL: ')
-    if api_url == '':
-        api_url = 'http://localhost:8089'
-    req = urllib.request.Request(api_url)
-
-    response = urllib.request.urlopen(req)
-    print(response.read().decode('utf-8'))
-
 </code></pre>
 
-<ol>
-<li>In IDLE click on the file name and create a new file</li>
-<li>Type in the above</li>
-<li>Save the file as <strong>make-an-http-connection.py</strong></li>
-</ol>
+<p>These are the three modules we&rsquo;ll use through out our Workshop.</p>
 </section>
 </body>
 </html>

@@ -11,32 +11,44 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>How do you update the repository definition?</h2>
+<h2>results should look something like</h2>
 
-<p>We use the update API call. Once again we need to check with the
-API documentation but this time search for &ldquo;Update a repository&rdquo;.</p>
-
-<p>On the right side the <em>curl</em> expression looks like</p>
-
-<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-    -d {
-       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
-       &quot;name&quot;: &quot;Description: 11&quot;,
-       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
-       &quot;org_code&quot;: &quot;970UV228G&quot;,
-       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
-       &quot;url&quot;: &quot;http://www.example-4.com&quot;
-    } \
-    'http://localhost:8089/repositories/1'
+<pre><code class="language-Python">    username admin auth_token 9321ca79d94517d7018aa1ac4f1b6f2901b522c4b234d3ab9a4602fae9a8d72d
+    repositores list [
+        {
+            &quot;last_modified_by&quot;: &quot;admin&quot;,
+            &quot;created_by&quot;: &quot;admin&quot;,
+            &quot;create_time&quot;: &quot;2016-07-17T01:55:21Z&quot;,
+            &quot;agent_representation&quot;: {
+                &quot;ref&quot;: &quot;/agents/corporate_entities/1&quot;
+            },
+            &quot;repo_code&quot;: &quot;test001&quot;,
+            &quot;name&quot;: &quot;test001&quot;,
+            &quot;lock_version&quot;: 0,
+            &quot;system_mtime&quot;: &quot;2016-07-17T01:55:21Z&quot;,
+            &quot;user_mtime&quot;: &quot;2016-07-17T01:55:21Z&quot;,
+            &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+            &quot;uri&quot;: &quot;/repositories/2&quot;
+        },
+        {
+            &quot;last_modified_by&quot;: &quot;admin&quot;,
+            &quot;created_by&quot;: &quot;admin&quot;,
+            &quot;create_time&quot;: &quot;2016-07-17T01:55:42Z&quot;,
+            &quot;agent_representation&quot;: {
+                &quot;ref&quot;: &quot;/agents/corporate_entities/2&quot;
+            },
+            &quot;repo_code&quot;: &quot;test002&quot;,
+            &quot;name&quot;: &quot;test002&quot;,
+            &quot;lock_version&quot;: 0,
+            &quot;system_mtime&quot;: &quot;2016-07-17T01:55:42Z&quot;,
+            &quot;user_mtime&quot;: &quot;2016-07-17T01:55:42Z&quot;,
+            &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+            &quot;uri&quot;: &quot;/repositories/3&quot;
+        }
+    ]
 </code></pre>
 
-<p>Note the following</p>
-
-<ol>
-<li>The repo id is at the end of the path like in list a specific repository</li>
-<li>We have another JSON data structure to submit and we do so with a &ldquo;POST&rdquo;</li>
-<li>We still need to maintain our token.</li>
-</ol>
+<p>What do we do if we want only a single repository?</p>
 </section>
 </body>
 </html>

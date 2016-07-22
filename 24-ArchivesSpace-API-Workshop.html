@@ -11,19 +11,13 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h2>Save the access token returned</h2>
+<h2>Send our username and password</h2>
 
-<p>We need to parse the JSON data into a Python object
-so we can save our access token.</p>
+<p>Encode our password for sending with our request.</p>
 
-<pre><code class="language-JSON">    {   
-       &quot;session&quot;: &quot;84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a&quot;,
-       ...
-    }
+<pre><code class="language-python">    data = urllib.parse.urlencode({'password': password})
+    data = data.encode('utf-8')
 </code></pre>
-
-<p>The session value is our access token. We can pluck that single
-item out easiest if we turn the JSON blob into a Python variable.</p>
 </section>
 </body>
 </html>

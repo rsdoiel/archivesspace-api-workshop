@@ -11,19 +11,24 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Adding a new list_repo function</h2>
+<p>Now lets flesh out a <strong>create_repo</strong> function.
+Like <em>login()</em> we need to create our data package,
+our request object and with &ldquo;urlopen&rdquo; get a response.</p>
 
-<p>Like <em>login</em> and <em>create_repo</em> this function needs to contact the API.
-But the data we send is less. We need</p>
-
-<ul>
-<li>Our api_url and auth_token</li>
-<li>We need the URL path for listing repositories
-
-<ul>
-<li>How do we find that path?</li>
-</ul></li>
-</ul>
+<pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
+               'name': name,
+               'repo_code': repo_code,
+               'org_code': org_code,
+               'image_url': image_url,
+               'url': url}).encode()
+        req = urllib.request.Request(api_url+'/repositories', 
+                None, 
+                {'X-ArchivesSpace-Session': access_token})
+        response = urllib.request.urlopen(req, data)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+</code></pre>
 </section>
 </body>
 </html>
