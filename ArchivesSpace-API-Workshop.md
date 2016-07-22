@@ -9,7 +9,7 @@
     + Beinecke Rare Book and Manuscript Library
     + Yale University Library
 
-[Download these slides and examples](./archivesspace-api-workshop-slides.zip)
+[Download these slides and examples](https://github.com/rsdoiel/archivesspace-api-workshop/releases/latest)
 
 --
 
@@ -28,7 +28,7 @@ Before we begin ...
 + A web browser
     + Firefox or Chrome with the [JSONView](https://jsonview.com/) plugin recommended
 + A test deployment ArchivesSpace is being provided as part of the Workshop
-    + Or you can install your own via [VirtualBox and Vagrant](http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/)
+    + Or you can install your own via [VirtualBox and Vagrant](./archivesspace-dev/)
 + A basic familiarity with Python and ArchivesSpace
 
 ## Suggested
@@ -51,9 +51,8 @@ Before we begin ...
 3. Authentication
 4. Working with Repositories
 5. Working with Agents
-7. Working with Batches
 6. Working with Accessions
-8. Other ArchivesSpace Models
+7. Other ArchivesSpace Models
 
 --
 
