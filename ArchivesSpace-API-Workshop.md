@@ -9,7 +9,7 @@
     + Beinecke Rare Book and Manuscript Library
     + Yale University Library
 
-[Download these slides and examples](./archivesspace-api-workshop-slides.zip)
+[Download these slides and examples](https://github.com/rsdoiel/archivesspace-api-workshop/releases/latest)
 
 --
 
