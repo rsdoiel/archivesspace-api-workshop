@@ -345,7 +345,6 @@ We'll be doing this often as we evolve our scripts.
 3. After entering it you'll see the JSON blob response below.
 
 ```python
-    >>> 
     RESTART: /home/rsdoiel/Sites/archivespace-api-workshop/make-an-http-connection.py 
     ArchivesSpace API URL: http://localhost:8089
     {
@@ -355,9 +354,8 @@ We'll be doing this often as we evolve our scripts.
        "host_os": "linux",
        "host_cpu": "x86_64",
        "build": "java1.6",
-       "archivesSpaceVersion": "v1.4.2"
+       "archivesSpaceVersion": "v1.5.0"
     }
-    >>> 
 ```
 
 Now we should be ready to learn how to authenticate with the API.
