@@ -20,6 +20,9 @@ makePage README.md nav.md index.html
 # abstract.html
 makePage Abstract.md nav.md abstract.html 
 
+# requirements.html
+makePage Requirements.md nav.md requirements.html
+
 # install.html (slide presentation)
 makePage INSTALL.md nav.md install.html
 
