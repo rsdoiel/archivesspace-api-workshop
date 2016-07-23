@@ -9,16 +9,43 @@
 <a rel="nav" href="21-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="23-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>3. Authentication</h1>
+	<section><h1>2. Make an http connection</h1>
 
-<h2>Basic ingredients</h2>
+<h2>If all gone well</h2>
 
-<ul>
-<li>Make an http connection</li>
-<li>Send our username and pasword to the API</li>
-<li>Save the access token returned</li>
-</ul>
+<ol>
+<li>The shell will have a message saying &ldquo;RESTART&rdquo;</li>
+<li>You&rsquo;ll be prompted for the ArchivesSpace API URL</li>
+<li>After entering it you&rsquo;ll see the JSON blob response below.</li>
+</ol>
+
+<pre><code class="language-python">    RESTART: /home/rsdoiel/Sites/archivespace-api-workshop/make-an-http-connection.py 
+    ArchivesSpace API URL: http://localhost:8089
+    {
+       &quot;databaseProductName&quot;: &quot;MySQL&quot;,
+       &quot;databaseProductVersion&quot;: &quot;5.6.31&quot;,
+       &quot;ruby_version&quot;: &quot;1.9&quot;,
+       &quot;host_os&quot;: &quot;linux&quot;,
+       &quot;host_cpu&quot;: &quot;x86_64&quot;,
+       &quot;build&quot;: &quot;java1.6&quot;,
+       &quot;archivesSpaceVersion&quot;: &quot;v1.5.0&quot;
+    }
+</code></pre>
+
+<p>Now we should be ready to learn how to authenticate with the API.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

@@ -11,17 +11,32 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<h2>Recap and quick check</h2>
+<h2>launch python</h2>
 
-<p>Before we continue you should have the following
-running &hellip;</p>
+<p>From a terminal on Linux I type &hellip;</p>
 
-<ul>
-<li>ArchivesSpace</li>
-<li>Your web browser</li>
-<li>Python via IDLE</li>
-</ul>
+<pre><code class="language-shell">    idle-python3.5 &amp;
+</code></pre>
+
+<p>On Mac OS X or Windows you&rsquo;ll need to &hellip;</p>
+
+<ol>
+<li>find your Python 3.5.2 installation folder.</li>
+<li>find <strong>idle</strong>, click/double click to start it.</li>
+</ol>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

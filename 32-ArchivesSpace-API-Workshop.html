@@ -11,35 +11,29 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>The detailings we need to know</h2>
+<p>Creating a repository requires</p>
 
 <ul>
-<li>Go to <a href="http://archivesspace.github.io/archivesspace/api/#get-repositories">AS REST API docs</a>
-
-<ul>
-<li>We&rsquo;re interested in &ldquo;Create a Repository&rdquo;
-
-<ul>
-<li>use your browser&rsquo;s find function</li>
-</ul></li>
-</ul></li>
-<li>Look at the example <strong>curl</strong> request on the right</li>
+<li>login to API with appropriate account (e.g. admin)</li>
+<li>package a request to create a repository</li>
+<li>send the request to create the repository</li>
+<li>saving the response from the create request</li>
 </ul>
 
-<pre><code class="language-json">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot;
-    -d {
-       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
-       &quot;name&quot;: &quot;Description: 11&quot;,
-       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
-       &quot;org_code&quot;: &quot;970UV228G&quot;,
-       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
-       &quot;url&quot;: &quot;http://www.example-4.com&quot;
-    } 
-    'http://localhost:8089/repositories'
-</code></pre>
-
-<p>(the bit after the &ldquo;-d&rdquo; is what we&rsquo;re interested in.)</p>
+<p>We repeat the process to create multiple repositories.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

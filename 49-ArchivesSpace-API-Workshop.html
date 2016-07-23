@@ -11,28 +11,64 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Finally we can delete a repository too</h2>
+<h2>Update Repository</h2>
 
-<p>As you may suspect we&rsquo;re beginning to see allot of repetition in our code. We&rsquo;ll
-live with it for now. To delete a repository take a look at the docs. You can
-find it by searching for &ldquo;Delete a Repository&rdquo;. The <em>curl</em> looks like this &hellip;</p>
-
-<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-        -X DELETE \
-        'http://localhost:8089/repositories/:repo_id'
-</code></pre>
-
-<p>Notice it looks allot like our <em>list_repo()</em> curl example but with an &ldquo;-X DELETE&rdquo;.
-There are four common methods in HTTP transactions - GET, POST, PUT and DELETE.
-DELETE does what it sounds like. It&rsquo;ll send a &ldquo;DELETE&rdquo; method call to the API requesting
-the repository to be deleted. Note deleting a record via the API is permanent. There is no
-&ldquo;UNDO&rdquo;!!!!</p>
+<p>What functions have we implement that are similar? What does the documentation
+suggest?</p>
 
 <ol>
-<li>Copy <em>list_repo()</em> function definition to <em>delete_repo</em> after <em>update_repo</em></li>
-<li>We need to modify the default test methods once again</li>
+<li>copy <em>create_repo</em> function to <em>update_repo</em> adding it after <em>list_repo</em></li>
+<li>We&rsquo;ll also update our tests at the end of the file</li>
 </ol>
+
+<p>Your code should wind up looking something like this.</p>
+
+<pre><code class="language-python">    def update_repo(api_url, auth_token, repo_id, repo):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        # Data is getting attached to urlopen() and not req object to trigger a POST
+        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
+        data = json.JSONEncoder().encode(repo).encode('utf-8')
+        # Add our auth_token to your req object
+        req = urllib.request.Request(
+            api_url+'/repositories/'+str(repo_id),
+            None,
+            {'X-ArchivesSpace-Session': auth_token})
+        # Note we sending our repo as &quot;data&quot; in our urlopen (i.e. trigger a POST)
+        response = urllib.request.urlopen(req, data)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login(api_url, username, password)
+        print('username', username, 'auth_token', auth_token)
+        repos = list_repos(api_url, auth_token)
+        print('Pick a repository id to update', repos)
+        repo_id = int(input('Repository numeric id: '))
+        print('Getting repository record', repo_id)
+        repo = list_repo(api_url, auth_token, repo_id)
+        repo[&quot;name&quot;] = input('old name is'+repo['name']+', provide a new name: ')
+        print('Now we update')
+        result = update_repo(api_url, auth_token, repo_id, repo)
+        print(&quot;Result is&quot;, result)
+</code></pre>
+
+<p>Run this updated version and see how it works. Note you can also use the other
+methods in the module like <em>list_repos()</em> as well as <em>list_repo()</em>.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

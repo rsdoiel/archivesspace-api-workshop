@@ -8,13 +8,15 @@ def login (api_url, username, password):
     data = data.encode('ascii')
     req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
     response = urllib.request.urlopen(req)
+    status = response.getcode()
+    print('HTTP status code', status)
     return response.read().decode('UTF-8')
 
 if __name__ == '__main__':
     api_url = input('ArchivesSpace API URL: ')
-    if api_url == '':
-        api_url = 'http://localhost:8089'
+    username = input('ArchivesSpace username: ')
+    password = getpass.getpass('ArchivesSpacew password: ')
     print('Logging in', api_url)
-    s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
+    s = login(api_url, username, password)
     print(s)
     print('Success!')

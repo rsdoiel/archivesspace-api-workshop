@@ -15,40 +15,24 @@
 
 <h3>The closing <em>if</em> block</h3>
 
-<p>At the end of each of our Python scripts you can see an <em>if</em> block. This is
-where we&rsquo;ll place our test code. To keep our tests managable we&rsquo;ll rewrite this
-for each file we create to test the new functions we&rsquo;ll add.  In a production environment
-you would allow the tests to accumulate so you could always test all aspects of the module
-we&rsquo;re create.  In the workshop setting that is not practical. If we have time we&rsquo;ll
-pull all the tests together at the end when we create our final <em>as_api.py</em> module.</p>
-
-<h1>1. Setup</h1>
-
-<h2>About the code</h2>
-
-<p><a href="helloworld.py">helloworld.py</a> is an example that could serve as a template</p>
-
-<pre><code class="language-Python">    #!/usr/bin/env python3
-    import urllib.request
-    import json
-    import getpass
-    
-    # This is where we add our functions
-    def hello_world():
-        return 'Hello World!!!'
-    
-    
-    # This is where we put our tests
-    if __name__ == '__main__':
-        hw = hello_world()
-        if hw == 'Hello World!!!':
-            print('Success!! ', hw)
-        else:
-            print('Ooops something went wrong, should say &quot;Hello World!!!&quot;')
-</code></pre>
-
-<p>You shold see &ldquo;Success!! Hello World!!!&rdquo; when you run the program.</p>
+<p>At the end of each of our Python scripts there will be an <em>if</em> block.
+This is where our test code goes. For the purposes of the workshop we
+will minimize what is inside this <em>if</em> block.  Normally you would
+keep all your tests available (probably written as their own functions,
+possibly as a separate included module).</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

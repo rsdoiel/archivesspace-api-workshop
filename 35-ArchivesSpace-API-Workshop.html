@@ -9,17 +9,34 @@
 <a rel="nav" href="34-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="36-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>4. Repostories</h1>
 
-<h2>Use <strong>login.py</strong> as our template script</h2>
+<p>Did we catch all the fields we might want to change?</p>
 
-<ol>
-<li>Save <a href="login.py">login.py</a> As <a href="repo.py">repo.py</a></li>
-</ol>
+<pre><code class="language-json">    {
+       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+       &quot;name&quot;: &quot;Description: 11&quot;,
+       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
+       &quot;org_code&quot;: &quot;970UV228G&quot;,
+       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
+       &quot;url&quot;: &quot;http://www.example-4.com&quot;
+    } 
+</code></pre>
 
-<p>We&rsquo;re going to be adding a <em>create_repo</em> function and modifying the
-testing in the <em>if</em> block.</p>
+<p>Do we need to change &ldquo;jsonmodel_type&rdquo;?</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

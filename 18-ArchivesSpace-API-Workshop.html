@@ -11,11 +11,26 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<ul>
-<li>What do you see?</li>
-<li>Are there questions?</li>
-</ul>
+<h2>Make the request, print results</h2>
+
+<p>Now we can send our <em>req</em> and get back a <em>response</em>.</p>
+
+<pre><code class="language-python">    response = urllib.request.urlopen(req)
+    print(response.read().decode('UTF-8'))
+</code></pre>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

@@ -11,35 +11,40 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Time to put this together in a script</h2>
+<h2>Let&rsquo;s give this a try in the shell</h2>
 
-<p>Add <em>list_repos</em> function after <em>create_repo</em> and update the testing section
-at the bottom.</p>
+<p>We may need a fresh <em>auth_token</em> so let&rsquo;s login first.
+After that we can build our request and send it. We&rsquo;ll
+wrap up by decoding the JSON response and pretty printing
+it.</p>
 
-<pre><code class="language-Python">    def list_repos(api_url, auth_token):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            api_url+'/repositories', 
-            None, 
-            {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-
-                                     
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
-        repos = list_repos(api_url, auth_token)
-        print(&quot;repositores list&quot;, json.dumps(repos, indent=4))
+<pre><code class="language-Python">    auth_token = login(api_url, username, password)
+    req = urllib.request.Request(
+        api_url+'/repositories', 
+        None, 
+        {&quot;X-ArchivesSpace-Session&quot;: auth_token})
+    response = urllib.request.urlopen(req)
+    result = json.JSONDecoder().decode(response.read().decode('utf-8'))
+    print(json.dumps(result, indent=4, sort_keys=True))
 </code></pre>
 
-<p>We&rsquo;ve added our <em>list_repos</em> and changed the tests at the bottom.</p>
+<ul>
+<li>How are the results organized?</li>
+<li>How does this compare with the API document?</li>
+</ul>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

@@ -11,8 +11,20 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>Delete an Agent</h2>
+<h2>List Agents ID</h2>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

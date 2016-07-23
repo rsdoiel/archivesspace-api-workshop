@@ -106,7 +106,7 @@ Open the following in your web browser tabs
 The basic organization is as follows
 
 1. import block
-2. defined some functions
+2. define some functions
 3. and a `if __name == '__main__':` block at the end
 
 --
@@ -126,7 +126,8 @@ This stock import block, as we'll see in the coming code, doesn't change.
     import getpass
 ```
 
-To keep the workshop simple we're only using these three standard libraries.
+To keep the workshop simple we're only using these three standard 
+libraries.
 
 --
 
@@ -136,11 +137,11 @@ To keep the workshop simple we're only using these three standard libraries.
 
 ### The functions we define
 
-In The middle section will add our functions. Between each section of the workshop
-we'll copy the previous sections code forward into a new file.  Refine and adding as
-we move through the API.  The goal isn't to have allot of files but to allow you to
-see how the code evolves overtime into a python module you can use to explore the
-ArchivesSpace REST API on your own.
+In The middle section we will add our functions. Between each section of 
+the workshop we'll copy the previous code forward to a new file.
+We will redefine and adding as we move through the API.  The goal isn't to 
+have allot of files but to allow you to see how the code evolves overtime 
+into a python module.
 
 --
 
@@ -150,18 +151,20 @@ ArchivesSpace REST API on your own.
 
 ### The closing *if* block
 
-At the end of each of our Python scripts you can see an *if* block. This is
-where we'll place our test code. To keep our tests managable we'll rewrite this
-for each file we create to test the new functions we'll add.  In a production environment
-you would allow the tests to accumulate so you could always test all aspects of the module
-we're create.  In the workshop setting that is not practical. If we have time we'll
-pull all the tests together at the end when we create our final *as_api.py* module.
+At the end of each of our Python scripts there will be an *if* block. 
+This is where our test code goes. For the purposes of the workshop we
+will minimize what is inside this *if* block.  Normally you would
+keep all your tests available (probably written as their own functions,
+possibly as a separate included module). 
+
+--
 
 # 1. Setup
 
 ## About the code
 
-[helloworld.py](helloworld.py) is an example that could serve as a template
+This [helloworld.py](helloworld.py) is typical of the scripts we will
+wind up with.
 
 ```Python
     #!/usr/bin/env python3
@@ -178,16 +181,18 @@ pull all the tests together at the end when we create our final *as_api.py* modu
     if __name__ == '__main__':
         hw = hello_world()
         if hw == 'Hello World!!!':
-            print('Success!! ', hw)
+            print('Success!! -> ', hw)
         else:
-            print('Ooops something went wrong, should say "Hello World!!!"')
+            print('Ooops something went wrong!!!"')
 ```
 
-You shold see "Success!! Hello World!!!" when you run the program.
+You shold see "Success!! -> Hello World!!!" when you run the program.
 
 --
 
 # 2. Make an http connection
+
+    But when are we going to write some code?
 
 Up next, these three things
 
@@ -310,8 +315,6 @@ Let's take what we learned and create a Python scripts called
     import getpass
 
     api_url = input('ArchivesSpace API URL: ')
-    if api_url == '':
-        api_url = 'http://localhost:8089'
     req = urllib.request.Request(api_url)
 
     response = urllib.request.urlopen(req)
@@ -330,7 +333,7 @@ Let's take what we learned and create a Python scripts called
 
 1. In the editors' menu click "Run" 
 2. click "Run Check"
-3. clicl "Run module"
+3. click "Run module"
 
 We'll be doing this often as we evolve our scripts.
 
@@ -377,19 +380,19 @@ Now we should be ready to learn how to authenticate with the API.
 ## Send our username and password
 
 We need pass our username and password in our request.
-We need to keep track of the response. You don't need to
-type of the python comments.
+We need to keep track of the response. 
 
 Close the text editor and go back in the shell.
-Type the following (you can skip the lines starting with '#')
 
 ```python
     username = input('username (e.g. admin): ')
-    # We want to use getpass.getpass('password: ') so the
-    # password doesn't get echoed to the screen. In IDLE it'll show read and
-    # echo the password, ignore this for testing and development.
     password = getpass.getpass('password: ')
 ```
+
+   We want to use getpass.getpass('password: ') so the
+   password doesn't get echoed to the screen. In IDLE it'll 
+   show read and echo the password, ignore this for testing 
+   and development.
 
 --
 
@@ -410,10 +413,10 @@ Encode our password for sending with our request.
 
 # Send our username and password
 
-Now with our data send our request.
+Now send a request with our data.
 
 ```python
-    req = urllib.request.Request(api_url+"/users/"+username+"/login", data)
+    req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
     response = urllib.request.urlopen(req)
     print(response.read().decode('UTF-8'))
 ```
@@ -440,21 +443,20 @@ username and password to test it.
     import getpass
         
     def login (api_url, username, password):
+        '''This function logs into the ArchivesSpace REST API and shows the text response'''
         data = urllib.parse.urlencode({'password': password})
-        data = data.encode('utf-8')
-        # Notice we're adding the "data" to the url built with Request
+        data = data.encode('ascii')
         req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
         response = urllib.request.urlopen(req)
+        status = response.getcode()
+        print('HTTP status code', status)
         return response.read().decode('UTF-8')
     
     if __name__ == '__main__':
-        # this is where we'll test what we're building
         api_url = input('ArchivesSpace API URL: ')
         username = input('ArchivesSpace username: ')
-        password = input('ArchivesSpace password: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        print('Logging in')
+        password = getpass.getpass('ArchivesSpacew password: ')
+        print('Logging in', api_url)
         s = login(api_url, username, password)
         print(s)
         print('Success!')
@@ -468,7 +470,8 @@ Now "Run" the python script and see the results like we did before.
 
 ## Let's a closer look at the JSON results
 
-Open [example-login-response.json](example-login-response.json) in a new browser window.
+Open [example-login-response.json](example-login-response.json) in 
+a new browser window.
 
 --
 
@@ -501,23 +504,32 @@ tests at the bottom.  (We're modifying *login* function and the
 testing in the closing *if* block)
 
 ```python
+    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+    import json
+        
     def login (api_url, username, password):
-        '''This function logs into the ArchivesSpace REST API returning an access token'''
+        '''This function logs into the ArchivesSpace REST API returning an acccess token'''
         data = urllib.parse.urlencode({'password': password})
         data = data.encode('utf-8')
         req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
         response = urllib.request.urlopen(req)
+        status = response.getcode()
+        if status != 200:
+            # No session token
+            return ''
         result = json.JSONDecoder().decode(response.read().decode('utf-8'))
+        # Session holds the value we want for auth_token
         return result['session']
     
     if __name__ == '__main__':
-        # Our tests
         api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        print('Logging in')
-        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
-        print("Your access token was: ", s)
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpacew password: ')
+        print('Logging in', api_url)
+        auth_token = login(api_url, username, password)
+        print(auth_token)
         print('Success!')
 ```
 
@@ -529,12 +541,11 @@ If all has gone well we are ready to move onto working with repositories!
 
 ## What we'll do in this section
 
-+ Creating two repositories 
-    + we'll keep the first and experiment with the second
-+ List the available repositories (should see the two we created)
-+ View a specific repository 
++ Create some repositories 
++ List the available repositories
++ List a specific repository 
 + Update a repository
-+ Deleting the second repository
++ Delete a repository
 
 --
 
@@ -544,9 +555,10 @@ Creating a repository requires
 
 + login to API with appropriate account (e.g. admin)
 + package a request to create a repository
-+ send the request to create the repository saving the response
++ send the request to create the repository 
++ saving the response from the create request
 
-We repeat the process to create the second one.
+We repeat the process to create multiple repositories.
 
 --
 
@@ -569,7 +581,7 @@ We repeat the process to create the second one.
        "org_code": "970UV228G",
        "image_url": "http://www.example-3.com",
        "url": "http://www.example-4.com"
-    } 
+    }
     'http://localhost:8089/repositories'
 ```
 
@@ -598,7 +610,7 @@ and the rest are optional.
 
 ### What we also need
 
-+ We will need to submit our access token and provide the api url too
+We will need to submit our access token and provide the api url too
 
 --
 
@@ -616,6 +628,8 @@ Did we catch all the fields we might want to change?
        "url": "http://www.example-4.com"
     } 
 ```
+
+Do we need to change "jsonmodel_type"?
 
 --
 
@@ -651,6 +665,10 @@ get a response.
                 None, 
                 {'X-ArchivesSpace-Session': access_token})
         response = urllib.request.urlopen(req, data)
+        status = response.getcode()
+        if status != 200:
+            # We have a problem
+            print('WARNING: http status code', status)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
 ```
 
@@ -720,8 +738,6 @@ update the *if* block to match.
         password = getpass.getpass('ArchivesSpace password: ')
         name = input('Repo name: ')
         repo_code = input('Repo code: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
         auth_token = login(api_url, username, password)
         print('username', username, 'auth_token', auth_token)
         repo = create_repo(api_url, auth_token, name, repo_code)
@@ -811,8 +827,6 @@ at the bottom.
                                      
     if __name__ == '__main__':
         api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
         username = input('ArchivesSpace username: ')
         password = getpass.getpass('ArchivesSpace password: ')
         auth_token = login(api_url, username, password)
@@ -913,8 +927,6 @@ the function *list_repos*. We'll be update the *if* block too.
     
     if __name__ == '__main__':
         api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
         username = input('ArchivesSpace username: ')
         password = getpass.getpass('ArchivesSpace password: ')
         auth_token = login(api_url, username, password)
@@ -988,8 +1000,6 @@ Your code should wind up looking something like this.
     
     if __name__ == '__main__':
         api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
         username = input('ArchivesSpace username: ')
         password = getpass.getpass('ArchivesSpace password: ')
         auth_token = login(api_url, username, password)
@@ -1118,8 +1128,6 @@ This is what our cumulative efforts should look like so far.
     
     if __name__ == '__main__':
         api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
         username = input('ArchivesSpace username: ')
         password = getpass.getpass('ArchivesSpace password: ')
         auth_token = login(api_url, username, password)

@@ -11,14 +11,33 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<h2>Let&rsquo;s get started</h2>
+<pre><code>But when are we going to write some code?
+</code></pre>
 
-<p>At this point your setup should be completed and we&rsquo;re
-going to start working in the Python shell via IDLE.</p>
+<p>Up next, these three things</p>
 
-<p>IDLE is python&rsquo;s integrated development environment that
-comes standard with Python distributions.</p>
+<ul>
+<li>using the Python interpreter</li>
+<li>import the three standard modules we&rsquo;ll use in the workshop
+
+<ul>
+<li>i.e. urllib.request, getpass, json</li>
+</ul></li>
+<li>make a connection with the request object</li>
+</ul>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

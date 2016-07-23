@@ -11,36 +11,30 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>adding list_repo</h2>
+<h2>How do we know the path?</h2>
 
-<p>Let&rsquo;s copy and modify our list_repos definition to <em>list_repo</em>. Paste it after
-the function <em>list_repos</em>. We&rsquo;ll be update the <em>if</em> block too.</p>
+<ul>
+<li>In the API docs, look for &ldquo;Get a Repository by ID&rdquo;</li>
+</ul>
 
-<pre><code class="language-Python">    def list_repo(api_url, auth_token, repo_id):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id), 
-            None, 
-            {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
-        repo_id = int(input('Enter repo id (e.g. 2): '))
-        repos = list_repos(api_url, auth_token, repo_id)
-        print('repositores list', json.dumps(repos, indent=4))
-        
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        'http://localhost:8089/repositories/1'
 </code></pre>
 
-<p>Are the results what you expected? Are we still getting an array?</p>
+<p>It looks like we add the numeric id to the end of the path (i.e. &ldquo;/1&rdquo;).</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

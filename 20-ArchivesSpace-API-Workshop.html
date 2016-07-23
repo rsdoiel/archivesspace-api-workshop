@@ -11,16 +11,42 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<h2>Once you&rsquo;ve save your script</h2>
+<h2>Putting it all together</h2>
+
+<p>Let&rsquo;s take what we learned and create a Python scripts called
+<a href="make-an-http-connection.py">make-an-http-connection.py</a>.</p>
+
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import json
+    import getpass
+
+    api_url = input('ArchivesSpace API URL: ')
+    req = urllib.request.Request(api_url)
+
+    response = urllib.request.urlopen(req)
+    print(response.read().decode('utf-8'))
+
+</code></pre>
 
 <ol>
-<li>In the editors&rsquo; menu click &ldquo;Run&rdquo;</li>
-<li>click &ldquo;Run Check&rdquo;</li>
-<li>clicl &ldquo;Run module&rdquo;</li>
+<li>In IDLE click on the file name and create a new file</li>
+<li>Type in the above</li>
+<li>Save the file as <strong>make-an-http-connection.py</strong></li>
 </ol>
-
-<p>We&rsquo;ll be doing this often as we evolve our scripts.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

@@ -13,12 +13,32 @@
 
 <h2>Send our username and password</h2>
 
-<p>Encode our password for sending with our request.</p>
+<p>We need pass our username and password in our request.
+We need to keep track of the response.</p>
 
-<pre><code class="language-python">    data = urllib.parse.urlencode({'password': password})
-    data = data.encode('utf-8')
+<p>Close the text editor and go back in the shell.</p>
+
+<pre><code class="language-python">    username = input('username (e.g. admin): ')
+    password = getpass.getpass('password: ')
 </code></pre>
+
+<p>We want to use getpass.getpass(&lsquo;password: &lsquo;) so the
+   password doesn&rsquo;t get echoed to the screen. In IDLE it&rsquo;ll
+   show read and echo the password, ignore this for testing
+   and development.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

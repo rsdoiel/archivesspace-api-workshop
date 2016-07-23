@@ -15,12 +15,24 @@
 
 <h3>The functions we define</h3>
 
-<p>In The middle section will add our functions. Between each section of the workshop
-we&rsquo;ll copy the previous sections code forward into a new file.  Refine and adding as
-we move through the API.  The goal isn&rsquo;t to have allot of files but to allow you to
-see how the code evolves overtime into a python module you can use to explore the
-ArchivesSpace REST API on your own.</p>
+<p>In The middle section we will add our functions. Between each section of
+the workshop we&rsquo;ll copy the previous code forward to a new file.
+We will redefine and adding as we move through the API.  The goal isn&rsquo;t to
+have allot of files but to allow you to see how the code evolves overtime
+into a python module.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

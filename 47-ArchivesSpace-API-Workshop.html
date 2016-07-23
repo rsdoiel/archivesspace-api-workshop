@@ -11,33 +11,46 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>How do you update the repository definition?</h2>
+<h2>adding list_repo</h2>
 
-<p>We use the update API call. Once again we need to check with the
-API documentation but this time search for &ldquo;Update a repository&rdquo;.</p>
+<p>Let&rsquo;s copy and modify our list_repos definition to <em>list_repo</em>. Paste it after
+the function <em>list_repos</em>. We&rsquo;ll be update the <em>if</em> block too.</p>
 
-<p>On the right side the <em>curl</em> expression looks like</p>
-
-<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-    -d {
-       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
-       &quot;name&quot;: &quot;Description: 11&quot;,
-       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
-       &quot;org_code&quot;: &quot;970UV228G&quot;,
-       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
-       &quot;url&quot;: &quot;http://www.example-4.com&quot;
-    } \
-    'http://localhost:8089/repositories/1'
+<pre><code class="language-Python">    def list_repo(api_url, auth_token, repo_id):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            api_url+'/repositories/'+str(repo_id), 
+            None, 
+            {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    if __name__ == '__main__':
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login(api_url, username, password)
+        print('username', username, 'auth_token', auth_token)
+        repo_id = int(input('Enter repo id (e.g. 2): '))
+        repos = list_repos(api_url, auth_token, repo_id)
+        print('repositores list', json.dumps(repos, indent=4))
+        
 </code></pre>
 
-<p>Note the following</p>
-
-<ol>
-<li>The repo id is at the end of the path like in list a specific repository</li>
-<li>We have another JSON data structure to submit and we do so with a &ldquo;POST&rdquo;</li>
-<li>We still need to maintain our token.</li>
-</ol>
+<p>Are the results what you expected? Are we still getting an array?</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

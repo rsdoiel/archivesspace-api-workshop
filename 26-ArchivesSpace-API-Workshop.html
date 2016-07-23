@@ -11,43 +11,29 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h2>Send our username and password</h2>
+<h1>Send our username and password</h1>
 
-<h3>Putting it all together</h3>
+<p>Now send a request with our data.</p>
 
-<p>Open the IDLE text editor and create a new file
-called <strong>login.py</strong>.</p>
-
-<p>We&rsquo;ll create a python function and add prompts for api url,
-username and password to test it.</p>
-
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-        
-    def login (api_url, username, password):
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('utf-8')
-        # Notice we're adding the &quot;data&quot; to the url built with Request
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        response = urllib.request.urlopen(req)
-        return response.read().decode('UTF-8')
-    
-    if __name__ == '__main__':
-        # this is where we'll test what we're building
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = input('ArchivesSpace password: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        print('Logging in')
-        s = login(api_url, username, password)
-        print(s)
-        print('Success!')
+<pre><code class="language-python">    req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+    response = urllib.request.urlopen(req)
+    print(response.read().decode('UTF-8'))
 </code></pre>
 
-<p>Now &ldquo;Run&rdquo; the python script and see the results like we did before.</p>
+<p>You should see the type of response ArchivesSpace send back.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

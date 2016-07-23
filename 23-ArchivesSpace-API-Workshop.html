@@ -11,22 +11,26 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h2>Send our username and password</h2>
+<h2>Basic ingredients</h2>
 
-<p>We need pass our username and password in our request.
-We need to keep track of the response. You don&rsquo;t need to
-type of the python comments.</p>
-
-<p>Close the text editor and go back in the shell.
-Type the following (you can skip the lines starting with &lsquo;#&rsquo;)</p>
-
-<pre><code class="language-python">    username = input('username (e.g. admin): ')
-    # We want to use getpass.getpass('password: ') so the
-    # password doesn't get echoed to the screen. In IDLE it'll show read and
-    # echo the password, ignore this for testing and development.
-    password = getpass.getpass('password: ')
-</code></pre>
+<ul>
+<li>Make an http connection</li>
+<li>Send our username and pasword to the API</li>
+<li>Save the access token returned</li>
+</ul>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 
