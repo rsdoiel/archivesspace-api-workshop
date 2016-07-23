@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><link href="css/slides.css" rel="stylesheet" />
-   
+ <script type="text/javascript" src="scripts/keyboard-nav.js"></script>
 </head>
 <body>
 	<nav>
@@ -14,8 +14,8 @@
 <h2>Save the access token returned</h2>
 
 <p>We need to modify our login function to &ldquo;decode&rdquo; the JSON
-response and return only session value. We&rsquo;ll also update our
-tests at the bottom.  (We&rsquo;re modifying <em>login</em> function and the
+response and return only the session value. We&rsquo;ll also update our
+tests at the bottom.  (We&rsquo;re modifying the <em>login</em> function and the
 testing in the closing <em>if</em> block)</p>
 
 <pre><code class="language-python">    def login (api_url, username, password):
