@@ -8,11 +8,14 @@ def login (api_url, username, password):
     '''This function logs into the ArchivesSpace REST API returning an acccess token'''
     data = urllib.parse.urlencode({'password': password})
     data = data.encode('utf-8')
-    req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+    req = urllib.request.Request(
+        url = api_url+'/users/'+username+'/login', 
+        data = data)
     response = urllib.request.urlopen(req)
     status = response.getcode()
     if status != 200:
         # No session token
+        print('ERROR: login failed', response.read().decode('utf-8'))
         return ''
     result = json.JSONDecoder().decode(response.read().decode('utf-8'))
     # Session holds the value we want for auth_token
@@ -29,7 +32,7 @@ def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url =
                     'url': url
                 }).encode('utf-8')
     req = urllib.request.Request(
-            api_url+'/repositories', 
+            url = api_url+'/repositories', 
             data = None, 
             headers = {'X-ArchivesSpace-Session': auth_token})
     response = urllib.request.urlopen(req, data)
@@ -41,9 +44,9 @@ def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url =
 def list_repos(api_url, auth_token):
     '''List all the repositories, return the listing object'''
     req = urllib.request.Request(
-        api_url+'/repositories',
-        None,
-        {'X-ArchivesSpace-Session': auth_token})
+        url = api_url+'/repositories',
+        data = None,
+        headers = {'X-ArchivesSpace-Session': auth_token})
     response = urllib.request.urlopen(req)
     status = response.getcode()
     if status != 200:
@@ -53,9 +56,9 @@ def list_repos(api_url, auth_token):
 def list_repo(api_url, auth_token, repo_id):
     '''List all the repositories, return the listing object'''
     req = urllib.request.Request(
-        api_url+'/repositories/'+str(repo_id),
-        None,
-        {'X-ArchivesSpace-Session': auth_token})
+        url = api_url+'/repositories/'+str(repo_id),
+        data = None,
+        headers = {'X-ArchivesSpace-Session': auth_token})
     response =  urllib.request.urlopen(req)
     status = response.getcode()
     if status != 200:
@@ -66,9 +69,9 @@ def update_repo(api_url, auth_token, repo_id, repo):
     '''This function sends a updates a repository via ArchivesSpace REST API'''
     data = json.JSONEncoder().encode(repo).encode('utf-8')
     req = urllib.request.Request(
-        api_url+'/repositories/'+repo_id,
-        None,
-        {'X-ArchivesSpace-Session': auth_token})
+        url = api_url+'/repositories/'+repo_id,
+        data = None,
+        headers = {'X-ArchivesSpace-Session': auth_token})
     response = urllib.request.urlopen(req, data)
     status = response.getcode()
     if status != 200:
@@ -98,6 +101,11 @@ if __name__ == '__main__':
     print('Logging in', api_url)
     auth_token = login(api_url, username, password)
     print("auth token", auth_token)
+    if auth_token != '':
+        print('Success!')
+    else:
+        print('Ooops! something went wrong')
+        sys.exit(1)
 
     # Test create_repo
     print('Testing create_repo()')

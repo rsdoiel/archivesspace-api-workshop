@@ -416,7 +416,9 @@ Encode our password for sending with our request.
 Now send a request with our data.
 
 ```python
-    req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+    req = urllib.request.Request(
+        url = api_url+'/users/'+username+'/login', 
+        data = data)
     response = urllib.request.urlopen(req)
     print(response.read().decode('UTF-8'))
 ```
@@ -446,7 +448,9 @@ username and password to test it.
         '''This function logs into the ArchivesSpace REST API and shows the text response'''
         data = urllib.parse.urlencode({'password': password})
         data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        req = urllib.request.Request(
+            url = api_url+'/users/'+username+'/login', 
+            data = data)
         response = urllib.request.urlopen(req)
         status = response.getcode()
         print('HTTP status code', status)
@@ -513,7 +517,9 @@ testing in the closing *if* block)
         '''This function logs into the ArchivesSpace REST API returning an acccess token'''
         data = urllib.parse.urlencode({'password': password})
         data = data.encode('utf-8')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        req = urllib.request.Request(
+            url = api_url+'/users/'+username+'/login', 
+            data = data)
         response = urllib.request.urlopen(req)
         status = response.getcode()
         if status != 200:
@@ -653,22 +659,24 @@ a request object and with "urlopen" send our request so we can
 get a response.
 
 ```python
-    def create_repo(api_url, access_token, name, repo_code, org_code = "", image_url = "", url = ""):
+    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
         '''This function sends a create request to the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
-               'name': name,
-               'repo_code': repo_code,
-               'org_code': org_code,
-               'image_url': image_url,
-               'url': url}).encode()
-        req = urllib.request.Request(api_url+'/repositories', 
-                None, 
-                {'X-ArchivesSpace-Session': access_token})
+        data = json.JSONEncoder().encode({
+                        'jsonmodel_type': 'repository',
+                        'name': name,
+                        'repo_code': repo_code,
+                        'org_code': org_code,
+                        'image_url': image_url,
+                        'url': url
+                    }).encode('utf-8')
+        req = urllib.request.Request(
+                url = api_url+'/repositories', 
+                data = None, 
+                headers = {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req, data)
         status = response.getcode()
         if status != 200:
-            # We have a problem
-            print('WARNING: http status code', status)
+            print('WARNING http statuc code', status)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
 ```
 
@@ -685,18 +693,24 @@ Some of the important differences are
 + *data* is passed via *urlopen* rather than in our *Request* object
 
 ```python
-    def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
+    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
         '''This function sends a create request to the ArchivesSpace REST API'''
-        data = json.JSONEncoder().encode({'jsonmodel_type': 'repository',
-               'name': name,
-               'repo_code': repo_code,
-               'org_code': org_code,
-               'image_url': image_url,
-               'url': url}).encode('utf-8')
-        req = urllib.request.Request(api_url+'/repositories', 
-                None, 
-                {'X-ArchivesSpace-Session': auth_token})
+        data = json.JSONEncoder().encode({
+                        'jsonmodel_type': 'repository',
+                        'name': name,
+                        'repo_code': repo_code,
+                        'org_code': org_code,
+                        'image_url': image_url,
+                        'url': url
+                    }).encode('utf-8')
+        req = urllib.request.Request(
+                url = api_url+'/repositories', 
+                data = None, 
+                headers = {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req, data)
+        status = response.getcode()
+        if status != 200:
+            print('WARNING http statuc code', status)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
 ```
 
@@ -712,10 +726,8 @@ Putting it all together, add the following after the *login* function and
 update the *if* block to match.
 
 ```python
-    def create_repo(api_url, auth_token, name, repo_code, org_code = "", image_url = "", url = ""):
+    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
         '''This function sends a create request to the ArchivesSpace REST API'''
-        # Data is getting attached to urlopen() and not req object to trigger a POST
-        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
         data = json.JSONEncoder().encode({
                         'jsonmodel_type': 'repository',
                         'name': name,
@@ -724,24 +736,47 @@ update the *if* block to match.
                         'image_url': image_url,
                         'url': url
                     }).encode('utf-8')
-        # Add our auth_token to your req object
         req = urllib.request.Request(
-            api_url+'/repositories', 
-            None, 
-            {'X-ArchivesSpace-Session': auth_token})
+                url = api_url+'/repositories', 
+                data = None, 
+                headers = {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req, data)
+        status = response.getcode()
+        if status != 200:
+            print('WARNING http statuc code', status)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
+
+
+if __name__ == '__main__':
+    # Test login
+    print("Testing login()")
+    api_url = input('ArchivesSpace API URL: ')
+    username = input('ArchivesSpace username: ')
+    password = getpass.getpass('ArchivesSpacew password: ')
+    print('Logging in', api_url)
+    auth_token = login(api_url, username, password)
+    print("auth token", auth_token)
+    if auth_token != '':
+        print('Success!')
+    else:
+        print('Ooops! something went wrong')
+        sys.exit(1)
+
+    # Test create_repo
+    print('Testing create_repo()')
+    print('Create your first repository')
+    name = input('Repo name: ')
+    repo_code = input('Repo code: ')
+    repo = create_repo(api_url, auth_token, name, repo_code)
+    print(json.dumps(repo, indent=4))
+    print('Create a second repository')
+    name = input('Repo name: ')
+    repo_code = input('Repo code: ')
+    repo = create_repo(api_url, auth_token, name, repo_code)
+    print(json.dumps(repo, indent=4))
     
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        name = input('Repo name: ')
-        repo_code = input('Repo code: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
-        repo = create_repo(api_url, auth_token, name, repo_code)
-        print(json.dumps(repo, indent=4))
+    # All done!
+    print('Success!')
 ```
 
 --
@@ -794,12 +829,12 @@ it.
 ```Python
     auth_token = login(api_url, username, password)
     req = urllib.request.Request(
-        api_url+'/repositories', 
-        None, 
-        {"X-ArchivesSpace-Session": auth_token})
+        url = api_url+'/repositories', 
+        data = None, 
+        header = {"X-ArchivesSpace-Session": auth_token})
     response = urllib.request.urlopen(req)
     result = json.JSONDecoder().decode(response.read().decode('utf-8'))
-    print(json.dumps(result, indent=4, sort_keys=True))
+    print(json.dumps(result, indent=4))
 ```
 
 + How are the results organized?
@@ -818,22 +853,26 @@ at the bottom.
     def list_repos(api_url, auth_token):
         '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
-            api_url+'/repositories', 
-            None, 
-            {'X-ArchivesSpace-Session': auth_token})
+            url = api_url+'/repositories', 
+            data = None, 
+            headers = {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req)
+        status = response.getcode()
+        if status != 200:
+            printf('WARNING: http status code', status)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
 
                                      
     if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
+        ...
+
+        # Add this new test...
         repos = list_repos(api_url, auth_token)
         print("repositores list", json.dumps(repos, indent=4))
 ```
+
+(note: the "..." that is just a place holder for the previous tests 
+added)
 
 We've added our *list_repos* and changed the tests at the bottom.
 
@@ -919,18 +958,18 @@ the function *list_repos*. We'll be update the *if* block too.
     def list_repo(api_url, auth_token, repo_id):
         '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id), 
-            None, 
-            {'X-ArchivesSpace-Session': auth_token})
+            url = api_url+'/repositories/'+str(repo_id), 
+            data = None, 
+            headers = {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
     
     if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
+        # previous tests go here
+
+        ...
+
+        # Test for list_repo
         repo_id = int(input('Enter repo id (e.g. 2): '))
         repos = list_repos(api_url, auth_token, repo_id)
         print('repositores list', json.dumps(repos, indent=4))
@@ -991,21 +1030,21 @@ Your code should wind up looking something like this.
         data = json.JSONEncoder().encode(repo).encode('utf-8')
         # Add our auth_token to your req object
         req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id),
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token})
         # Note we sending our repo as "data" in our urlopen (i.e. trigger a POST)
         response = urllib.request.urlopen(req, data)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
     
     if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
+        # previous tests go here
+
+        ...
+
+        # Add test for update_repo()
         repos = list_repos(api_url, auth_token)
-        print('Pick a repository id to update', repos)
+        print('Pick a repository id to update', json.dumps(repos, indent=4))
         repo_id = int(input('Repository numeric id: '))
         print('Getting repository record', repo_id)
         repo = list_repo(api_url, auth_token, repo_id)
@@ -1052,97 +1091,170 @@ the repository to be deleted. Note deleting a record via the API is permanent. T
 This is what our cumulative efforts should look like so far.
 
 ```Python
-    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-        
-    def login (api_url, username, password):
-        '''This function takes a username/password and authenticates against the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        response = urllib.request.urlopen(req)
-        result = json.JSONDecoder().decode(response.read().decode('UTF-8'))
-        return result['session']
+#!/usr/bin/env python3
+import urllib.request
+import getpass
+import json
     
-    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        # Data is getting attached to urlopen() and not req object to trigger a POST
-        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
-        data = json.JSONEncoder().encode({
-                        'jsonmodel_type': 'repository',
-                        'name': name,
-                        'repo_code': repo_code,
-                        'org_code': org_code,
-                        'image_url': image_url,
-                        'url': url
-                    }).encode('utf-8')
-        # Add our auth_token to your req object
-        req = urllib.request.Request(api_url+'/repositories', None, {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req, data)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    def list_repos(api_url, auth_token):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            api_url+'/repositories',
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    def list_repo(api_url, auth_token, repo_id):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id),
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
-        response =  urllib.request.urlopen(req)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    def update_repo(api_url, auth_token, repo_id, repo):
-        '''This function sends a updates a repository via ArchivesSpace REST API'''
-        # Data is getting attached to urlopen() and not req object to trigger a POST
-        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
-        data = json.JSONEncoder().encode(repo).encode('utf-8')
-        # Add our auth_token to your req object
-        req = urllib.request.Request(
-            api_url+'/repositories/'+repo_id,
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
-        # Note we sending our repo as "data" in our urlopen (i.e. trigger a POST)
-        response = urllib.request.urlopen(req, data)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    def delete_repo(api_url, auth_token, repo_id):
-        '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
-        # Notice we've added a method = 'DELETE' in our Request object.
-        req = urllib.request.Request(
-            url = api_url+'/repositories/'+str(repo_id),
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token},
-            method = 'DELETE')
-        response = urllib.request.urlopen(req)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
+
+def login (api_url, username, password):
+    '''This function logs into the ArchivesSpace REST API returning an acccess token'''
+    data = urllib.parse.urlencode({'password': password})
+    data = data.encode('utf-8')
+    req = urllib.request.Request(
+        url = api_url+'/users/'+username+'/login', 
+        data = data)
+    response = urllib.request.urlopen(req)
+    status = response.getcode()
+    if status != 200:
+        # No session token
+        print('ERROR: login failed', response.read().decode('utf-8'))
+        return ''
+    result = json.JSONDecoder().decode(response.read().decode('utf-8'))
+    # Session holds the value we want for auth_token
+    return result['session']
+
+def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
+    '''This function sends a create request to the ArchivesSpace REST API'''
+    data = json.JSONEncoder().encode({
+                    'jsonmodel_type': 'repository',
+                    'name': name,
+                    'repo_code': repo_code,
+                    'org_code': org_code,
+                    'image_url': image_url,
+                    'url': url
+                }).encode('utf-8')
+    req = urllib.request.Request(
+            url = api_url+'/repositories', 
+            data = None, 
+            headers = {'X-ArchivesSpace-Session': auth_token})
+    response = urllib.request.urlopen(req, data)
+    status = response.getcode()
+    if status != 200:
+        print('WARNING http statuc code', status)
+    return json.JSONDecoder().decode(response.read().decode('utf-8'))
+
+def list_repos(api_url, auth_token):
+    '''List all the repositories, return the listing object'''
+    req = urllib.request.Request(
+        url = api_url+'/repositories',
+        data = None,
+        headers = {'X-ArchivesSpace-Session': auth_token})
+    response = urllib.request.urlopen(req)
+    status = response.getcode()
+    if status != 200:
+        print('WARNING http statuc code', status)
+    return json.JSONDecoder().decode(response.read().decode('utf-8'))
+
+def list_repo(api_url, auth_token, repo_id):
+    '''List all the repositories, return the listing object'''
+    req = urllib.request.Request(
+        url = api_url+'/repositories/'+str(repo_id),
+        data = None,
+        headers = {'X-ArchivesSpace-Session': auth_token})
+    response =  urllib.request.urlopen(req)
+    status = response.getcode()
+    if status != 200:
+        print('WARNING http statuc code', status)
+    return json.JSONDecoder().decode(response.read().decode('utf-8'))
+
+def update_repo(api_url, auth_token, repo_id, repo):
+    '''This function sends a updates a repository via ArchivesSpace REST API'''
+    data = json.JSONEncoder().encode(repo).encode('utf-8')
+    req = urllib.request.Request(
+        url = api_url+'/repositories/'+repo_id,
+        data = None,
+        headers = {'X-ArchivesSpace-Session': auth_token})
+    response = urllib.request.urlopen(req, data)
+    status = response.getcode()
+    if status != 200:
+        print('WARNING http statuc code', status)
+    return json.JSONDecoder().decode(response.read().decode('utf-8'))
+
+def delete_repo(api_url, auth_token, repo_id):
+    '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
+    req = urllib.request.Request(
+        url = api_url+'/repositories/'+str(repo_id),
+        data = None,
+        headers = {'X-ArchivesSpace-Session': auth_token},
+        method = 'DELETE')
+    response = urllib.request.urlopen(req)
+    status = response.getcode()
+    if status != 200:
+        print('WARNING http statuc code', status)
+    return json.JSONDecoder().decode(response.read().decode('utf-8'))
+
+
+if __name__ == '__main__':
+    # Test login
+    print("Testing login()")
+    api_url = input('ArchivesSpace API URL: ')
+    username = input('ArchivesSpace username: ')
+    password = getpass.getpass('ArchivesSpacew password: ')
+        print('Logging in', api_url)
         auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
+        print("auth token", auth_token)
+        if auth_token != '':
+            print('Success!')
+        else:
+            print('Ooops! something went wrong')
+            sys.exit(1)
+    
+        # Test create_repo
+        print('Testing create_repo()')
+        print('Create your first repository')
+        name = input('Repo name: ')
+        repo_code = input('Repo code: ')
+        repo = create_repo(api_url, auth_token, name, repo_code)
+        print(json.dumps(repo, indent=4))
+        print('Create a second repository')
+        name = input('Repo name: ')
+        repo_code = input('Repo code: ')
+        repo = create_repo(api_url, auth_token, name, repo_code)
+        print(json.dumps(repo, indent=4))
+    
+        # Test list_repos
+        print('Testing list_repos()')
         repos = list_repos(api_url, auth_token)
-        print('Pick a repository id to update', repos)
+        print('repositores list', json.dumps(repos, indent=4))
+    
+        # Test list_repo
+        print('Testing list_repo()')
+        repo_id = int(input('Enter repo id: '))
+        repo = list_repo(api_url, auth_token, repo_id)
+        print('repository list', json.dumps(repos, indent=4))
+        
+        # Test update_repo
+        print('Testing update_repo()')
+        repos = list_repos(api_url, auth_token)
+        print('Pick a repository id to update', 
+            json.dumps(repos, indent=4))
+        repo_id = input('Repository numeric id: ')
+        print('Getting repository record', repo_id)
+        repo = list_repo(api_url, auth_token, repo_id)
+        repo['name'] = input('old name is '+repo['name']+', provide a new name: ')
+        print('Now we update')
+        result = update_repo(api_url, auth_token, repo_id, repo)
+        print('Result is', json.dumps(result, indent=4))
+        
+        # Test delete_repo
+        print('Testing delete_repo()')
+        repos = list_repos(api_url, auth_token)
+        print('Pick a repository id to update', json.dumps(repos, indent=4))
         repo_id = int(input('Repository numeric id to delete: '))
         result = delete_repo(api_url, auth_token, repo_id)
-        print("Result is", result)
-        print(list_repos(api_url, auth_token))
+        print('Result is', json.dumps(result, indent=4))
+        print(json.dumps(list_repos(api_url, auth_token), indent=4))
         
+        # All done!
+        print('Success!')
 ```
 
-In an ideal world we'd have one or more tests of each of the function we define
-in **repo.py**.
+In an ideal world we'd have one or more tests of each of the function.
+When things git unwieldly we group the tests into functions, possibly
+putting them in a separate module (e.g. repo_test.py).
+
+[repo.py](repo.py)
 
 --
 

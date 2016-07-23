@@ -5,8 +5,10 @@ import getpass
 def login (api_url, username, password):
     '''This function logs into the ArchivesSpace REST API and shows the text response'''
     data = urllib.parse.urlencode({'password': password})
-    data = data.encode('ascii')
-    req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+    data = data.encode('utf-8')
+    req = urllib.request.Request(
+        url = api_url+'/users/'+username+'/login', 
+        data = data)
     response = urllib.request.urlopen(req)
     status = response.getcode()
     print('HTTP status code', status)

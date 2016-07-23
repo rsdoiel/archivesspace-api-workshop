@@ -42,13 +42,17 @@ class ArchivesSpaceAPI:
             'repo_code': repo_code,
             'name': name,
         }).encode('ascii')
-        req = urllib.request.Request(self.api_url+'/repositories', None, {'X-ArchivesSpace-Session': self.auth_token})
+        req = urllib.request.Request(self.api_url+'/repositories', 
+            data = None, 
+            headers = {'X-ArchivesSpace-Session': self.auth_token})
         response =  urllib.request.urlopen(req, data)
         return json.JSONDecoder().decode(response.read().decode('UTF-8'))
 
 
     def listRepositories(self):
-        req = urllib.request.Request(self.api_url+'/repositories', None, {'X-ArchivesSpace-Session': self.auth_token})
+        req = urllib.request.Request(self.api_url+'/repositories', 
+            data = None, 
+            headers = {'X-ArchivesSpace-Session': self.auth_token})
         response = urllib.request.urlopen(req)
         return self.jsonparse(response.read().decode('UTF-8'))
 
