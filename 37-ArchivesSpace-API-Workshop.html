@@ -28,7 +28,7 @@ get a response.</p>
                         'url': url
                     }).encode('utf-8')
         req = urllib.request.Request(
-                api_url+'/repositories', 
+                url = api_url+'/repositories', 
                 data = None, 
                 headers = {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req, data)

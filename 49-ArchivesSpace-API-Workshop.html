@@ -30,21 +30,21 @@ suggest?</p>
         data = json.JSONEncoder().encode(repo).encode('utf-8')
         # Add our auth_token to your req object
         req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id),
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token})
         # Note we sending our repo as &quot;data&quot; in our urlopen (i.e. trigger a POST)
         response = urllib.request.urlopen(req, data)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
     
     if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
+        # previous tests go here
+
+        ...
+
+        # Add test for update_repo()
         repos = list_repos(api_url, auth_token)
-        print('Pick a repository id to update', repos)
+        print('Pick a repository id to update', json.dumps(repos, indent=4))
         repo_id = int(input('Repository numeric id: '))
         print('Getting repository record', repo_id)
         repo = list_repo(api_url, auth_token, repo_id)

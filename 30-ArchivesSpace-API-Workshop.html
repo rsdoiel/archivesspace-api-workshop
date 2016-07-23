@@ -27,7 +27,9 @@ testing in the closing <em>if</em> block)</p>
         '''This function logs into the ArchivesSpace REST API returning an acccess token'''
         data = urllib.parse.urlencode({'password': password})
         data = data.encode('utf-8')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+        req = urllib.request.Request(
+            url = api_url+'/users/'+username+'/login', 
+            data = data)
         response = urllib.request.urlopen(req)
         status = response.getcode()
         if status != 200:

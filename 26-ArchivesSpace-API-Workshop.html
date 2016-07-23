@@ -15,7 +15,9 @@
 
 <p>Now send a request with our data.</p>
 
-<pre><code class="language-python">    req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
+<pre><code class="language-python">    req = urllib.request.Request(
+        url = api_url+'/users/'+username+'/login', 
+        data = data)
     response = urllib.request.urlopen(req)
     print(response.read().decode('UTF-8'))
 </code></pre>

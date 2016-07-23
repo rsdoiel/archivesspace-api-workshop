@@ -19,18 +19,18 @@ the function <em>list_repos</em>. We&rsquo;ll be update the <em>if</em> block to
 <pre><code class="language-Python">    def list_repo(api_url, auth_token, repo_id):
         '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id), 
-            None, 
-            {'X-ArchivesSpace-Session': auth_token})
+            url = api_url+'/repositories/'+str(repo_id), 
+            data = None, 
+            headers = {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
     
     if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
+        # previous tests go here
+
+        ...
+
+        # Test for list_repo
         repo_id = int(input('Enter repo id (e.g. 2): '))
         repos = list_repos(api_url, auth_token, repo_id)
         print('repositores list', json.dumps(repos, indent=4))
