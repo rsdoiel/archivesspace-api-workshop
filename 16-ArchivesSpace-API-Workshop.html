@@ -11,11 +11,31 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<ul>
-<li>What do you see?</li>
-<li>Are there questions?</li>
-</ul>
+<h2>import modules</h2>
+
+<p>Once <strong>idle</strong> starts it&rsquo;ll launch a Python Shell (also known as a Repl).</p>
+
+<p>Type the following in the shell.</p>
+
+<pre><code class="language-python">    import urllib.request
+    import json
+    import getpass
+</code></pre>
+
+<p>These are the three modules we&rsquo;ll use through out our Workshop.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

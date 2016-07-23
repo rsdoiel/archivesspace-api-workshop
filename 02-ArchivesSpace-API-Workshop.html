@@ -9,43 +9,32 @@
 <a rel="nav" href="01-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="03-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h2>Before the workshop</h2>
+	<section><h1>Introducing the ArchivesSpace REST API using Python 3</h1>
 
-<ul>
-<li>Make sure you have a modern web browser
+<h2>Workshop structure</h2>
 
-<ul>
-<li>Firefox or Chrome with the <a href="https://jsonview.com/">JSONView</a> plugin recommended</li>
-</ul></li>
-<li>Make sure you have <a href="https://www.python.org/downloads/">Python 3.5.2</a>
-
-<ul>
-<li>Install <a href="https://www.python.org/downloads/">Python 3.5.2</a> if needed</li>
-</ul></li>
-<li>Make sure you have a text editor
-
-<ul>
-<li>IDLE for Python 3 is what I will use in the Workshop</li>
-</ul></li>
-<li>A test deployment ArchivesSpace is being provided as part of the Workshop
-
-<ul>
-<li>You can install your own via <a href="http://github.com/rsdoiel/archivesspace-api-workshop/archivesspace-dev/">VirtualBox and Vagrant</a></li>
-</ul></li>
-<li>Bookmark in your web browser:
-
-<ul>
-<li><a href="http://archivesspace.github.io/archivesspace/api/">ArchivesSpace API Docs</a></li>
-<li><a href="https://docs.python.org/3/library/index.html">Python Reference</a></li>
-<li><a href="https://rsdoiel.github.io/archivesspace-api-workshop">This presentation website</a></li>
-</ul></li>
-<li>Recommended reading
-
-<ul>
-<li>Read through the <a href="https://docs.python.org/3/tutorial/index.html">Python 3 tutorial</a> if they are not familiar with Python.</li>
-</ul></li>
-</ul>
+<ol>
+<li>Setup</li>
+<li>Making an http connection</li>
+<li>Authentication</li>
+<li>Working with Repositories</li>
+<li>Working with Agents</li>
+<li>Working with Accessions</li>
+<li>Other ArchivesSpace Models</li>
+</ol>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

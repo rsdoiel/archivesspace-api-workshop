@@ -11,26 +11,28 @@
 	</nav>
 	<section><h1>1. Setup</h1>
 
-<h2>ArchivesSpace</h2>
+<h2>Python Development Environment</h2>
 
 <ul>
-<li>Our hosts have provided us with test deployments of ArchivesSpace
+<li>Start IDLE for Python 3.5
 
 <ul>
-<li>See hand out or whiteboard for connection details</li>
-</ul></li>
-<li>Make sure you can access ArchivesSpace Web UI from your web browser
-
-<ul>
-<li>usually <a href="http://localhost:8080">http://localhost:8080</a> in the docs</li>
-</ul></li>
-<li>Make sure you can access ArchivesSpace API from your web browser
-
-<ul>
-<li>usually <a href="http://localhost:8089">http://localhost:8089</a> in the docs</li>
+<li>confirm the reported version is 3.5.1 or better</li>
 </ul></li>
 </ul>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

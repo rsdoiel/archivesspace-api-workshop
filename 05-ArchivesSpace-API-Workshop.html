@@ -11,15 +11,26 @@
 	</nav>
 	<section><h1>1. Setup</h1>
 
-<h2>your web browser</h2>
+<h2>ArchivesSpace</h2>
 
-<p>Open the following in your web browser tabs</p>
-
-<ul>
-<li><a href="https://rsdoiel.github.io/archivesspace-api-workshop/00-ArchivesSpace-API-Workshop.html">rsdoiel.github.io/archivesspace-api-workshop/00-ArchivesSpace-API-Workshop.html</a></li>
-<li>ArchivesSpace API docs <a href="http://archivesspace.github.io/archivesspace/api/">archivesspace.github.io/archivesspace/api/</a></li>
-</ul>
+<ol>
+<li>Point your web browser at the ArchivesSpace web UI</li>
+<li>Make sure you can login</li>
+<li>In another browser tab point your web browser the API URL</li>
+</ol>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

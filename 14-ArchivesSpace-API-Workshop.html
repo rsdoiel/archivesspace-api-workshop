@@ -11,19 +11,32 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<h2>Create a request object</h2>
+<h2>launch python</h2>
 
-<p>Continue in the Python shell and add</p>
+<p>From a terminal on Linux I type &hellip;</p>
 
-<pre><code class="language-python">    api_url = 'http://localhost:8089'
-    req = urllib.request.Request(api_url)
+<pre><code class="language-shell">    idle-python3.5 &amp;
 </code></pre>
 
-<p>You will need to replace &ldquo;<a href="http://localhost:8089&quot;">http://localhost:8089&quot;</a> with your
-Workshop API URL.</p>
+<p>On Mac OS X or Windows you&rsquo;ll need to &hellip;</p>
 
-<p>The goal is to creates a <strong>Request</strong> object named <em>req</em>.</p>
+<ol>
+<li>find your Python 3.5.2 installation folder.</li>
+<li>find <strong>idle</strong>, click/double click to start it.</li>
+</ol>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

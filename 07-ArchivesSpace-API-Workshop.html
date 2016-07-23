@@ -11,14 +11,28 @@
 	</nav>
 	<section><h1>1. Setup</h1>
 
-<h2>ArchivesSpace</h2>
+<h2>About the code</h2>
+
+<p>The basic organization is as follows</p>
 
 <ol>
-<li>Point your web browser at the ArchivesSpace web UI</li>
-<li>Make sure you can login</li>
-<li>In another browser tab point your web browser the API URL</li>
+<li>import block</li>
+<li>define some functions</li>
+<li>and a <code>if __name == '__main__':</code> block at the end</li>
 </ol>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

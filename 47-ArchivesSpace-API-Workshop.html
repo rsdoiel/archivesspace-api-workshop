@@ -9,8 +9,48 @@
 <a rel="nav" href="46-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="48-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><p>FIXME: remaining slides need to be written to the lesson plan.</p>
+	<section><h1>4. Repositories</h1>
+
+<h2>adding list_repo</h2>
+
+<p>Let&rsquo;s copy and modify our list_repos definition to <em>list_repo</em>. Paste it after
+the function <em>list_repos</em>. We&rsquo;ll be update the <em>if</em> block too.</p>
+
+<pre><code class="language-Python">    def list_repo(api_url, auth_token, repo_id):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            url = api_url+'/repositories/'+str(repo_id), 
+            data = None, 
+            headers = {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    if __name__ == '__main__':
+        # previous tests go here
+
+        ...
+
+        # Test for list_repo
+        repo_id = int(input('Enter repo id (e.g. 2): '))
+        repos = list_repos(api_url, auth_token, repo_id)
+        print('repositores list', json.dumps(repos, indent=4))
+        
+</code></pre>
+
+<p>Are the results what you expected? Are we still getting an array?</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

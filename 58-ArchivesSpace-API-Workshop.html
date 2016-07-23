@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head><link href="css/slides.css" rel="stylesheet" />
+   
+</head>
+<body>
+	<nav>
+<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a rel="nav" href="57-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a rel="nav" href="59-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+	</nav>
+	<section><h1>5. Working with Agents</h1>
+
+<h2>create_agent code will need:</h2>
+
+<ol>
+<li>Save <a href="repo.py">repo.py</a> As <a href="agent.py">agent.py</a></li>
+<li>We&rsquo;ll create our function create_code, we need
+
+<ul>
+<li>api_url</li>
+<li>auth_token</li>
+<li>agent_type</li>
+<li>the rest of the agent data (see the API docs)</li>
+</ul></li>
+<li>Add tests for each type of agent we want to support</li>
+</ol>
+</section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
+</body>
+</html>
+

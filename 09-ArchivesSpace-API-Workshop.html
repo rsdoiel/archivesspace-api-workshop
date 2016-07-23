@@ -9,20 +9,30 @@
 <a rel="nav" href="08-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="10-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>2. Make an http connection</h1>
+	<section><h1>1. Setup</h1>
 
-<p>Up next, these three things</p>
+<h2>About the code</h2>
 
-<ul>
-<li>using the Python interpreter</li>
-<li>import the three standard modules we&rsquo;ll use in the workshop
+<h3>The functions we define</h3>
 
-<ul>
-<li>i.e. urllib.request, getpass, json</li>
-</ul></li>
-<li>make a connection with the request object</li>
-</ul>
+<p>In The middle section we will add our functions. Between each section of
+the workshop we&rsquo;ll copy the previous code forward to a new file.
+We will redefine and adding as we move through the API.  The goal isn&rsquo;t to
+have allot of files but to allow you to see how the code evolves overtime
+into a python module.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

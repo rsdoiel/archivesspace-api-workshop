@@ -11,32 +11,31 @@
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<h2>Putting it all together</h2>
+<h2>Create a request object</h2>
 
-<p>Let&rsquo;s take what we learned and create a Python scripts called
-<a href="make-an-http-connection.py">make-an-http-connection.py</a>.</p>
+<p>Continue in the Python shell and add</p>
 
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import json
-    import getpass
-
-    api_url = input('ArchivesSpace API URL: ')
-    if api_url == '':
-        api_url = 'http://localhost:8089'
+<pre><code class="language-python">    api_url = 'http://localhost:8089'
     req = urllib.request.Request(api_url)
-
-    with urllib.request.urlopen(req) as response:
-        print(response.read().decode('utf-8'))
-
 </code></pre>
 
-<ol>
-<li>In IDLE click on the file name and create a new file</li>
-<li>Type in the above</li>
-<li>Save the file as <strong>make-an-http-connection.py</strong></li>
-</ol>
+<p>You will need to replace &ldquo;<a href="http://localhost:8089&quot;">http://localhost:8089&quot;</a> with your
+Workshop API URL.</p>
+
+<p>The goal is to creates a <strong>Request</strong> object named <em>req</em>.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

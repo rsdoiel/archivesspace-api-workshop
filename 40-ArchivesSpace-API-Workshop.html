@@ -11,26 +11,32 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>ArchivesSpace API Docs</h2>
+<h2>Adding a new list_repo function</h2>
 
-<p>The documentation about the API will help us know what to ask.
-Find &ldquo;list repositories&rdquo;</p>
+<p>Like <em>login</em> and <em>create_repo</em> this function needs to contact the API.
+But the data we send is less. We need</p>
 
 <ul>
-<li>Change to your browser tab with the docs</li>
-<li>Search for &ldquo;Get a list of Repositories&rdquo;</li>
+<li>Our api_url and auth_token</li>
+<li>We need the URL path for listing repositories
+
+<ul>
+<li>How do we find that path?</li>
+</ul></li>
 </ul>
-
-<p>The <strong>curl</strong> statement suggested looks like</p>
-
-<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-        'http://localhost:8089/repositories'
-</code></pre>
-
-<p>Notice there is no &ldquo;-d&rdquo; listed. We only need to know the
-API URL and then add &ldquo;/repositories&rdquo; to it. We still need
-to send along our auth token in the header as normal.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 

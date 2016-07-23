@@ -9,22 +9,34 @@
 <a rel="nav" href="28-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a rel="nav" href="30-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>3. Authentication</h1>
 
-<h2>What we&rsquo;ll do in this section</h2>
+<h2>Save the access token returned</h2>
 
-<ul>
-<li>Creating two repositories
+<p>We need to parse the JSON data into a Python object
+so we can save our access token.</p>
 
-<ul>
-<li>we&rsquo;ll keep the first and experiment with the second</li>
-</ul></li>
-<li>List the available repositories (should see the two we created)</li>
-<li>View a specific repository</li>
-<li>Update a repository</li>
-<li>Deleting the second repository</li>
-</ul>
+<pre><code class="language-JSON">    {   
+       &quot;session&quot;: &quot;84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a&quot;,
+       ...
+    }
+</code></pre>
+
+<p>The session value is our access token. We can pluck that single
+item out easiest if we turn the JSON blob into a Python variable.</p>
 </section>
+<script>
+function addLineNo(code) {
+    var line = 1;
+    code = code.replace(/^/gm, function() {
+        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
+});
+}
+
+var codeblocks = document.querySelectorAll('code');
+
+codeblocks.forEach(addLineNo);
+</script>
 </body>
 </html>
 
