@@ -7,21 +7,61 @@
     <body>
         <header><p><img src="http://www.gravatar.com/avatar/60c7b20527f236c7156a85772a97430f.png" title="When I press keys letters and punctuation sometimes appear on the surface." alt="Androidified Robert in a beret and black t-shirt."><div>Robert Doiel<br />Digital Services Programmer<br /><a href="http://library.caltech.edu">Caltech Libraries</a><br /></div></p>
 </header>
-        <section><h1>ArchivesSpace Dev</h1>
+        <section><p>ArchivesSpace is licensed under the <a href="http://opensource.org/licenses/ecl2.php">Educational Community License v2</a>.</p>
 
-<p>A dev copy of ArchivesSpace running under Vagrant.</p>
+<h1>Running ArchivesSpace with Virtualbox/Vagrant</h1>
 
-<p>ArchivesSpace is licensed under the <a href="http://opensource.org/licenses/ecl2.php">Educational Community License v2</a>.</p>
+<h2>Initial setup</h2>
 
-<h2>Reference Material for learning to develop with ArchivesSpace REST API</h2>
+<ol>
+<li>Install Virtualbox</li>
+<li>Install Vagrant</li>
+<li>Change to the <em>archivesspace-dev</em> directory
 
 <ul>
-<li><a href="https://www.youtube.com/watch?v=z0HR46q4F8o&amp;list=PLJFitFaE9AY_DDlhl3Kq_vFeX27F1yt6I&amp;index=1">ArchivesSpace Developer Screencase</a> the most useful reference to ArchivesSpace&rsquo;s APIs.</li>
-<li><a href="https://archivesspace.github.io/archivesspace/doc/file.API.html">REST API Docs</a> (assumes Ruby and AS JSONModel object, still useful after looking at the screen casts and curl examples)</li>
-<li><a href="http://archivesspace.github.io/archivesspace/doc/">General documentations</a></li>
-</ul>
+<li><code>cd archivesspace-dev</code></li>
+</ul></li>
+<li>Bring up vagrant
 
-<h2>Dependencies</h2>
+<ul>
+<li><code>vagrant up</code></li>
+</ul></li>
+<li>SSH into vagrant instance
+
+<ul>
+<li><code>vagrant ssh</code></li>
+</ul></li>
+<li>Run the final-installation-step.sh in /vagrant
+
+<ul>
+<li><code>/vagrant/final-installation-step.sh</code></li>
+</ul></li>
+<li>Wait for ArchivesSpace to startup and point your browser at <a href="http://localhost:8080">http://localhost:8080</a> to confirm</li>
+</ol>
+
+<h3>Example local setup</h3>
+
+<p>Here&rsquo;s an example of what I would type on my Mac in a Terminal window for the whole process</p>
+
+<pre><code>        git clone https://github.com/rsdoiel/archivesspace-api-workshop
+        cd archivesspace-api-workshop/archivesspace-dev
+        vagrant up
+        vagrant ssh
+        # At this point I've SSH'd to the vagrante virtual machine instance
+        /vagrant/final-installation-step.sh
+        # This take a little while to run, there are some prompts to answer
+        # When complete we'll switch the archivesspace user and start archivesspace
+        sudo /archivesspace/v1.5.0/archivesspace/archivesspace.sh 
+        # You can press Ctrl-C to stop ArchivesSpace running
+</code></pre>
+
+<h2>Proceed to setup things and import data</h2>
+
+<p>Initially ArchivesSpace is configured but lacking data isn&rsquo;t terribly
+interesting. Use your new Python skills to create a repository and
+add some content.</p>
+
+<h3>Dependencies</h3>
 
 <ul>
 <li><a href="https://www.vagrantup.com/">Vagrant</a> and all that is needed to run vagrant (e.g. <a href="https://www.virtualbox.org/">Virtual Box</a>)
@@ -32,18 +72,22 @@
 <li>Bash (for the scripts)</li>
 </ul>
 
-<h2>Misc</h2>
+<h3>Reference Material for learning to develop with ArchivesSpace REST API</h3>
 
 <ul>
-<li><a href="https://github.com/archivesspace/archivesspace/blob/master/backend/Authentication.md">Instructurions for Shib integration</a></li>
+<li><a href="https://www.youtube.com/watch?v=z0HR46q4F8o&amp;list=PLJFitFaE9AY_DDlhl3Kq_vFeX27F1yt6I&amp;index=1">ArchivesSpace Developer Screencase</a> the most useful reference to ArchivesSpace&rsquo;s APIs.</li>
+<li><a href="https://archivesspace.github.io/archivesspace/doc/file.API.html">REST API Docs</a> (assumes Ruby and AS JSONModel object, still useful after looking at the screen casts and curl examples)</li>
+<li><a href="http://archivesspace.github.io/archivesspace/doc/">General documentations</a></li>
 </ul>
 </section>
         <nav><ul>
 <li><a href="/">Home</a></li>
 <li><a href="../index.html">About Presentation</a></li>
 <li><a href="../abstract.html">Abstract</a></li>
-<li><a href="../00-ArchivesSpace-API-Workshop.html">Presentation slides</a></li>
-<li><a href="index.html">Install ArchivesSpace with Vagrant</a></li>
+<li><a href="../requirements.html">Before the workshop &hellip;</a></li>
+<li><a href="../00-ArchivesSpace-API-Workshop.html">View Presentation</a></li>
+<li><a href="https://www.python.org/downloads/">How to install Python 3</a></li>
+<li><a href="index.html">How to install ArchivesSpace</a></li>
 <li><a href="https://github.com/rsdoiel/archivesspace-api-workshop">Github repo</a></li>
 </ul>
 </nav>

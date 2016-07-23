@@ -746,37 +746,37 @@ update the *if* block to match.
             print('WARNING http statuc code', status)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
 
-
-if __name__ == '__main__':
-    # Test login
-    print("Testing login()")
-    api_url = input('ArchivesSpace API URL: ')
-    username = input('ArchivesSpace username: ')
-    password = getpass.getpass('ArchivesSpacew password: ')
-    print('Logging in', api_url)
-    auth_token = login(api_url, username, password)
-    print("auth token", auth_token)
-    if auth_token != '':
-        print('Success!')
-    else:
-        print('Ooops! something went wrong')
-        sys.exit(1)
-
-    # Test create_repo
-    print('Testing create_repo()')
-    print('Create your first repository')
-    name = input('Repo name: ')
-    repo_code = input('Repo code: ')
-    repo = create_repo(api_url, auth_token, name, repo_code)
-    print(json.dumps(repo, indent=4))
-    print('Create a second repository')
-    name = input('Repo name: ')
-    repo_code = input('Repo code: ')
-    repo = create_repo(api_url, auth_token, name, repo_code)
-    print(json.dumps(repo, indent=4))
     
-    # All done!
-    print('Success!')
+    if __name__ == '__main__':
+        # Test login
+        print("Testing login()")
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpacew password: ')
+        print('Logging in', api_url)
+        auth_token = login(api_url, username, password)
+        print("auth token", auth_token)
+        if auth_token != '':
+            print('Success!')
+        else:
+            print('Ooops! something went wrong')
+            sys.exit(1)
+    
+        # Test create_repo
+        print('Testing create_repo()')
+        print('Create your first repository')
+        name = input('Repo name: ')
+        repo_code = input('Repo code: ')
+        repo = create_repo(api_url, auth_token, name, repo_code)
+        print(json.dumps(repo, indent=4))
+        print('Create a second repository')
+        name = input('Repo name: ')
+        repo_code = input('Repo code: ')
+        repo = create_repo(api_url, auth_token, name, repo_code)
+        print(json.dumps(repo, indent=4))
+        
+        # All done!
+        print('Success!')
 ```
 
 --
@@ -864,6 +864,8 @@ at the bottom.
 
                                      
     if __name__ == '__main__':
+        # Previous tests go here
+
         ...
 
         # Add this new test...
@@ -1042,7 +1044,7 @@ Your code should wind up looking something like this.
 
         ...
 
-        # Add test for update_repo()
+        # Test for update_repo()
         repos = list_repos(api_url, auth_token)
         print('Pick a repository id to update', json.dumps(repos, indent=4))
         repo_id = int(input('Repository numeric id: '))
@@ -1185,12 +1187,12 @@ def delete_repo(api_url, auth_token, repo_id):
     return json.JSONDecoder().decode(response.read().decode('utf-8'))
 
 
-if __name__ == '__main__':
-    # Test login
-    print("Testing login()")
-    api_url = input('ArchivesSpace API URL: ')
-    username = input('ArchivesSpace username: ')
-    password = getpass.getpass('ArchivesSpacew password: ')
+    if __name__ == '__main__':
+        # Test login
+        print("Testing login()")
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpacew password: ')
         print('Logging in', api_url)
         auth_token = login(api_url, username, password)
         print("auth token", auth_token)
@@ -1340,13 +1342,14 @@ code evaluating the response.
 
 ## create_agent code will need:
 
-1. Save [repo.py](repo.py) As [agent.py](agent.py)
-2. We'll create our function create_code, we need
+1. Open [login.py](login.py)
+2. Save [login.py](login.py) As [agent.py](agent.py)
+3. We'll create our function create_code, we need
     + api_url
     + auth_token
     + agent_type
     + the rest of the agent data (see the API docs)
-3. Add tests for each type of agent we want to support
+4. Add tests for each type of agent we want to support
 
 --
 
