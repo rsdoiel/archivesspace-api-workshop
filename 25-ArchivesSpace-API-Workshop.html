@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><link href="css/slides.css" rel="stylesheet" />
-   
+ <script type="text/javascript" src="scripts/keyboard-nav.js"></script>
 </head>
 <body>
 	<nav>
@@ -11,16 +11,16 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h1>Send our username and password</h1>
+<h2>Send our username and password</h2>
 
-<p>Now with our data send our request.</p>
+<p>Now with our username and password ready, we send our login request.</p>
 
 <pre><code class="language-python">    req = urllib.request.Request(api_url+&quot;/users/&quot;+username+&quot;/login&quot;, data)
     response = urllib.request.urlopen(req)
     print(response.read().decode('UTF-8'))
 </code></pre>
 
-<p>You should see the type of response ArchivesSpace send back.</p>
+<p>You should now see the type of response that ArchivesSpace sends back.</p>
 </section>
 </body>
 </html>

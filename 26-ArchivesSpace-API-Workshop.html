@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><link href="css/slides.css" rel="stylesheet" />
-   
+ <script type="text/javascript" src="scripts/keyboard-nav.js"></script>
 </head>
 <body>
 	<nav>
@@ -18,12 +18,13 @@
 <p>Open the IDLE text editor and create a new file
 called <strong>login.py</strong>.</p>
 
-<p>We&rsquo;ll create a python function and add prompts for api url,
+<p>We&rsquo;ll create a python function and add prompts for our API URL,
 username and password to test it.</p>
 
 <pre><code class="language-python">    #!/usr/bin/env python3
     import urllib.request
     import getpass
+    import json
         
     def login (api_url, username, password):
         data = urllib.parse.urlencode({'password': password})
