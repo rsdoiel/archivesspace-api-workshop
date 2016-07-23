@@ -49,6 +49,7 @@ code {
 }
    </style>
    {{- end }}
+    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </head>
 <body>
 	<nav>
