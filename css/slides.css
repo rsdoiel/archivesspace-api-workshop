@@ -33,7 +33,7 @@ nav {
 }
 
 a, a:hover, a:link, a:visited, a:focus, a:active {
-    text-decoration: none;
+    text-decoration: underline;
     color: grey;
 }
 

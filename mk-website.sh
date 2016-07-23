@@ -29,6 +29,4 @@ makePage INSTALL.md nav.md install.html
 # archivesspace-dev/index.html
 makePage archivesspace-dev/README.md archivesspace-dev/nav.md archivesspace-dev/index.html
 
-# archivesspace-dev/install.html
-makePage archivesspace-dev/INSTALL.md archivesspace-dev/nav.md archivesspace-dev/install.html
 

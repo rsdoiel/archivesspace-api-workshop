@@ -1,7 +1,5 @@
 
-## Requirements
-
-Requirements for participants:
+# Requirements
 
 + A laptop/device with network access
     + Linux (what I use), Mac OS X (which I am familiar with), or Windows (which I am very very rusty on)

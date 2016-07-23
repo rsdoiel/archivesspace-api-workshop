@@ -42,7 +42,7 @@ suggest?</p>
 
         ...
 
-        # Add test for update_repo()
+        # Test for update_repo()
         repos = list_repos(api_url, auth_token)
         print('Pick a repository id to update', json.dumps(repos, indent=4))
         repo_id = int(input('Repository numeric id: '))

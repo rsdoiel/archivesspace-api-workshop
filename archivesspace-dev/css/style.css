@@ -125,3 +125,11 @@ img.rss-valid {
     width: 3.24em;
     height: 1em;
 }
+
+h1 {
+    font-size: 200%;
+}
+
+h2 {
+    font-size: 120%;
+}
