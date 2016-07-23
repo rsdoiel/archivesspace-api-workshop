@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="52-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="54-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="52-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="54-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
@@ -24,18 +24,7 @@
 <li>Look at any data that needs to be sent, noting how it is sent (e.g. a JSON blob or as part of a path)</li>
 </ol>
 </section>
-<script>
-function addLineNo(code) {
-    var line = 1;
-    code = code.replace(/^/gm, function() {
-        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
-});
-}
-
-var codeblocks = document.querySelectorAll('code');
-
-codeblocks.forEach(addLineNo);
-</script>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="37-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="39-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="37-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="39-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>4. Repositories</h1>
 
@@ -45,18 +45,7 @@ Some of the important differences are</p>
 <p>You can copy and paste your def from our text editor to the repl and make
 sure it compiles.</p>
 </section>
-<script>
-function addLineNo(code) {
-    var line = 1;
-    code = code.replace(/^/gm, function() {
-        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
-});
-}
-
-var codeblocks = document.querySelectorAll('code');
-
-codeblocks.forEach(addLineNo);
-</script>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

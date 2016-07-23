@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="56-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="58-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="56-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="58-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
@@ -22,18 +22,7 @@ is out of order.</p>
 <p>This has the benefit of keep our code simple but does mean we need more
 code evaluating the response.</p>
 </section>
-<script>
-function addLineNo(code) {
-    var line = 1;
-    code = code.replace(/^/gm, function() {
-        return '<span class="line-number-position">&#x200b;<span class="line-number">' + line++ + '</span></span>';
-});
-}
-
-var codeblocks = document.querySelectorAll('code');
-
-codeblocks.forEach(addLineNo);
-</script>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

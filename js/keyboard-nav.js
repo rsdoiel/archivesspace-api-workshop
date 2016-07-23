@@ -1,14 +1,27 @@
+(function (document, window) {
+    'use strict';
+    var start = document.getElementById('start-slide'),
+        prev = document.getElementById('prev-slide'),
+        next = document.getElementById('next-slide');
+
+
 document.onkeydown = function(e) {
     switch (e.keyCode) {
+        case 32:
         case 37:
-            document.querySelectorAll("a[title='Previous slide']")[0].click();
+            // Previous: left arrow or space
+            next.click();
             break;
         case 39:
-            document.querySelectorAll("a[title='Next slide']")[0].click();
+            // Next: right arrow
+            prev.click();
             break;
         case 72:
         case 83:
-            document.querySelectorAll("a[title='Return to start of presentation']")[0].click();
+            // Home/Start: h, s
+            start.click();
             break;
     }
 };
+}(document, window));
+
