@@ -1095,100 +1095,85 @@ the repository to be deleted. Note deleting a record via the API is permanent. T
 This is what our cumulative efforts should look like so far.
 
 ```Python
-#!/usr/bin/env python3
-import urllib.request
-import getpass
-import json
+    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+    import json
+    # Here's our own login module
+    import login
     
-
-def login (api_url, username, password):
-    '''This function logs into the ArchivesSpace REST API returning an acccess token'''
-    data = urllib.parse.urlencode({'password': password})
-    data = data.encode('utf-8')
-    req = urllib.request.Request(
-        url = api_url+'/users/'+username+'/login', 
-        data = data)
-    response = urllib.request.urlopen(req)
-    status = response.getcode()
-    if status != 200:
-        # No session token
-        print('ERROR: login failed', response.read().decode('utf-8'))
-        return ''
-    result = json.JSONDecoder().decode(response.read().decode('utf-8'))
-    # Session holds the value we want for auth_token
-    return result['session']
-
-def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
-    '''This function sends a create request to the ArchivesSpace REST API'''
-    data = json.JSONEncoder().encode({
-                    'jsonmodel_type': 'repository',
-                    'name': name,
-                    'repo_code': repo_code,
-                    'org_code': org_code,
-                    'image_url': image_url,
-                    'url': url
-                }).encode('utf-8')
-    req = urllib.request.Request(
-            url = api_url+'/repositories', 
-            data = None, 
+    
+    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        data = json.JSONEncoder().encode({
+                        'jsonmodel_type': 'repository',
+                        'name': name,
+                        'repo_code': repo_code,
+                        'org_code': org_code,
+                        'image_url': image_url,
+                        'url': url
+                    }).encode('utf-8')
+        req = urllib.request.Request(
+                url = api_url+'/repositories', 
+                data = None, 
+                headers = {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req, data)
+        status = response.getcode()
+        if status != 200:
+            print('WARNING http statuc code', status)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    def list_repos(api_url, auth_token):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            url = api_url+'/repositories',
+            data = None,
             headers = {'X-ArchivesSpace-Session': auth_token})
-    response = urllib.request.urlopen(req, data)
-    status = response.getcode()
-    if status != 200:
-        print('WARNING http statuc code', status)
-    return json.JSONDecoder().decode(response.read().decode('utf-8'))
-
-def list_repos(api_url, auth_token):
-    '''List all the repositories, return the listing object'''
-    req = urllib.request.Request(
-        url = api_url+'/repositories',
-        data = None,
-        headers = {'X-ArchivesSpace-Session': auth_token})
-    response = urllib.request.urlopen(req)
-    status = response.getcode()
-    if status != 200:
-        print('WARNING http statuc code', status)
-    return json.JSONDecoder().decode(response.read().decode('utf-8'))
-
-def list_repo(api_url, auth_token, repo_id):
-    '''List all the repositories, return the listing object'''
-    req = urllib.request.Request(
-        url = api_url+'/repositories/'+str(repo_id),
-        data = None,
-        headers = {'X-ArchivesSpace-Session': auth_token})
-    response =  urllib.request.urlopen(req)
-    status = response.getcode()
-    if status != 200:
-        print('WARNING http statuc code', status)
-    return json.JSONDecoder().decode(response.read().decode('utf-8'))
-
-def update_repo(api_url, auth_token, repo_id, repo):
-    '''This function sends a updates a repository via ArchivesSpace REST API'''
-    data = json.JSONEncoder().encode(repo).encode('utf-8')
-    req = urllib.request.Request(
-        url = api_url+'/repositories/'+repo_id,
-        data = None,
-        headers = {'X-ArchivesSpace-Session': auth_token})
-    response = urllib.request.urlopen(req, data)
-    status = response.getcode()
-    if status != 200:
-        print('WARNING http statuc code', status)
-    return json.JSONDecoder().decode(response.read().decode('utf-8'))
-
-def delete_repo(api_url, auth_token, repo_id):
-    '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
-    req = urllib.request.Request(
-        url = api_url+'/repositories/'+str(repo_id),
-        data = None,
-        headers = {'X-ArchivesSpace-Session': auth_token},
-        method = 'DELETE')
-    response = urllib.request.urlopen(req)
-    status = response.getcode()
-    if status != 200:
-        print('WARNING http statuc code', status)
-    return json.JSONDecoder().decode(response.read().decode('utf-8'))
-
-
+        response = urllib.request.urlopen(req)
+        status = response.getcode()
+        if status != 200:
+            print('WARNING http statuc code', status)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    def list_repo(api_url, auth_token, repo_id):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token})
+        response =  urllib.request.urlopen(req)
+        status = response.getcode()
+        if status != 200:
+            print('WARNING http statuc code', status)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    def update_repo(api_url, auth_token, repo_id, repo):
+        '''This function sends a updates a repository via ArchivesSpace REST API'''
+        data = json.JSONEncoder().encode(repo).encode('utf-8')
+        req = urllib.request.Request(
+            url = api_url+'/repositories/'+repo_id,
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token})
+        response = urllib.request.urlopen(req, data)
+        status = response.getcode()
+        if status != 200:
+            print('WARNING http statuc code', status)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    def delete_repo(api_url, auth_token, repo_id):
+        '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
+        req = urllib.request.Request(
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'DELETE')
+        response = urllib.request.urlopen(req)
+        status = response.getcode()
+        if status != 200:
+            print('WARNING http statuc code', status)
+        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    
+    
     if __name__ == '__main__':
         # Test login
         print("Testing login()")
@@ -1196,7 +1181,7 @@ def delete_repo(api_url, auth_token, repo_id):
         username = input('ArchivesSpace username: ')
         password = getpass.getpass('ArchivesSpacew password: ')
         print('Logging in', api_url)
-        auth_token = login(api_url, username, password)
+        auth_token = login.login(api_url, username, password)
         print("auth token", auth_token)
         if auth_token != '':
             print('Success!')
@@ -1226,14 +1211,11 @@ def delete_repo(api_url, auth_token, repo_id):
         print('Testing list_repo()')
         repo_id = int(input('Enter repo id: '))
         repo = list_repo(api_url, auth_token, repo_id)
-        print('repository list', json.dumps(repos, indent=4))
+        print('repository list', json.dumps(repo, indent=4))
         
         # Test update_repo
         print('Testing update_repo()')
-        repos = list_repos(api_url, auth_token)
-        print('Pick a repository id to update', 
-            json.dumps(repos, indent=4))
-        repo_id = input('Repository numeric id: ')
+        repo_id = input('Repository numeric id to update: ')
         print('Getting repository record', repo_id)
         repo = list_repo(api_url, auth_token, repo_id)
         repo['name'] = input('old name is '+repo['name']+', provide a new name: ')
@@ -1243,8 +1225,6 @@ def delete_repo(api_url, auth_token, repo_id):
         
         # Test delete_repo
         print('Testing delete_repo()')
-        repos = list_repos(api_url, auth_token)
-        print('Pick a repository id to update', json.dumps(repos, indent=4))
         repo_id = int(input('Repository numeric id to delete: '))
         result = delete_repo(api_url, auth_token, repo_id)
         print('Result is', json.dumps(result, indent=4))
@@ -1258,16 +1238,16 @@ In an ideal world we'd have one or more tests of each of the function.
 When things git unwieldly we group the tests into functions, possibly
 putting them in a separate module (e.g. repo_test.py).
 
-[repo.py](repo.py)
+Full listing [repo.py](repo.py)
 
 --
 
 # 5. Working with Agents
 
-Each ArchivesSpace API Model tends to have its own nuances based on the schema.
-Agents is not an exception but it will give us a change to explore writing API
-calls that need a bit more information then is convient to pass as a bunch of single
-parameters in our definition.
+Each ArchivesSpace API Model tends to have its own nuances based on the 
+schema. Agents is not an exception but it will give us a change to 
+explore writing API calls that need a bit more information then is 
+convient to pass as a bunch of single parameters in our definition.
 
 --
 
@@ -1279,7 +1259,8 @@ parameters in our definition.
     + Is there more than one?
 2. Look up in the API Docs the activity want to use
 3. Look at the HTTP method required (e.g. GET, POST, DELETE)
-4. Look at any data that needs to be sent, noting how it is sent (e.g. a JSON blob or as part of a path)
+4. Look at any data that needs to be sent, noting how it is sent 
+    + (e.g. a JSON blob or as part of a path)
 
 --
 
