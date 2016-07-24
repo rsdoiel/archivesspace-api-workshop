@@ -11,7 +11,42 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>List Agents ID</h2>
+<h2>create_agent schema</h2>
+
+<p>A quick search in the API docs for &ldquo;Create a person agent&rdquo; leads us
+to &hellip; nothing. <strong>As of 2016-07-23 right shell column of the API docs nolonger shows the usual <em>curl</em> examples</strong>.</p>
+
+<p>With a little guessing based on our repositories example I can list agents with</p>
+
+<h3>First attempt</h3>
+
+<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+    http://localhost:8089/agents/people
+</code></pre>
+
+<p>I get back an error about paging and missing information. I&rsquo;ll &ldquo;all_ids=true&rdquo; next.</p>
+
+<h3>Second attempt</h3>
+
+<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+    http://localhost:8089/agents/people?all_ids=true
+</code></pre>
+
+<p>This gives an array of integer ids. I haven&rsquo;t created any &ldquo;people&rdquo; yet
+so I&rsquo;m guessing that is the &ldquo;Admin&rdquo; account.</p>
+
+<pre><code class="language-JSON">    [
+      1
+    ]
+</code></pre>
+
+<p>Trying</p>
+
+<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+    http://localhost:8089/agents/people/1
+</code></pre>
+
+<p>I get back a big JSON blob like <a href="example-agent-people.json">example-agent-people.json</a>.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

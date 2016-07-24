@@ -171,11 +171,11 @@ wind up with.
     import urllib.request
     import json
     import getpass
+    # additional modules get added here.
     
     # This is where we add our functions
     def hello_world():
         return 'Hello World!!!'
-    
     
     # This is where we put our tests
     if __name__ == '__main__':
@@ -222,7 +222,7 @@ comes standard with Python distributions.
 From a terminal on Linux I type ...
 
 ```shell
-    idle-python3.5 &
+    idle-python3.5
 ```
 
 On Mac OS X or Windows you'll need to ...
@@ -643,7 +643,9 @@ Do we need to change "jsonmodel_type"?
 
 ## Use **login.py** as our template script
 
-1. Save [login.py](login.py) As [repo.py](repo.py)
+1. Create a new file called [repo.py](repo.py)
+2. Include our usual import block
+3. Add `import login` to the list
 
 We're going to be adding a *create_repo* function and modifying the
 testing in the *if* block.
@@ -1308,8 +1310,32 @@ These are the types we'll accomodate.
 
 + corporate_entities
 + families
-+ people
++ people (we'll focus on this type in the workshop)
 + software
+
+--
+
+# 5. Working with Agents
+
+## The Admin account is a "agents/people"
+
+The API docs start getting sparse with agents (maybe because of the
+recent release of v1.5.0).  But we know somethings already from the
+*repositories* examples.  We know we can list things. Let's try
+listing the people we have in our repositories first.
+
+--
+
+# 5. Working with Agents
+
+## Listing agents/people
+
+Let's try an experiment.
+
+```Python
+    def list_agents(api_url, auth_token):
+        req = urllib
+```
 
 --
 
@@ -1355,20 +1381,103 @@ code evaluating the response.
 
 # 5. Working with Agents
 
+## create_agent schema
+
+A quick search in the API docs for "Create a person agent" leads us 
+to ... nothing. **As of 2016-07-23 right shell column of the API docs nolonger shows the usual *curl* examples**.
+
+With a little guessing based on our repositories example I can list agents with
+
+### First attempt
+
+```Shell
+    curl -H "X-ArchivesSpace-Session: $SESSION" \
+    http://localhost:8089/agents/people
+```
+
+I get back an error about paging and missing information. I'll "all_ids=true" next.
+
+### Second attempt
+
+```Shell
+    curl -H "X-ArchivesSpace-Session: $SESSION" \
+    http://localhost:8089/agents/people?all_ids=true
+```
+
+This gives an array of integer ids. I haven't created any "people" yet
+so I'm guessing that is the "Admin" account.
+
+```JSON
+    [
+      1
+    ]
+```
+
+Trying
+
+```Shell
+    curl -H "X-ArchivesSpace-Session: $SESSION" \
+    http://localhost:8089/agents/people/1
+```
+
+I get back a big JSON blob like [example-agent-people.json](example-agent-people.json).
+
+--
+
+# 5. Working with Agents
+
+## Thats too much info to be friendly!
+
+From the docs we do know we need a POST and we known that the path in the
+URL will look like "/agent/people". The docs also tell us what we should
+except if we're successful. This is where working in the shell is handy.
+
+After some experimentation I've come up with a minimum number of fields
+
+```Python
+    # Our minimal agent record includes a :name_person and a :agent_person
+    # model
+    name_model = {
+           'primary_name': primary_name,
+           'rest_of_name': rest_of_name,
+           'name_order': 'inverted',
+           'jsonmodel_type': 'name_person',
+           'source': source,
+           'rules': rules,
+           'sort_name': primary_name+', '+rest_of_name,
+           'is_display_name': True,
+    }
+
+    agent_record = {
+        'jsonmodel_type': agent_type,
+        'title': primary_name+', '+rest_of_name,
+        'is_link_to_be_published': False,
+        'agent_type': agent_type,
+        'publish': False,
+        'display_name': name_model,
+        'names':[
+           name_model
+         ]
+    }
+```
+
+--
+
+# 5. Working with Agents
+
 ## list_agents
 
+
+--
+# 5. Working with Agents
+
+## List Agents ID
 
 --
 
 # 5. Working with Agents
 
 ## Update an Agent
-
---
-
-# 5. Working with Agents
-
-## List Agents ID
 
 --
 
