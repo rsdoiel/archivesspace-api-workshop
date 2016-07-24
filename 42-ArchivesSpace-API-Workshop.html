@@ -18,7 +18,7 @@ After that we can build our request and send it. We&rsquo;ll
 wrap up by decoding the JSON response and pretty printing
 it.</p>
 
-<pre><code class="language-Python">    auth_token = login(api_url, username, password)
+<pre><code class="language-python">    auth_token = login(api_url, username, password)
     req = urllib.request.Request(
         url = api_url+'/repositories', 
         data = None, 
