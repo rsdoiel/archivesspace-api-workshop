@@ -1573,19 +1573,19 @@ Full listing [agent.py](agent.py)
         agent_ids = json.JSONDecoder().decode(response.read().decode('utf-8'))
         return agent_ids
            
-        if __name__ == '__main__':
-            # Our previous tests are here
+    if __name__ == '__main__':
+        # Our previous tests are here
         
-            ...
+        ...
         
         
-            # Test list_agents(), requires api_url, auth_token and agent_type
-            print('Test list_agents()')
-            agent_ids = list_agents(api_url, auth_token, 'agent_person')
-            if len(agent_ids) < 1:
-               print('ERROR: should have at least one agent!')
-               sys.exit(0)
-            print('agent ids ->', json.dumps(agent_ids, indent = 4))
+        # Test list_agents(), requires api_url, auth_token and agent_type
+        print('Test list_agents()')
+        agent_ids = list_agents(api_url, auth_token, 'agent_person')
+        if len(agent_ids) < 1:
+            print('ERROR: should have at least one agent!')
+            sys.exit(0)
+        print('agent ids ->', json.dumps(agent_ids, indent = 4))
 ```
 
 Full listing [agent.py](agent.py)
@@ -1600,8 +1600,6 @@ Full listing [agent.py](agent.py)
     def list_agent(api_url, auth_token, agent_type, agent_id):
        '''List all the agent ids of a given type'''
        url = api_url+agent_type_path(agent_type)+'/'+agent_id
-    ##   print('DEBUG: curl -H "{X-ArchivesSpace-Session:', auth_token, '}"',
-    ##         url) # DEBUG
        req = urllib.request.Request(
           url = url,
           data = None,
