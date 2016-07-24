@@ -102,12 +102,26 @@ pre > code {
     padding: 0;
 }
 
+blockquote {
+    width: 90%;
+    height: auto;
+    border-radius: 4em 1.24em 4em;
+    padding: 1.24em;
+    font-family: monospace, serif;
+    font-size: 90%;
+    color: white;
+    background-color: grey;
+}
 
 .language-shell {
+    color: cyan;
+}
+
+.language-json {
     color: red;
 }
 
-.language-JSON {
-    color: red;
+.language-python {
+    color: yellow;
 }
 

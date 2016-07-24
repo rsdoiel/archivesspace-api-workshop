@@ -192,7 +192,7 @@ You shold see "Success!! -> Hello World!!!" when you run the program.
 
 # 2. Make an http connection
 
-    But when are we going to write some code?
+<blockquote>But when are we going to write some code?</blockquote>
 
 Up next, these three things
 
@@ -347,7 +347,7 @@ We'll be doing this often as we evolve our scripts.
 2. You'll be prompted for the ArchivesSpace API URL
 3. After entering it you'll see the JSON blob response below.
 
-```python
+```shell
     RESTART: /home/rsdoiel/Sites/archivespace-api-workshop/make-an-http-connection.py 
     ArchivesSpace API URL: http://localhost:8089
     {
@@ -578,7 +578,7 @@ We repeat the process to create multiple repositories.
 +  Look at the example **curl** request on the right
 
 
-```json
+```shell
     curl -H "X-ArchivesSpace-Session: $SESSION"
     -d {
        "jsonmodel_type": "repository",
