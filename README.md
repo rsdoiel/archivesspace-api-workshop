@@ -17,7 +17,8 @@ Date: Aug 2<sup>nd</sup>, 2016
 + [R. S. Doiel](https://rsdoiel.github.io)
     + Software Developer 
     + Caltech Library
-+ [Mark Custer](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
-    + Archivist and Metadata Coordinator
++ Mark Custer
+    + [Archivist and Metadata Coordinator](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
     + Beinecke Rare Book and Manuscript Library
+
 
