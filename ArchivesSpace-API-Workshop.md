@@ -107,7 +107,8 @@ The basic organization is as follows
 
 1. import block
 2. define some functions
-3. and a `if __name == '__main__':` block at the end
+3. and a `if __name__ == '__main__':` block at the end
+    + this *if* block is where our tests go
 
 --
 
@@ -474,12 +475,7 @@ Now "Run" the python script and see the results like we did before.
 
 ## Let's a closer look at the JSON results
 
-Open [example-login-response.json](example-login-response.json) in 
-a new browser window.
-
---
-
-# 3. Authentication
+Example results [example-login-response.json](example-login-response.json) 
 
 ## Save the access token returned
 
@@ -1599,7 +1595,7 @@ Full listing [agent.py](agent.py)
 ```python
     def list_agent(api_url, auth_token, agent_type, agent_id):
        '''List all the agent ids of a given type'''
-       url = api_url+agent_type_path(agent_type)+'/'+agent_id
+       url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
        req = urllib.request.Request(
           url = url,
           data = None,
@@ -1620,7 +1616,7 @@ Full listing [agent.py](agent.py)
     
         # Test list_agent(), requires api_url, auth_token, agent_type, agent_id
         print('Test list_agent()')
-        agent_id = input('Enter agent_id (numeric): ')
+        agent_id = int(input('Enter agent_id (numeric): '))
         agent = list_agent(api_url, auth_token, 'agent_person', agent_id)
         print('agent', agent_id, ' details', json.dumps(agent, indent=4))
 ```

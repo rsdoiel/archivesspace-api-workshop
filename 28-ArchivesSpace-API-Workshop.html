@@ -13,8 +13,21 @@
 
 <h2>Let&rsquo;s a closer look at the JSON results</h2>
 
-<p>Open <a href="example-login-response.json">example-login-response.json</a> in
-a new browser window.</p>
+<p>Example results <a href="example-login-response.json">example-login-response.json</a></p>
+
+<h2>Save the access token returned</h2>
+
+<p>We need to parse the JSON data into a Python object
+so we can save our access token.</p>
+
+<pre><code class="language-json">    {   
+       &quot;session&quot;: &quot;84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a&quot;,
+       ...
+    }
+</code></pre>
+
+<p>The session value is our access token. We can pluck that single
+item out easiest if we turn the JSON blob into a Python variable.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

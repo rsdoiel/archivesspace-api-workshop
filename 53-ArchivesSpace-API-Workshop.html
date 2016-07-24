@@ -11,22 +11,19 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>Our recipe</h2>
+<h2>Sorting the HTTP methods we need to use</h2>
 
-<ol>
-<li>Look up in the API Docs the object module that applies
-
-<ul>
-<li>Is there more than one?</li>
-</ul></li>
-<li>Look up in the API Docs the activity want to use</li>
-<li>Look at the HTTP method required (e.g. GET, POST, DELETE)</li>
-<li>Look at any data that needs to be sent, noting how it is sent
+<p>Suggested functions</p>
 
 <ul>
-<li>(e.g. a JSON blob or as part of a path)</li>
-</ul></li>
-</ol>
+<li>create_agent (CREATE)</li>
+<li>list_agents  (READ)</li>
+<li>list_agent   (READ)</li>
+<li>update_agent (UPDATE)</li>
+<li>delete_agent (DELETE)</li>
+</ul>
+
+<p>These are our basic CRUD operations as functions working with the API.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

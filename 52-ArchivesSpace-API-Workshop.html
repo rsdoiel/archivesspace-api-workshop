@@ -11,10 +11,22 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<p>Each ArchivesSpace API Model tends to have its own nuances based on the
-schema. Agents is not an exception but it will give us a change to
-explore writing API calls that need a bit more information then is
-convient to pass as a bunch of single parameters in our definition.</p>
+<h2>Our recipe</h2>
+
+<ol>
+<li>Look up in the API Docs the object module that applies
+
+<ul>
+<li>Is there more than one?</li>
+</ul></li>
+<li>Look up in the API Docs the activity want to use</li>
+<li>Look at the HTTP method required (e.g. GET, POST, DELETE)</li>
+<li>Look at any data that needs to be sent, noting how it is sent
+
+<ul>
+<li>(e.g. a JSON blob or as part of a path)</li>
+</ul></li>
+</ol>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

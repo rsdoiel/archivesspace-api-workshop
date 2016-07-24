@@ -11,19 +11,19 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>Sorting the HTTP methods we need to use</h2>
+<h2>How about types of agents?</h2>
 
-<p>Suggested functions</p>
+<p>ArchivesSpace stores the agent type in the schema but it also uses it when
+organizing API access via the URL (e.g. /agents/software, /agents/people).</p>
+
+<p>These are the types we&rsquo;ll accomodate.</p>
 
 <ul>
-<li>create_agent (CREATE)</li>
-<li>list_agents  (READ)</li>
-<li>list_agent   (READ)</li>
-<li>update_agent (UPDATE)</li>
-<li>delete_agent (DELETE)</li>
+<li>corporate_entities</li>
+<li>families</li>
+<li>people (we&rsquo;ll focus on this type in the workshop)</li>
+<li>software</li>
 </ul>
-
-<p>These are our basic CRUD operations as functions working with the API.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

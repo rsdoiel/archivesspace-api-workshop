@@ -11,15 +11,8 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<p>Notice how similar it is to our <strong>login</strong> function. Also how we
-add the header to pass along our <em>auth_token</em> with our request.
-Some of the important differences are</p>
-
-<ul>
-<li>We&rsquo;re encoding <em>data</em> as JSON instead of urlencoding.</li>
-<li>We&rsquo;ve added an <em>auth_token</em> as a header parameter in the <em>Request</em></li>
-<li><em>data</em> is passed via <em>urlopen</em> rather than in our <em>Request</em> object</li>
-</ul>
+<p>Putting it all together, add the following after the <em>login</em> function and
+update the <em>if</em> block to match.</p>
 
 <pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
         '''This function sends a create request to the ArchivesSpace REST API'''
@@ -40,10 +33,39 @@ Some of the important differences are</p>
         if status != 200:
             print('WARNING http statuc code', status)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
-</code></pre>
 
-<p>You can copy and paste your def from our text editor to the repl and make
-sure it compiles.</p>
+    
+    if __name__ == '__main__':
+        # Test login
+        print(&quot;Testing login()&quot;)
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpacew password: ')
+        print('Logging in', api_url)
+        auth_token = login(api_url, username, password)
+        print(&quot;auth token&quot;, auth_token)
+        if auth_token != '':
+            print('Success!')
+        else:
+            print('Ooops! something went wrong')
+            sys.exit(1)
+    
+        # Test create_repo
+        print('Testing create_repo()')
+        print('Create your first repository')
+        name = input('Repo name: ')
+        repo_code = input('Repo code: ')
+        repo = create_repo(api_url, auth_token, name, repo_code)
+        print(json.dumps(repo, indent=4))
+        print('Create a second repository')
+        name = input('Repo name: ')
+        repo_code = input('Repo code: ')
+        repo = create_repo(api_url, auth_token, name, repo_code)
+        print(json.dumps(repo, indent=4))
+        
+        # All done!
+        print('Success!')
+</code></pre>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

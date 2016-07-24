@@ -11,45 +11,34 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>list_agents implementation</h2>
+<h2>list_agent implementation</h2>
 
-<ol>
-<li>Add our list_agents() to our <em>def</em> section</li>
-<li>Update our tests in our <em>if</em> block</li>
-</ol>
-
-<pre><code class="language-python">    def list_agents(api_url, auth_token, agent_type):
-        '''List all the agent ids of a given type'''
-        data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
-        url = api_url+agent_type_path(agent_type)
-        ##   print('DEBUG: curl -H &quot;{X-ArchivesSpace-Session:', auth_token, '}&quot;',
-        ##         url+'?all_ids=true') # DEBUG
-        req = urllib.request.Request(
-              url = url,
-              data = data,
-              headers = {'X-ArchivesSpace-Session': auth_token},
-              method = 'GET')
-        response = urllib.request.urlopen(req)
-        status = response.getcode()
-        if status != 200:
-            print('WARNING: https status code ', status)
-            return response.read().decode('utf-8')
-        agent_ids = json.JSONDecoder().decode(response.read().decode('utf-8'))
-        return agent_ids
-           
+<pre><code class="language-python">    def list_agent(api_url, auth_token, agent_type, agent_id):
+       '''List all the agent ids of a given type'''
+       url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
+       req = urllib.request.Request(
+          url = url,
+          data = None,
+          headers = {'X-ArchivesSpace-Session': auth_token},
+          method = 'GET')
+       response = urllib.request.urlopen(req)
+       status = response.getcode()
+       if status != 200:
+          print('WARNING: https status code ', status)
+       agent = json.JSONDecoder().decode(response.read().decode('utf-8'))
+       return agent
+       
     if __name__ == '__main__':
-        # Our previous tests are here
-        
+        # Our usual test go here
+    
         ...
-        
-        
-        # Test list_agents(), requires api_url, auth_token and agent_type
-        print('Test list_agents()')
-        agent_ids = list_agents(api_url, auth_token, 'agent_person')
-        if len(agent_ids) &lt; 1:
-            print('ERROR: should have at least one agent!')
-            sys.exit(0)
-        print('agent ids -&gt;', json.dumps(agent_ids, indent = 4))
+    
+    
+        # Test list_agent(), requires api_url, auth_token, agent_type, agent_id
+        print('Test list_agent()')
+        agent_id = int(input('Enter agent_id (numeric): '))
+        agent = list_agent(api_url, auth_token, 'agent_person', agent_id)
+        print('agent', agent_id, ' details', json.dumps(agent, indent=4))
 </code></pre>
 
 <p>Full listing <a href="agent.py">agent.py</a></p>
