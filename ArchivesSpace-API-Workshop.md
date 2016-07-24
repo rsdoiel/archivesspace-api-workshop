@@ -886,7 +886,7 @@ We've added our *list_repos* and changed the tests at the bottom.
 
 ## results should look something like
 
-```python
+```shell
     username admin auth_token 9321ca79d94517d7018aa1ac4f1b6f2901b522c4b234d3ab9a4602fae9a8d72d
     repositores list [
         {
