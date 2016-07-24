@@ -844,8 +844,10 @@ it.
 
 ## Time to put this together in a script
 
-Add *list_repos* function after *create_repo* and update the testing section
-at the bottom.
+Add *list_repos* function after *create_repo* and update the testing 
+section at the bottom.
+
+In the definition section add
 
 ```python
     def list_repos(api_url, auth_token):
@@ -859,14 +861,12 @@ at the bottom.
         if status != 200:
             printf('WARNING: http status code', status)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
+```
 
-                                     
-    if __name__ == '__main__':
-        # Previous tests go here
+In the test *if* block add
 
-        ...
-
-        # Add this new test...
+```python
+        # Test list_repos()
         repos = list_repos(api_url, auth_token)
         print("repositores list", json.dumps(repos, indent=4))
 ```
@@ -951,8 +951,10 @@ It looks like we add the numeric id to the end of the path (i.e. "/1").
 
 ## adding list_repo
 
-Let's copy and modify our list_repos definition to *list_repo*. Paste it after
-the function *list_repos*. We'll be update the *if* block too.
+Let's copy and modify our list_repos definition to *list_repo*. Paste 
+it after the function *list_repos*. We'll be update the *if* block too.
+
+In the definition section add
 
 ```python
     def list_repo(api_url, auth_token, repo_id):
@@ -963,12 +965,11 @@ the function *list_repos*. We'll be update the *if* block too.
             headers = {'X-ArchivesSpace-Session': auth_token})
         response = urllib.request.urlopen(req)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    if __name__ == '__main__':
-        # previous tests go here
+```
 
-        ...
+In the test *if* block add
 
+```python
         # Test for list_repo
         repo_id = int(input('Enter repo id (e.g. 2): '))
         repos = list_repos(api_url, auth_token, repo_id)
@@ -1022,6 +1023,8 @@ suggest?
 
 Your code should wind up looking something like this.
 
+In the definition section add
+
 ```python
     def update_repo(api_url, auth_token, repo_id, repo):
         '''This function sends a create request to the ArchivesSpace REST API'''
@@ -1036,12 +1039,11 @@ Your code should wind up looking something like this.
         # Note we sending our repo as "data" in our urlopen (i.e. trigger a POST)
         response = urllib.request.urlopen(req, data)
         return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    if __name__ == '__main__':
-        # previous tests go here
+```
 
-        ...
+In the test *if* block add
 
+```python
         # Test for update_repo()
         repos = list_repos(api_url, auth_token)
         print('Pick a repository id to update', json.dumps(repos, indent=4))
@@ -1063,9 +1065,10 @@ methods in the module like *list_repos()* as well as *list_repo()*.
 
 ## Finally we can delete a repository too
 
-As you may suspect we're beginning to see allot of repetition in our code. We'll
-live with it for now. To delete a repository take a look at the docs. You can
-find it by searching for "Delete a Repository". The *curl* looks like this ...
+As you may suspect we're beginning to see allot of repetition in our code. 
+We'll live with it for now. To delete a repository take a look at the 
+docs. You can find it by searching for "Delete a Repository". The 
+*curl* looks like this ...
 
 ```shell
     curl -H "X-ArchivesSpace-Session: $SESSION" \
@@ -1073,11 +1076,14 @@ find it by searching for "Delete a Repository". The *curl* looks like this ...
         'http://localhost:8089/repositories/:repo_id'
 ```
 
-Notice it looks allot like our *list_repo()* curl example but with an "-X DELETE".
-There are four common methods in HTTP transactions - GET, POST, PUT and DELETE.
-DELETE does what it sounds like. It'll send a "DELETE" method call to the API requesting
-the repository to be deleted. Note deleting a record via the API is permanent. There is no
-"UNDO"!!!!
+Notice it looks allot like our *list_repo()* curl example but with 
+an "-X DELETE".  There are four common methods in HTTP transactions 
+
++ GET, POST, PUT, DELELETE
+
+DELETE does what it sounds like. It'll send a "DELETE" method call to 
+the API requesting the repository to be deleted. Note deleting a record 
+via the API is permanent. There is no "UNDO"!!!!
 
 1. Copy *list_repo()* function definition to *delete_repo* after *update_repo*
 2. We need to modify the default test methods once again
@@ -1638,8 +1644,7 @@ debugging your data modifications.
 
 ## Update an Agent implementation
 
-In the definition section add.
-
+In the definition section add
 
 ```python
     def update_agent(api_url, auth_token, agent_type, agent_id, agent_record):
@@ -1659,7 +1664,7 @@ In the definition section add.
        return json.JSONDecoder().decode(src)
 ```
 
-In the test section add.
+In the test section add
 
 ```python
     # Update the record we just created
