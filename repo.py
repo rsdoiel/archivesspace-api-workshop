@@ -131,7 +131,6 @@ if __name__ == '__main__':
     repo_id = int(input('Repository numeric id to delete: '))
     result = delete_repo(api_url, auth_token, repo_id)
     print('Result is', json.dumps(result, indent=4))
-    print(json.dumps(list_repos(api_url, auth_token), indent=4))
     
     # All done!
     print('Success!')

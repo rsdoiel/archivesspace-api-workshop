@@ -7,7 +7,7 @@ function assertUsername {
     ERROR_MSG=$2
     WHOAMI=$(whoami)
 
-    if [ "$USERNAME" = "" ];then
+    if [ "$USERNAME" = "" ]; then
         echo "SCRIPTING error, assertUsername expects a username to be supplied to check."
         exit 1
     fi
@@ -145,6 +145,8 @@ function setupFinish() {
 }
 
 function setupUbuntu() {
+    echo "Upgrading existing Ubuntu"
+    sudo apt-get update && sudo apt-get upgrade -y
     echo "Installing additional Ubuntu 16.04 LTS packages needed"
     sudo apt-get install build-essential git curl zip unzip \
          default-jdk ant ant-contrib ant-optional \

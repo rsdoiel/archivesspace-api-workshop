@@ -22,8 +22,6 @@ def list_agents(api_url, auth_token, agent_type):
    '''List all the agent ids of a given type'''
    data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
    url = api_url+agent_type_path(agent_type)
-##   print('DEBUG: curl -H "{X-ArchivesSpace-Session:', auth_token, '}"',
-##         url+'?all_ids=true') # DEBUG
    req = urllib.request.Request(
       url = url,
       data = data,
@@ -40,9 +38,7 @@ def list_agents(api_url, auth_token, agent_type):
 
 def list_agent(api_url, auth_token, agent_type, agent_id):
    '''List all the agent ids of a given type'''
-   url = api_url+agent_type_path(agent_type)+'/'+agent_id
-##   print('DEBUG: curl -H "{X-ArchivesSpace-Session:', auth_token, '}"',
-##         url) # DEBUG
+   url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
    req = urllib.request.Request(
       url = url,
       data = None,
@@ -60,13 +56,6 @@ def create_agent(api_url, auth_token, agent_record):
    '''create an agent and return the new agent record'''
    data = json.JSONEncoder().encode(agent_record).encode('utf-8')
    url = api_url+agent_type_path(agent_record['agent_type'])
-##   print('DEBUG curl -H {"X-ArchivesSpace-Session: ',
-##         auth_token,
-##         '"} ',
-##         ' -d ',
-##         data,
-##         ' ',
-##         url)
    req = urllib.request.Request(
         url = url,
         data = None,
@@ -76,21 +65,14 @@ def create_agent(api_url, auth_token, agent_record):
    status = response.getcode()
    src = response.read().decode('utf-8')
    if status != 200:
-      print('DEBUG response', src)
-      return src
+      print('WARNING http status code', status)
    return json.JSONDecoder().decode(src)
 
-def update_agent(api_url, auth_token, agent_record):
+
+def update_agent(api_url, auth_token, agent_type, agent_id, agent_record):
    '''create an agent and return the new agent record'''
    data = json.JSONEncoder().encode(agent_record).encode('utf-8')
-   url = api_url+agent_type_path(agent_record['agent_type'])
-##   print('DEBUG curl -H {"X-ArchivesSpace-Session: ',
-##         auth_token,
-##         '"} ',
-##         ' -d ',
-##         data,
-##         ' ',
-##         url)
+   url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
    req = urllib.request.Request(
         url = url,
         data = None,
@@ -100,10 +82,25 @@ def update_agent(api_url, auth_token, agent_record):
    status = response.getcode()
    src = response.read().decode('utf-8')
    if status != 200:
-      print('DEBUG response', src)
-      return src
+      print('WARNING: http status code', status)
    return json.JSONDecoder().decode(src)
 
+
+def delete_agent(api_url, auth_token, agent_type, agent_id):
+   '''List all the agent ids of a given type'''
+   url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
+   req = urllib.request.Request(
+      url = url,
+      data = None,
+      headers = {'X-ArchivesSpace-Session': auth_token},
+      method = 'DELETE')
+   response = urllib.request.urlopen(req)
+   status = response.getcode()
+   if status != 200:
+      print('WARNING: https status code ', status)
+   agent = json.JSONDecoder().decode(response.read().decode('utf-8'))
+   return agent
+   
 if __name__ == '__main__':
     # Get enough info to reach the API
     api_url = input('ArchivesSpace API URL: ')
@@ -177,24 +174,34 @@ if __name__ == '__main__':
     print('agent created response', json.dumps(agent_response, indent=4))
 
     # Update the record we just created
+    agent_type = input('Enter agent type: ')
     agent_id = int(input('Enter agent id to update: '))
     agent_record = list_agent(api_url, auth_token, agent_type, str(agent_id))
-    print('Updating ', agent_id)
+    print('Update', agent_id)
     new_primary_name = input('Add a new primary name: ')
     new_rest_of_name = input('Add a new rest of name: ')
+    source = 'local'
+    rules = 'local'
     name_model = {
-           'primary_name': primary_name,
-           'rest_of_name': rest_of_name,
+           'primary_name': new_primary_name,
+           'rest_of_name': new_rest_of_name,
            'name_order': 'inverted',
            'jsonmodel_type': 'name_person',
            'source': source,
            'rules': rules,
-           'sort_name': primary_name+', '+rest_of_name,
+           'sort_name': new_primary_name+', '+new_rest_of_name,
            'is_display_name': True,
     }
     agent_record['names'].append(name_model)
     agent_record['display_name'] = name_model
-    # FIXME: Need to go through and adjust all the times and
-    # person updating in each of the models...
-    agent_response = update_agent(api_url, auth_token, agent_record)
-    print('agent update response', json.dumps(agent_response, indent=4))
+    result = update_agent(api_url, auth_token, agent_type, agent_id, agent_record)
+    print('agent update response', json.dumps(result, indent=4))
+
+    # Test delete_agent()
+    print('Testing delete_repo()')
+    agent_id = int(input('Agent numeric id to delete: '))
+    result = delete_agent(api_url, auth_token, agent_type, agent_id)
+    print('Result is', json.dumps(result, indent=4))
+
+    # All done!
+    print('Success!')

@@ -13,15 +13,14 @@
 
 <h2>create_agent implementation</h2>
 
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-    # Import our own login module
-    import login
-    
-    
-    def agent_type_path(agent_type):
+<p>At the end of our imports block add</p>
+
+<pre><code class="language-python">    import login
+</code></pre>
+
+<p>In our definition section add</p>
+
+<pre><code class="language-python">    def agent_type_path(agent_type):
        '''Map the agent type to a partial path'''
        # agent_person agent_corporate_entity agent_software agent_family user
        m = {
@@ -49,17 +48,11 @@
           print('DEBUG response', src)
           return src
        return json.JSONDecoder().decode(src)
-    
-    if __name__ == '__main__':
-        # Get enough info to reach the API
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = input('ArchivesSpace password: ') #getpass.getpass('ArchivesSpace password: ')
-    
-        # Get our auth token by logging in
-        auth_token = login.login(api_url, username, password)
-    
-        # check mapping of agent type (e.g. agent_person) to path
+</code></pre>
+
+<p>Finally in our <em>if</em> block  we need some test code.</p>
+
+<pre><code class="language-python">        # check mapping of agent type (e.g. agent_person) to path
         print('Check that our mapping of agent type to path works')
         url_test = agent_type_path('agent_person')
         if url_test != '/agents/people':

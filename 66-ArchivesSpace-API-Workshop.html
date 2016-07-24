@@ -11,7 +11,58 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>Delete an Agent</h2>
+<h2>Update an Agent implementation</h2>
+
+<p>In the definition section add.</p>
+
+<pre><code class="language-python">    def update_agent(api_url, auth_token, agent_type, agent_id, agent_record):
+       '''create an agent and return the new agent record'''
+       data = json.JSONEncoder().encode(agent_record).encode('utf-8')
+       url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
+       req = urllib.request.Request(
+            url = url,
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'POST')
+       response = urllib.request.urlopen(req, data)
+       status = response.getcode()
+       src = response.read().decode('utf-8')
+       if status != 200:
+          print('WARNING: http status code', status)
+       return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>In the test section add.</p>
+
+<pre><code class="language-python">    # Update the record we just created
+    agent_type = input('Enter agent type: ')
+    agent_id = int(input('Enter agent id to update: '))
+    agent_record = list_agent(api_url, auth_token, agent_type, str(agent_id))
+    print('Update', agent_id)
+    new_primary_name = input('Add a new primary name: ')
+    new_rest_of_name = input('Add a new rest of name: ')
+    source = 'local'
+    rules = 'local'
+    name_model = {
+           'primary_name': new_primary_name,
+           'rest_of_name': new_rest_of_name,
+           'name_order': 'inverted',
+           'jsonmodel_type': 'name_person',
+           'source': source,
+           'rules': rules,
+           'sort_name': new_primary_name+', '+new_rest_of_name,
+           'is_display_name': True,
+    }
+    agent_record['names'].append(name_model)
+    agent_record['display_name'] = name_model
+## FIXME: Need to update the various timestamps and user modification fields
+    result = update_agent(api_url, auth_token, agent_type, agent_id, agent_record)
+    print('agent update response', json.dumps(result, indent=4))
+</code></pre>
+
+<p>Notice the specifics of the test. The tests are bittle. Debugging the
+submitted record if painful. Just no two ways about it.  Curl can
+sometimes be a better friend then the Python error message.</p>
 
 <p>Full listing <a href="agent.py">agent.py</a></p>
 </section>
