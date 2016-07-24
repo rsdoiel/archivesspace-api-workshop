@@ -7,14 +7,14 @@
 
 document.onkeydown = function(e) {
     switch (e.keyCode) {
-        case 32:
+        /* case 32: */
         case 37:
-            // Previous: left arrow or space
-            next.click();
+            // Previous: left arrow
+            prev.click();
             break;
         case 39:
             // Next: right arrow
-            prev.click();
+            next.click();
             break;
         case 72:
         case 83:
