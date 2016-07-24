@@ -1326,17 +1326,6 @@ listing the people we have in our repositories first.
 
 --
 
-# 5. Working with Agents
-
-## Listing agents/people
-
-Let's try an experiment.
-
-```Python
-    def list_agents(api_url, auth_token):
-        req = urllib
-```
-
 --
 
 # 5. Working with Agents
@@ -1345,6 +1334,7 @@ Let's try an experiment.
 
 1. import our usual modules
 2. define our create_agent
+    + need to figure out the minimum agent record
 3. add our tests at the botton of our script in the *if* block
 
 --
@@ -1368,13 +1358,14 @@ code evaluating the response.
 
 ## create_agent code will need:
 
-1. Open [login.py](login.py)
-2. Save [login.py](login.py) As [agent.py](agent.py)
-3. We'll create our function create_code, we need
+1. Open a new file called [agent.py](agent.py)
+2. Create our usual block plus `import login`
+3. To create our function create_agent() we need to know
     + api_url
     + auth_token
     + agent_type
     + the rest of the agent data (see the API docs)
+        + hint: we want the minimum data first
 4. Add tests for each type of agent we want to support
 
 --
@@ -1465,13 +1456,160 @@ After some experimentation I've come up with a minimum number of fields
 
 # 5. Working with Agents
 
-## list_agents
+## create_agent implementation
 
+```Python
+    #!/usr/bin/env python3
+    import urllib.request
+    import getpass
+    import json
+    # Import our own login module
+    import login
+    
+    
+    def agent_type_path(agent_type):
+       '''Map the agent type to a partial path'''
+       # agent_person agent_corporate_entity agent_software agent_family user
+       m = {
+          'agent_person': 'people',
+          'agent_corporate_entity': 'corporate_entities',
+          'agent_software': 'software',
+          'agent_family': 'families',
+          'user': 'user'
+       }
+       return '/agents/'+m[agent_type]
+    
+    def create_agent(api_url, auth_token, agent_record):
+       '''create an agent and return the new agent record'''
+       data = json.JSONEncoder().encode(agent_record).encode('utf-8')
+       url = api_url+agent_type_path(agent_record['agent_type'])
+       req = urllib.request.Request(
+            url = url,
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'POST')
+       response = urllib.request.urlopen(req, data)
+       status = response.getcode()
+       src = response.read().decode('utf-8')
+       if status != 200:
+          print('DEBUG response', src)
+          return src
+       return json.JSONDecoder().decode(src)
+    
+    if __name__ == '__main__':
+        # Get enough info to reach the API
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = input('ArchivesSpace password: ') #getpass.getpass('ArchivesSpace password: ')
+    
+        # Get our auth token by logging in
+        auth_token = login.login(api_url, username, password)
+    
+        # check mapping of agent type (e.g. agent_person) to path
+        print('Check that our mapping of agent type to path works')
+        url_test = agent_type_path('agent_person')
+        if url_test != '/agents/people':
+           print('ERROR: expected .../agents/people, found ', url_test)
+           sys.exit(0)
+        else:
+           print('agent_type_path() OK')
+    
+        print('Testing create_agent')
+        # Here's our minimal fields
+        primary_name = input('Primary name (e.g. family name) ')
+        rest_of_name = input('Rest of name (e.g. first name) ')
+        agent_type = 'agent_person'
+        source = 'local'
+        rules = 'local'
+    
+        # Our minimal agent record includes a :name_person and a :agent_person
+        # model
+        name_model = {
+               'primary_name': primary_name,
+               'rest_of_name': rest_of_name,
+               'name_order': 'inverted',
+               'jsonmodel_type': 'name_person',
+               'source': source,
+               'rules': rules,
+               'sort_name': primary_name+', '+rest_of_name,
+               'is_display_name': True,
+        }
+    
+        agent_record = {
+            'jsonmodel_type': agent_type,
+            'title': primary_name+', '+rest_of_name,
+            'is_link_to_be_published': False,
+            'agent_type': agent_type,
+            'publish': False,
+            'display_name': name_model,
+            'names':[
+               name_model
+             ]
+        }
+    
+        # Now that we have a minimal record lets make a request
+        print("The minimum payload looks like ", json.dumps(agent_record, indent=4))
+        agent_response = create_agent(api_url, auth_token, agent_record)
+        agent_id = agent_response['id']
+        print('agent created response', json.dumps(agent_response, indent=4))
+```
+
+Full listing [agent.py](agent.py)
+
+--
+
+# 5. Working with Agents
+
+## list_agents recipe
+
+1. we need the usual api_url, auth_token
+2. plus we need to know the agent_type (e.g. "agent_person")
+3. Get and decode the response.
 
 --
 # 5. Working with Agents
 
-## List Agents ID
+## list_agents implementation
+
+1. Add our list_agents() to our *def* section
+2. Update our tests in our *if* block
+
+```Python
+def list_agents(api_url, auth_token, agent_type):
+       '''List all the agent ids of a given type'''
+       data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
+       url = api_url+agent_type_path(agent_type)
+    ##   print('DEBUG: curl -H "{X-ArchivesSpace-Session:', auth_token, '}"',
+    ##         url+'?all_ids=true') # DEBUG
+       req = urllib.request.Request(
+          url = url,
+          data = data,
+          headers = {'X-ArchivesSpace-Session': auth_token},
+          method = 'GET')
+       response = urllib.request.urlopen(req)
+       status = response.getcode()
+       if status != 200:
+          print('WARNING: https status code ', status)
+          return response.read().decode('utf-8')
+       agent_ids = json.JSONDecoder().decode(response.read().decode('utf-8'))
+       return agent_ids
+       
+    if __name__ == '__main__':
+        # Our previous tests are here
+    
+        ...
+    
+    
+        # Test list_agents(), requires api_url, auth_token and agent_type
+        print('Test list_agents()')
+        agent_ids = list_agents(api_url, auth_token, 'agent_person')
+        if len(agent_ids) < 1:
+           print('ERROR: should have at least one agent!')
+           sys.exit(0)
+        print('agent ids ->', json.dumps(agent_ids, indent = 4))
+```
+
+Full listing [agent.py](agent.py)
 
 --
 
@@ -1479,25 +1617,21 @@ After some experimentation I've come up with a minimum number of fields
 
 ## Update an Agent
 
+Full listing [agent.py](agent.py)
+
 --
 
 # 5. Working with Agents
 
 ## Delete an Agent
 
+Full listing [agent.py](agent.py)
+
 --
 
 FIXME: remaining slides need to be written to the lesson plan.
 
 --
-
-
-# Working in Batches
-
-+ getting a list of useful IDs
-+ iterating over the IDs
-+ managing process load
-    + avoiding too much of a good thing
 
 # Working with Accessions
 
@@ -1506,6 +1640,13 @@ FIXME: remaining slides need to be written to the lesson plan.
 + Updating an Accession
 + Listing Accession IDs
 + Deleting an Accession
+
+# Working in Batches
+
++ getting a list of useful IDs
++ iterating over the IDs
++ managing process load
+    + avoiding too much of a good thing
 
 #  Other ArchivesSpace models
 
