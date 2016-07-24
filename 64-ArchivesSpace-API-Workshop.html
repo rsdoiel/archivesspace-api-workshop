@@ -11,13 +11,48 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>list_agents recipe</h2>
+<h2>list_agents implementation</h2>
 
 <ol>
-<li>we need the usual api_url, auth_token</li>
-<li>plus we need to know the agent_type (e.g. &ldquo;agent_person&rdquo;)</li>
-<li>Get and decode the response.</li>
+<li>Add our list_agents() to our <em>def</em> section</li>
+<li>Update our tests in our <em>if</em> block</li>
 </ol>
+
+<pre><code class="language-Python">def list_agents(api_url, auth_token, agent_type):
+       '''List all the agent ids of a given type'''
+       data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
+       url = api_url+agent_type_path(agent_type)
+    ##   print('DEBUG: curl -H &quot;{X-ArchivesSpace-Session:', auth_token, '}&quot;',
+    ##         url+'?all_ids=true') # DEBUG
+       req = urllib.request.Request(
+          url = url,
+          data = data,
+          headers = {'X-ArchivesSpace-Session': auth_token},
+          method = 'GET')
+       response = urllib.request.urlopen(req)
+       status = response.getcode()
+       if status != 200:
+          print('WARNING: https status code ', status)
+          return response.read().decode('utf-8')
+       agent_ids = json.JSONDecoder().decode(response.read().decode('utf-8'))
+       return agent_ids
+       
+    if __name__ == '__main__':
+        # Our previous tests are here
+    
+        ...
+    
+    
+        # Test list_agents(), requires api_url, auth_token and agent_type
+        print('Test list_agents()')
+        agent_ids = list_agents(api_url, auth_token, 'agent_person')
+        if len(agent_ids) &lt; 1:
+           print('ERROR: should have at least one agent!')
+           sys.exit(0)
+        print('agent ids -&gt;', json.dumps(agent_ids, indent = 4))
+</code></pre>
+
+<p>Full listing <a href="agent.py">agent.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

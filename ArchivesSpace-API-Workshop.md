@@ -1307,8 +1307,6 @@ listing the people we have in our repositories first.
 
 --
 
---
-
 # 5. Working with Agents
 
 ## create_agent recipe
