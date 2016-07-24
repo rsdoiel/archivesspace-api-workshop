@@ -5,8 +5,7 @@ import json
     
 def login (api_url, username, password):
     '''This function logs into the ArchivesSpace REST API returning an acccess token'''
-    data = urllib.parse.urlencode({'password': password})
-    data = data.encode('utf-8')
+    data = urllib.parse.urlencode({'password': password}).encode('utf-8')
     req = urllib.request.Request(
         url = api_url+'/users/'+username+'/login', 
         data = data)

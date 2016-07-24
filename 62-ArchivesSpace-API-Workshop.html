@@ -11,7 +11,39 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>Delete an Agent</h2>
+<h2>Thats too much info to be friendly!</h2>
+
+<p>From the docs we do know we need a POST and we known that the path in the
+URL will look like &ldquo;/agent/people&rdquo;. The docs also tell us what we should
+except if we&rsquo;re successful. This is where working in the shell is handy.</p>
+
+<p>After some experimentation I&rsquo;ve come up with a minimum number of fields</p>
+
+<pre><code class="language-Python">    # Our minimal agent record includes a :name_person and a :agent_person
+    # model
+    name_model = {
+           'primary_name': primary_name,
+           'rest_of_name': rest_of_name,
+           'name_order': 'inverted',
+           'jsonmodel_type': 'name_person',
+           'source': source,
+           'rules': rules,
+           'sort_name': primary_name+', '+rest_of_name,
+           'is_display_name': True,
+    }
+
+    agent_record = {
+        'jsonmodel_type': agent_type,
+        'title': primary_name+', '+rest_of_name,
+        'is_link_to_be_published': False,
+        'agent_type': agent_type,
+        'publish': False,
+        'display_name': name_model,
+        'names':[
+           name_model
+         ]
+    }
+</code></pre>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
