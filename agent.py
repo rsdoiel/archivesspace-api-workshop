@@ -80,6 +80,7 @@ def create_agent(api_url, auth_token, agent_record):
       return src
    return json.JSONDecoder().decode(src)
 
+## FIXME: update is not working yet
 def update_agent(api_url, auth_token, agent_record):
    '''create an agent and return the new agent record'''
    data = json.JSONEncoder().encode(agent_record).encode('utf-8')
@@ -104,6 +105,24 @@ def update_agent(api_url, auth_token, agent_record):
       return src
    return json.JSONDecoder().decode(src)
 
+
+def delete_agent(api_url, auth_token, agent_type, agent_id):
+   '''List all the agent ids of a given type'''
+   url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
+##   print('DEBUG: curl -H "{X-ArchivesSpace-Session:', auth_token, '}"',
+##         url) # DEBUG
+   req = urllib.request.Request(
+      url = url,
+      data = None,
+      headers = {'X-ArchivesSpace-Session': auth_token},
+      method = 'DELETE')
+   response = urllib.request.urlopen(req)
+   status = response.getcode()
+   if status != 200:
+      print('WARNING: https status code ', status)
+   agent = json.JSONDecoder().decode(response.read().decode('utf-8'))
+   return agent
+   
 if __name__ == '__main__':
     # Get enough info to reach the API
     api_url = input('ArchivesSpace API URL: ')
@@ -179,9 +198,9 @@ if __name__ == '__main__':
     # Update the record we just created
     agent_id = int(input('Enter agent id to update: '))
     agent_record = list_agent(api_url, auth_token, agent_type, str(agent_id))
-    print('Updating ', agent_id)
-    new_primary_name = input('Add a new primary name: ')
-    new_rest_of_name = input('Add a new rest of name: ')
+    #print('Updating ', agent_id)
+    #new_primary_name = input('Add a new primary name: ')
+    #new_rest_of_name = input('Add a new rest of name: ')
     name_model = {
            'primary_name': primary_name,
            'rest_of_name': rest_of_name,
@@ -192,9 +211,19 @@ if __name__ == '__main__':
            'sort_name': primary_name+', '+rest_of_name,
            'is_display_name': True,
     }
-    agent_record['names'].append(name_model)
-    agent_record['display_name'] = name_model
+    #agent_record['names'].append(name_model)
+    #agent_record['display_name'] = name_model
     # FIXME: Need to go through and adjust all the times and
     # person updating in each of the models...
-    agent_response = update_agent(api_url, auth_token, agent_record)
-    print('agent update response', json.dumps(agent_response, indent=4))
+    #agent_response = update_agent(api_url, auth_token, agent_record)
+    #print('agent update response', json.dumps(agent_response, indent=4))
+
+    # Test delete_agent()
+    print('Testing delete_repo()')
+    agent_id = int(input('Agent numeric id to delete: '))
+    result = delete_agent(api_url, auth_token, agent_type, agent_id)
+    print('Result is', json.dumps(result, indent=4))
+
+    # All done!
+    print('Success!')
+

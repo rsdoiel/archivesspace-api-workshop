@@ -1637,6 +1637,38 @@ Full listing [agent.py](agent.py)
 
 ## Delete an Agent
 
+The delete agent should look familiar compared to delete_repo(),
+We need *agent_type* in addition to *agent_id*.
+
+```Python
+   def delete_agent(api_url, auth_token, agent_type, agent_id):
+      '''List all the agent ids of a given type'''
+      url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
+      req = urllib.request.Request(
+         url = url,
+         data = None,
+         headers = {'X-ArchivesSpace-Session': auth_token},
+         method = 'DELETE')
+      response = urllib.request.urlopen(req)
+      status = response.getcode()
+      if status != 200:
+         print('WARNING: https status code ', status)
+      agent = json.JSONDecoder().decode(response.read().decode('utf-8'))
+      return agent
+      
+   if __name__ == '__main__':
+       # rest of our tests are 
+   
+       ...
+   
+   
+       # Test delete_agent()
+       print('Testing delete_repo()')
+       agent_id = int(input('Agent numeric id to delete: '))
+       result = delete_agent(api_url, auth_token, agent_type, agent_id)
+       print('Result is', json.dumps(result, indent=4))
+```
+
 Full listing [agent.py](agent.py)
 
 --
