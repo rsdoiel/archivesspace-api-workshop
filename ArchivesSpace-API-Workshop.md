@@ -2,10 +2,11 @@
 # Introducing the ArchivesSpace REST API using Python 3
 
 + [R. S. Doiel](https://rsdoiel.github.io)
-    + Software Developer 
+    + Digital Services Programmer
+    + [Digital Library Development](https://caltechlibrary.github.io)
     + Caltech Library
-+ [Mark Custer](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
-    + Archivist and Metadata Coordinator
++ [Mark Custer](https://github.com/fordmadox)
+    + [Archivist and Metadata Coordinator](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
     + Beinecke Rare Book and Manuscript Library
     + Yale University Library
 
