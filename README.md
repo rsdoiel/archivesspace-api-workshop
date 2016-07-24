@@ -15,9 +15,9 @@ Date: Aug 2<sup>nd</sup>, 2016
 ### Presenters
 
 + [R. S. Doiel](https://rsdoiel.github.io)
-    + Software Developer 
+    + [Digital Services Programmer](https://caltechlibrary.github.io)
     + Caltech Library
-+ Mark Custer
++ [Mark Custer](https://github.com/fordmadox)
     + [Archivist and Metadata Coordinator](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
     + Beinecke Rare Book and Manuscript Library
 
