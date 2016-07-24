@@ -1433,15 +1433,15 @@ After some experimentation I've come up with a minimum number of fields
 
 ## create_agent implementation
 
+At the end of our imports block add
+
 ```python
-    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-    # Import our own login module
     import login
-    
-    
+```
+
+In our definition section add
+
+```python
     def agent_type_path(agent_type):
        '''Map the agent type to a partial path'''
        # agent_person agent_corporate_entity agent_software agent_family user
@@ -1470,16 +1470,11 @@ After some experimentation I've come up with a minimum number of fields
           print('DEBUG response', src)
           return src
        return json.JSONDecoder().decode(src)
-    
-    if __name__ == '__main__':
-        # Get enough info to reach the API
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = input('ArchivesSpace password: ') #getpass.getpass('ArchivesSpace password: ')
-    
-        # Get our auth token by logging in
-        auth_token = login.login(api_url, username, password)
-    
+```
+
+Finally in our *if* block  we need some test code.
+
+```python
         # check mapping of agent type (e.g. agent_person) to path
         print('Check that our mapping of agent type to path works')
         url_test = agent_type_path('agent_person')
@@ -1542,6 +1537,7 @@ Full listing [agent.py](agent.py)
 3. Get and decode the response.
 
 --
+
 # 5. Working with Agents
 
 ## list_agents implementation
@@ -1549,13 +1545,13 @@ Full listing [agent.py](agent.py)
 1. Add our list_agents() to our *def* section
 2. Update our tests in our *if* block
 
+In our definition section add
+
 ```python
     def list_agents(api_url, auth_token, agent_type):
         '''List all the agent ids of a given type'''
         data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
         url = api_url+agent_type_path(agent_type)
-        ##   print('DEBUG: curl -H "{X-ArchivesSpace-Session:', auth_token, '}"',
-        ##         url+'?all_ids=true') # DEBUG
         req = urllib.request.Request(
               url = url,
               data = data,
@@ -1568,13 +1564,11 @@ Full listing [agent.py](agent.py)
             return response.read().decode('utf-8')
         agent_ids = json.JSONDecoder().decode(response.read().decode('utf-8'))
         return agent_ids
-           
-    if __name__ == '__main__':
-        # Our previous tests are here
-        
-        ...
-        
-        
+```
+
+In our *if* test block add
+
+```python
         # Test list_agents(), requires api_url, auth_token and agent_type
         print('Test list_agents()')
         agent_ids = list_agents(api_url, auth_token, 'agent_person')
@@ -1592,6 +1586,8 @@ Full listing [agent.py](agent.py)
 
 ## list_agent implementation
 
+In our definition section add
+
 ```python
     def list_agent(api_url, auth_token, agent_type, agent_id):
        '''List all the agent ids of a given type'''
@@ -1608,13 +1604,11 @@ Full listing [agent.py](agent.py)
        agent = json.JSONDecoder().decode(response.read().decode('utf-8'))
        return agent
        
-    if __name__ == '__main__':
-        # Our usual test go here
-    
-        ...
-    
-    
-        # Test list_agent(), requires api_url, auth_token, agent_type, agent_id
+```
+
+In our test *if* block add
+
+```python
         print('Test list_agent()')
         agent_id = int(input('Enter agent_id (numeric): '))
         agent = list_agent(api_url, auth_token, 'agent_person', agent_id)
@@ -1629,6 +1623,75 @@ Full listing [agent.py](agent.py)
 
 ## Update an Agent
 
++ we need to decide what part of the record we're updating
++ we need to get a recent copy of the agent record to modify
++ make our changes
++ update any timestamps or user info int the record as needed
++ submit the updates
+
+AS API is very picky here. You're going to spend allot of time
+debugging your data modifications.
+
+--
+
+# 5. Working with Agents
+
+## Update an Agent implementation
+
+In the definition section add.
+
+
+```python
+    def update_agent(api_url, auth_token, agent_type, agent_id, agent_record):
+       '''create an agent and return the new agent record'''
+       data = json.JSONEncoder().encode(agent_record).encode('utf-8')
+       url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
+       req = urllib.request.Request(
+            url = url,
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'POST')
+       response = urllib.request.urlopen(req, data)
+       status = response.getcode()
+       src = response.read().decode('utf-8')
+       if status != 200:
+          print('WARNING: http status code', status)
+       return json.JSONDecoder().decode(src)
+```
+
+In the test section add.
+
+```python
+    # Update the record we just created
+    agent_type = input('Enter agent type: ')
+    agent_id = int(input('Enter agent id to update: '))
+    agent_record = list_agent(api_url, auth_token, agent_type, str(agent_id))
+    print('Update', agent_id)
+    new_primary_name = input('Add a new primary name: ')
+    new_rest_of_name = input('Add a new rest of name: ')
+    source = 'local'
+    rules = 'local'
+    name_model = {
+           'primary_name': new_primary_name,
+           'rest_of_name': new_rest_of_name,
+           'name_order': 'inverted',
+           'jsonmodel_type': 'name_person',
+           'source': source,
+           'rules': rules,
+           'sort_name': new_primary_name+', '+new_rest_of_name,
+           'is_display_name': True,
+    }
+    agent_record['names'].append(name_model)
+    agent_record['display_name'] = name_model
+## FIXME: Need to update the various timestamps and user modification fields
+    result = update_agent(api_url, auth_token, agent_type, agent_id, agent_record)
+    print('agent update response', json.dumps(result, indent=4))
+```
+
+Notice the specifics of the test. The tests are bittle. Debugging the
+submitted record if painful. Just no two ways about it.  Curl can 
+sometimes be a better friend then the Python error message.
+
 Full listing [agent.py](agent.py)
 
 --
@@ -1640,7 +1703,9 @@ Full listing [agent.py](agent.py)
 The delete agent should look familiar compared to delete_repo(),
 We need *agent_type* in addition to *agent_id*.
 
-```Python
+In the definition section add
+
+```python
    def delete_agent(api_url, auth_token, agent_type, agent_id):
       '''List all the agent ids of a given type'''
       url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
@@ -1655,13 +1720,11 @@ We need *agent_type* in addition to *agent_id*.
          print('WARNING: https status code ', status)
       agent = json.JSONDecoder().decode(response.read().decode('utf-8'))
       return agent
-      
-   if __name__ == '__main__':
-       # rest of our tests are 
-   
-       ...
-   
-   
+```
+
+In the test *if* block add
+
+```python
        # Test delete_agent()
        print('Testing delete_repo()')
        agent_id = int(input('Agent numeric id to delete: '))
