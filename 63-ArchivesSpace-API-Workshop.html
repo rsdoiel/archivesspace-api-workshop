@@ -11,104 +11,13 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>create_agent implementation</h2>
+<h2>list_agents recipe</h2>
 
-<pre><code class="language-Python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-    # Import our own login module
-    import login
-    
-    
-    def agent_type_path(agent_type):
-       '''Map the agent type to a partial path'''
-       # agent_person agent_corporate_entity agent_software agent_family user
-       m = {
-          'agent_person': 'people',
-          'agent_corporate_entity': 'corporate_entities',
-          'agent_software': 'software',
-          'agent_family': 'families',
-          'user': 'user'
-       }
-       return '/agents/'+m[agent_type]
-    
-    def create_agent(api_url, auth_token, agent_record):
-       '''create an agent and return the new agent record'''
-       data = json.JSONEncoder().encode(agent_record).encode('utf-8')
-       url = api_url+agent_type_path(agent_record['agent_type'])
-       req = urllib.request.Request(
-            url = url,
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token},
-            method = 'POST')
-       response = urllib.request.urlopen(req, data)
-       status = response.getcode()
-       src = response.read().decode('utf-8')
-       if status != 200:
-          print('DEBUG response', src)
-          return src
-       return json.JSONDecoder().decode(src)
-    
-    if __name__ == '__main__':
-        # Get enough info to reach the API
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = input('ArchivesSpace password: ') #getpass.getpass('ArchivesSpace password: ')
-    
-        # Get our auth token by logging in
-        auth_token = login.login(api_url, username, password)
-    
-        # check mapping of agent type (e.g. agent_person) to path
-        print('Check that our mapping of agent type to path works')
-        url_test = agent_type_path('agent_person')
-        if url_test != '/agents/people':
-           print('ERROR: expected .../agents/people, found ', url_test)
-           sys.exit(0)
-        else:
-           print('agent_type_path() OK')
-    
-        print('Testing create_agent')
-        # Here's our minimal fields
-        primary_name = input('Primary name (e.g. family name) ')
-        rest_of_name = input('Rest of name (e.g. first name) ')
-        agent_type = 'agent_person'
-        source = 'local'
-        rules = 'local'
-    
-        # Our minimal agent record includes a :name_person and a :agent_person
-        # model
-        name_model = {
-               'primary_name': primary_name,
-               'rest_of_name': rest_of_name,
-               'name_order': 'inverted',
-               'jsonmodel_type': 'name_person',
-               'source': source,
-               'rules': rules,
-               'sort_name': primary_name+', '+rest_of_name,
-               'is_display_name': True,
-        }
-    
-        agent_record = {
-            'jsonmodel_type': agent_type,
-            'title': primary_name+', '+rest_of_name,
-            'is_link_to_be_published': False,
-            'agent_type': agent_type,
-            'publish': False,
-            'display_name': name_model,
-            'names':[
-               name_model
-             ]
-        }
-    
-        # Now that we have a minimal record lets make a request
-        print(&quot;The minimum payload looks like &quot;, json.dumps(agent_record, indent=4))
-        agent_response = create_agent(api_url, auth_token, agent_record)
-        agent_id = agent_response['id']
-        print('agent created response', json.dumps(agent_response, indent=4))
-</code></pre>
-
-<p>Full listing <a href="agent.py">agent.py</a></p>
+<ol>
+<li>we need the usual api_url, auth_token</li>
+<li>plus we need to know the agent_type (e.g. &ldquo;agent_person&rdquo;)</li>
+<li>Get and decode the response.</li>
+</ol>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
