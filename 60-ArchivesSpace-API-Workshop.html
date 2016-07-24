@@ -20,7 +20,7 @@ to &hellip; nothing. <strong>As of 2016-07-23 right shell column of the API docs
 
 <h3>First attempt</h3>
 
-<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
     http://localhost:8089/agents/people
 </code></pre>
 
@@ -28,21 +28,21 @@ to &hellip; nothing. <strong>As of 2016-07-23 right shell column of the API docs
 
 <h3>Second attempt</h3>
 
-<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
     http://localhost:8089/agents/people?all_ids=true
 </code></pre>
 
 <p>This gives an array of integer ids. I haven&rsquo;t created any &ldquo;people&rdquo; yet
 so I&rsquo;m guessing that is the &ldquo;Admin&rdquo; account.</p>
 
-<pre><code class="language-JSON">    [
+<pre><code class="language-json">    [
       1
     ]
 </code></pre>
 
 <p>Trying</p>
 
-<pre><code class="language-Shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
     http://localhost:8089/agents/people/1
 </code></pre>
 

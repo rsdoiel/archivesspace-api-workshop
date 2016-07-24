@@ -119,7 +119,7 @@ The basic organization is as follows
 
 This stock import block, as we'll see in the coming code, doesn't change.
 
-```Python
+```python
     #!/usr/bin/env python3
     import urllib.request
     import json
@@ -166,7 +166,7 @@ possibly as a separate included module).
 This [helloworld.py](helloworld.py) is typical of the scripts we will
 wind up with.
 
-```Python
+```python
     #!/usr/bin/env python3
     import urllib.request
     import json
@@ -486,7 +486,7 @@ a new browser window.
 We need to parse the JSON data into a Python object
 so we can save our access token.
 
-```JSON
+```json
     {   
        "session": "84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a",
        ...
@@ -808,7 +808,7 @@ The documentation about the API will help us know what to ask.
 
 The **curl** statement suggested looks like
 
-```Shell
+```shell
     curl -H "X-ArchivesSpace-Session: $SESSION" \
         'http://localhost:8089/repositories'
 ```
@@ -828,7 +828,7 @@ After that we can build our request and send it. We'll
 wrap up by decoding the JSON response and pretty printing
 it.
 
-```Python
+```python
     auth_token = login(api_url, username, password)
     req = urllib.request.Request(
         url = api_url+'/repositories', 
@@ -851,7 +851,7 @@ it.
 Add *list_repos* function after *create_repo* and update the testing section
 at the bottom.
 
-```Python
+```python
     def list_repos(api_url, auth_token):
         '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
@@ -886,7 +886,7 @@ We've added our *list_repos* and changed the tests at the bottom.
 
 ## results should look something like
 
-```Python
+```python
     username admin auth_token 9321ca79d94517d7018aa1ac4f1b6f2901b522c4b234d3ab9a4602fae9a8d72d
     repositores list [
         {
@@ -958,7 +958,7 @@ It looks like we add the numeric id to the end of the path (i.e. "/1").
 Let's copy and modify our list_repos definition to *list_repo*. Paste it after
 the function *list_repos*. We'll be update the *if* block too.
 
-```Python
+```python
     def list_repo(api_url, auth_token, repo_id):
         '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
@@ -1094,7 +1094,7 @@ the repository to be deleted. Note deleting a record via the API is permanent. T
 
 This is what our cumulative efforts should look like so far.
 
-```Python
+```python
     #!/usr/bin/env python3
     import urllib.request
     import getpass
@@ -1360,7 +1360,7 @@ With a little guessing based on our repositories example I can list agents with
 
 ### First attempt
 
-```Shell
+```shell
     curl -H "X-ArchivesSpace-Session: $SESSION" \
     http://localhost:8089/agents/people
 ```
@@ -1369,7 +1369,7 @@ I get back an error about paging and missing information. I'll "all_ids=true" ne
 
 ### Second attempt
 
-```Shell
+```shell
     curl -H "X-ArchivesSpace-Session: $SESSION" \
     http://localhost:8089/agents/people?all_ids=true
 ```
@@ -1377,7 +1377,7 @@ I get back an error about paging and missing information. I'll "all_ids=true" ne
 This gives an array of integer ids. I haven't created any "people" yet
 so I'm guessing that is the "Admin" account.
 
-```JSON
+```json
     [
       1
     ]
@@ -1385,7 +1385,7 @@ so I'm guessing that is the "Admin" account.
 
 Trying
 
-```Shell
+```shell
     curl -H "X-ArchivesSpace-Session: $SESSION" \
     http://localhost:8089/agents/people/1
 ```
@@ -1404,7 +1404,7 @@ except if we're successful. This is where working in the shell is handy.
 
 After some experimentation I've come up with a minimum number of fields
 
-```Python
+```python
     # Our minimal agent record includes a :name_person and a :agent_person
     # model
     name_model = {
@@ -1437,7 +1437,7 @@ After some experimentation I've come up with a minimum number of fields
 
 ## create_agent implementation
 
-```Python
+```python
     #!/usr/bin/env python3
     import urllib.request
     import getpass
@@ -1553,7 +1553,7 @@ Full listing [agent.py](agent.py)
 1. Add our list_agents() to our *def* section
 2. Update our tests in our *if* block
 
-```Python
+```python
     def list_agents(api_url, auth_token, agent_type):
         '''List all the agent ids of a given type'''
         data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
@@ -1596,7 +1596,7 @@ Full listing [agent.py](agent.py)
 
 ## list_agent implementation
 
-```Python
+```python
     def list_agent(api_url, auth_token, agent_type, agent_id):
        '''List all the agent ids of a given type'''
        url = api_url+agent_type_path(agent_type)+'/'+agent_id

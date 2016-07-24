@@ -16,7 +16,7 @@
 <p>Add <em>list_repos</em> function after <em>create_repo</em> and update the testing section
 at the bottom.</p>
 
-<pre><code class="language-Python">    def list_repos(api_url, auth_token):
+<pre><code class="language-python">    def list_repos(api_url, auth_token):
         '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
             url = api_url+'/repositories', 

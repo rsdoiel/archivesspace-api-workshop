@@ -16,7 +16,7 @@
 <p>Let&rsquo;s copy and modify our list_repos definition to <em>list_repo</em>. Paste it after
 the function <em>list_repos</em>. We&rsquo;ll be update the <em>if</em> block too.</p>
 
-<pre><code class="language-Python">    def list_repo(api_url, auth_token, repo_id):
+<pre><code class="language-python">    def list_repo(api_url, auth_token, repo_id):
         '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
             url = api_url+'/repositories/'+str(repo_id), 
