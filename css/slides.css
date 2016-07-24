@@ -80,7 +80,7 @@ section, p {
 code {
 	color: green; 
     font-family: monospace, serif;
-    font-style: ;
+    font-style: none;
 }
 
 pre {

@@ -11,17 +11,16 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>create_agent recipe</h2>
+<h2>create_agent concerns</h2>
 
-<ol>
-<li>import our usual modules</li>
-<li>define our create_agent
+<p>The API docs we want to read closely are the models/schema for
+the specific agent type we want to handle.  The API will validate
+our fields so we&rsquo;ll need to handle the response case where the API
+is trying to tell us we&rsquo;re missing a required field or something else
+is out of order.</p>
 
-<ul>
-<li>need to figure out the minimum agent record</li>
-</ul></li>
-<li>add our tests at the botton of our script in the <em>if</em> block</li>
-</ol>
+<p>This has the benefit of keep our code simple but does mean we need more
+code evaluating the response.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

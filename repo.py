@@ -54,7 +54,7 @@ def update_repo(api_url, auth_token, repo_id, repo):
     '''This function sends a updates a repository via ArchivesSpace REST API'''
     data = json.JSONEncoder().encode(repo).encode('utf-8')
     req = urllib.request.Request(
-        url = api_url+'/repositories/'+repo_id,
+        url = api_url+'/repositories/'+str(repo_id),
         data = None,
         headers = {'X-ArchivesSpace-Session': auth_token})
     response = urllib.request.urlopen(req, data)
@@ -118,7 +118,7 @@ if __name__ == '__main__':
     
     # Test update_repo
     print('Testing update_repo()')
-    repo_id = input('Repository numeric id to update: ')
+    repo_id = int(input('Repository numeric id to update: '))
     print('Getting repository record', repo_id)
     repo = list_repo(api_url, auth_token, repo_id)
     repo['name'] = input('old name is '+repo['name']+', provide a new name: ')

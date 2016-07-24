@@ -9,32 +9,21 @@
 <a id="prev-slide" rel="nav" href="33-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a id="next-slide" rel="nav" href="35-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>4. Repostories</h1>
 
-<h2>Creating our create_repo function</h2>
+<p>Did we catch all the fields we might want to change?</p>
 
-<p>The elements we change with each new create request will
-form the parameters in our function. Two elements are required
-and the rest are optional.</p>
+<pre><code class="language-json">    {
+       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+       &quot;name&quot;: &quot;Description: 11&quot;,
+       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
+       &quot;org_code&quot;: &quot;970UV228G&quot;,
+       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
+       &quot;url&quot;: &quot;http://www.example-4.com&quot;
+    } 
+</code></pre>
 
-<h3>required</h3>
-
-<ul>
-<li>name</li>
-<li>repo_code (needs to be unique)</li>
-</ul>
-
-<h3>optional</h3>
-
-<ul>
-<li>org_code</li>
-<li>image_url</li>
-<li>url</li>
-</ul>
-
-<h3>What we also need</h3>
-
-<p>We will need to submit our access token and provide the api url too</p>
+<p>Do we need to change &ldquo;jsonmodel_type&rdquo;?</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

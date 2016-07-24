@@ -11,38 +11,45 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Time to put this together in a script</h2>
+<h2>results should look something like</h2>
 
-<p>Add <em>list_repos</em> function after <em>create_repo</em> and update the testing section
-at the bottom.</p>
-
-<pre><code class="language-python">    def list_repos(api_url, auth_token):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            url = api_url+'/repositories', 
-            data = None, 
-            headers = {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req)
-        status = response.getcode()
-        if status != 200:
-            printf('WARNING: http status code', status)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-
-                                     
-    if __name__ == '__main__':
-        # Previous tests go here
-
-        ...
-
-        # Add this new test...
-        repos = list_repos(api_url, auth_token)
-        print(&quot;repositores list&quot;, json.dumps(repos, indent=4))
+<pre><code class="language-shell">    username admin auth_token 9321ca79d94517d7018aa1ac4f1b6f2901b522c4b234d3ab9a4602fae9a8d72d
+    repositores list [
+        {
+            &quot;last_modified_by&quot;: &quot;admin&quot;,
+            &quot;created_by&quot;: &quot;admin&quot;,
+            &quot;create_time&quot;: &quot;2016-07-17T01:55:21Z&quot;,
+            &quot;agent_representation&quot;: {
+                &quot;ref&quot;: &quot;/agents/corporate_entities/1&quot;
+            },
+            &quot;repo_code&quot;: &quot;test001&quot;,
+            &quot;name&quot;: &quot;test001&quot;,
+            &quot;lock_version&quot;: 0,
+            &quot;system_mtime&quot;: &quot;2016-07-17T01:55:21Z&quot;,
+            &quot;user_mtime&quot;: &quot;2016-07-17T01:55:21Z&quot;,
+            &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+            &quot;uri&quot;: &quot;/repositories/2&quot;
+        },
+        {
+            &quot;last_modified_by&quot;: &quot;admin&quot;,
+            &quot;created_by&quot;: &quot;admin&quot;,
+            &quot;create_time&quot;: &quot;2016-07-17T01:55:42Z&quot;,
+            &quot;agent_representation&quot;: {
+                &quot;ref&quot;: &quot;/agents/corporate_entities/2&quot;
+            },
+            &quot;repo_code&quot;: &quot;test002&quot;,
+            &quot;name&quot;: &quot;test002&quot;,
+            &quot;lock_version&quot;: 0,
+            &quot;system_mtime&quot;: &quot;2016-07-17T01:55:42Z&quot;,
+            &quot;user_mtime&quot;: &quot;2016-07-17T01:55:42Z&quot;,
+            &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+            &quot;uri&quot;: &quot;/repositories/3&quot;
+        }
+    ]
 </code></pre>
 
-<p>(note: the &ldquo;&hellip;&rdquo; that is just a place holder for the previous tests
-added)</p>
-
-<p>We&rsquo;ve added our <em>list_repos</em> and changed the tests at the bottom.</p>
+<p>This response is a JavaScript array. What do we do if we want only a
+single repository?</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
