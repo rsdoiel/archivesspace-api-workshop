@@ -1554,38 +1554,77 @@ Full listing [agent.py](agent.py)
 2. Update our tests in our *if* block
 
 ```Python
-def list_agents(api_url, auth_token, agent_type):
+    def list_agents(api_url, auth_token, agent_type):
+        '''List all the agent ids of a given type'''
+        data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
+        url = api_url+agent_type_path(agent_type)
+        ##   print('DEBUG: curl -H "{X-ArchivesSpace-Session:', auth_token, '}"',
+        ##         url+'?all_ids=true') # DEBUG
+        req = urllib.request.Request(
+              url = url,
+              data = data,
+              headers = {'X-ArchivesSpace-Session': auth_token},
+              method = 'GET')
+        response = urllib.request.urlopen(req)
+        status = response.getcode()
+        if status != 200:
+            print('WARNING: https status code ', status)
+            return response.read().decode('utf-8')
+        agent_ids = json.JSONDecoder().decode(response.read().decode('utf-8'))
+        return agent_ids
+           
+        if __name__ == '__main__':
+            # Our previous tests are here
+        
+            ...
+        
+        
+            # Test list_agents(), requires api_url, auth_token and agent_type
+            print('Test list_agents()')
+            agent_ids = list_agents(api_url, auth_token, 'agent_person')
+            if len(agent_ids) < 1:
+               print('ERROR: should have at least one agent!')
+               sys.exit(0)
+            print('agent ids ->', json.dumps(agent_ids, indent = 4))
+```
+
+Full listing [agent.py](agent.py)
+
+--
+
+# 5. Working with Agents
+
+## list_agent implementation
+
+```Python
+    def list_agent(api_url, auth_token, agent_type, agent_id):
        '''List all the agent ids of a given type'''
-       data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
-       url = api_url+agent_type_path(agent_type)
+       url = api_url+agent_type_path(agent_type)+'/'+agent_id
     ##   print('DEBUG: curl -H "{X-ArchivesSpace-Session:', auth_token, '}"',
-    ##         url+'?all_ids=true') # DEBUG
+    ##         url) # DEBUG
        req = urllib.request.Request(
           url = url,
-          data = data,
+          data = None,
           headers = {'X-ArchivesSpace-Session': auth_token},
           method = 'GET')
        response = urllib.request.urlopen(req)
        status = response.getcode()
        if status != 200:
           print('WARNING: https status code ', status)
-          return response.read().decode('utf-8')
-       agent_ids = json.JSONDecoder().decode(response.read().decode('utf-8'))
-       return agent_ids
+       agent = json.JSONDecoder().decode(response.read().decode('utf-8'))
+       return agent
        
     if __name__ == '__main__':
-        # Our previous tests are here
+        # Our usual test go here
     
         ...
     
     
-        # Test list_agents(), requires api_url, auth_token and agent_type
-        print('Test list_agents()')
-        agent_ids = list_agents(api_url, auth_token, 'agent_person')
-        if len(agent_ids) < 1:
-           print('ERROR: should have at least one agent!')
-           sys.exit(0)
-        print('agent ids ->', json.dumps(agent_ids, indent = 4))
+        # Test list_agent(), requires api_url, auth_token, agent_type, agent_id
+        print('Test list_agent()')
+        agent_id = input('Enter agent_id (numeric): ')
+        agent = list_agent(api_url, auth_token, 'agent_person', agent_id)
+        print('agent', agent_id, ' details', json.dumps(agent, indent=4))
 ```
 
 Full listing [agent.py](agent.py)
