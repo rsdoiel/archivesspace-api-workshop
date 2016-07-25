@@ -146,11 +146,13 @@ function setupFinish() {
 
 function setupUbuntu() {
     echo "Upgrading existing Ubuntu"
-    sudo apt-get update && sudo apt-get upgrade -y
+    sudo apt-get update 
+    echo "Upgrade if necessary"
+    sudo apt-get upgrade
     echo "Installing additional Ubuntu 16.04 LTS packages needed"
     sudo apt-get install build-essential git curl zip unzip \
          default-jdk ant ant-contrib ant-optional \
-         maven mysql-server libmysql-java  -y
+         maven mysql-server libmysql-java
 }
 
 #
@@ -160,6 +162,6 @@ assertUsername vagrant "Try: sudo su vagrant"
 setupUbuntu
 setupUsers
 setupArchivesSpace
-setupMySQL
 setupJasperReportsFonts
+setupMySQL
 setupFinish

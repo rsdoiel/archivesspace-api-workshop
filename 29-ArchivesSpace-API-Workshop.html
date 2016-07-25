@@ -20,22 +20,28 @@ testing in the closing <em>if</em> block)</p>
 
 <pre><code class="language-python">    #!/usr/bin/env python3
     import urllib.request
-    import getpass
+    import urllib.parse
+    import urllib.error
     import json
+    import getpass
         
     def login (api_url, username, password):
         '''This function logs into the ArchivesSpace REST API returning an acccess token'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('utf-8')
+        data = urllib.parse.urlencode({'password': password}).encode('utf-8')
         req = urllib.request.Request(
             url = api_url+'/users/'+username+'/login', 
             data = data)
-        response = urllib.request.urlopen(req)
-        status = response.getcode()
-        if status != 200:
-            # No session token
-            return ''
-        result = json.JSONDecoder().decode(response.read().decode('utf-8'))
+        try:
+            response = urllib.request.urlopen(req)
+        except HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return &quot;&quot;
+        except URLError as e:
+            print(e.reason())
+            return &quot;&quot;
+        src = response.read().decode('utf-8')
+        result = json.JSONDecoder().decode(src)
         # Session holds the value we want for auth_token
         return result['session']
     
@@ -46,8 +52,16 @@ testing in the closing <em>if</em> block)</p>
         print('Logging in', api_url)
         auth_token = login(api_url, username, password)
         print(auth_token)
-        print('Success!')
+        if auth_token != '':
+            print('Success!')
+        else:
+            print('Ooops! something went wrong')
 </code></pre>
+
+<p>This is our first module and will get reused in <strong>repo.py</strong>, <strong>agent.py</strong>
+and <strong>accession.py</strong>.  I&rsquo;ve added some extra handling around <em>urlopen</em>.<br />
+This will give us a little more orderly output when something goes wrong
+in the http request.</p>
 
 <p>If all has gone well we are ready to move onto working with repositories!</p>
 </section>

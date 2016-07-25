@@ -14,39 +14,34 @@
 <h2>create_agent schema</h2>
 
 <p>A quick search in the API docs for &ldquo;Create a person agent&rdquo; leads us
-to &hellip; nothing. <strong>As of 2016-07-23 right shell column of the API docs nolonger shows the usual <em>curl</em> examples</strong>.</p>
+to &hellip; nothing.</p>
 
-<p>With a little guessing based on our repositories example I can list agents with</p>
+<blockquote>As of 2016-07-25 right shell column of the API docs nolonger shows the usual *curl* examples and output.</blockquote>
 
-<h3>First attempt</h3>
-
-<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-    http://localhost:8089/agents/people
-</code></pre>
-
-<p>I get back an error about paging and missing information. I&rsquo;ll &ldquo;all_ids=true&rdquo; next.</p>
-
-<h3>Second attempt</h3>
+<h3>Debugging the API docs</h3>
 
 <pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-    http://localhost:8089/agents/people?all_ids=true
+        http://localhost:8089/agents/people
 </code></pre>
 
-<p>This gives an array of integer ids. I haven&rsquo;t created any &ldquo;people&rdquo; yet
-so I&rsquo;m guessing that is the &ldquo;Admin&rdquo; account.</p>
+<p>I get back an error</p>
 
-<pre><code class="language-json">    [
-      1
-    ]
+<pre><code class="language-json">    {
+        &quot;error&quot;:{
+            &quot;page&quot;:[
+                &quot;Parameter required but no value provided&quot;
+            ],
+            &quot;id_set&quot;:[
+                &quot;Parameter required but no value provided&quot;
+            ],
+            &quot;all_ids&quot;:[
+                &quot;Parameter required but no value provided&quot;
+            ]
+        }
+    }
 </code></pre>
 
-<p>Trying</p>
-
-<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-    http://localhost:8089/agents/people/1
-</code></pre>
-
-<p>I get back a big JSON blob like <a href="example-agent-people.json">example-agent-people.json</a>.</p>
+<p>And it lets us know the options expected. We will use &ldquo;all_ids=true&rdquo; next.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

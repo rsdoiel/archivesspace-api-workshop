@@ -20,8 +20,8 @@ it.</p>
 
 <pre><code class="language-python">    auth_token = login(api_url, username, password)
     req = urllib.request.Request(
-        url = api_url+'/repositories', 
-        data = None, 
+        url = api_url+'/repositories',
+        data = None,
         header = {&quot;X-ArchivesSpace-Session&quot;: auth_token})
     response = urllib.request.urlopen(req)
     result = json.JSONDecoder().decode(response.read().decode('utf-8'))

@@ -9,156 +9,38 @@
 <a id="prev-slide" rel="nav" href="49-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a id="next-slide" rel="nav" href="51-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4 Repositories</h1>
+	<section><h1>4. Repositories</h1>
 
-<h2>Our progress so far</h2>
+<h2>The dangerous delete method</h2>
 
-<p>This is what our cumulative efforts should look like so far.</p>
-
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import getpass
-    import json
-    # Here's our own login module
-    import login
-    
-    
-    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        data = json.JSONEncoder().encode({
-                        'jsonmodel_type': 'repository',
-                        'name': name,
-                        'repo_code': repo_code,
-                        'org_code': org_code,
-                        'image_url': image_url,
-                        'url': url
-                    }).encode('utf-8')
-        req = urllib.request.Request(
-                url = api_url+'/repositories', 
-                data = None, 
-                headers = {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req, data)
-        status = response.getcode()
-        if status != 200:
-            print('WARNING http statuc code', status)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    def list_repos(api_url, auth_token):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            url = api_url+'/repositories',
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req)
-        status = response.getcode()
-        if status != 200:
-            print('WARNING http statuc code', status)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    def list_repo(api_url, auth_token, repo_id):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            url = api_url+'/repositories/'+str(repo_id),
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token})
-        response =  urllib.request.urlopen(req)
-        status = response.getcode()
-        if status != 200:
-            print('WARNING http statuc code', status)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    def update_repo(api_url, auth_token, repo_id, repo):
-        '''This function sends a updates a repository via ArchivesSpace REST API'''
-        data = json.JSONEncoder().encode(repo).encode('utf-8')
-        req = urllib.request.Request(
-            url = api_url+'/repositories/'+repo_id,
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req, data)
-        status = response.getcode()
-        if status != 200:
-            print('WARNING http statuc code', status)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    def delete_repo(api_url, auth_token, repo_id):
+<pre><code class="language-python">    def delete_repo(api_url, auth_token, repo_id):
         '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
         req = urllib.request.Request(
             url = api_url+'/repositories/'+str(repo_id),
             data = None,
             headers = {'X-ArchivesSpace-Session': auth_token},
             method = 'DELETE')
-        response = urllib.request.urlopen(req)
-        status = response.getcode()
-        if status != 200:
-            print('WARNING http statuc code', status)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    
-    if __name__ == '__main__':
-        # Test login
-        print(&quot;Testing login()&quot;)
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpacew password: ')
-        print('Logging in', api_url)
-        auth_token = login.login(api_url, username, password)
-        print(&quot;auth token&quot;, auth_token)
-        if auth_token != '':
-            print('Success!')
-        else:
-            print('Ooops! something went wrong')
-            sys.exit(1)
-    
-        # Test create_repo
-        print('Testing create_repo()')
-        print('Create your first repository')
-        name = input('Repo name: ')
-        repo_code = input('Repo code: ')
-        repo = create_repo(api_url, auth_token, name, repo_code)
-        print(json.dumps(repo, indent=4))
-        print('Create a second repository')
-        name = input('Repo name: ')
-        repo_code = input('Repo code: ')
-        repo = create_repo(api_url, auth_token, name, repo_code)
-        print(json.dumps(repo, indent=4))
-    
-        # Test list_repos
-        print('Testing list_repos()')
-        repos = list_repos(api_url, auth_token)
-        print('repositores list', json.dumps(repos, indent=4))
-    
-        # Test list_repo
-        print('Testing list_repo()')
-        repo_id = int(input('Enter repo id: '))
-        repo = list_repo(api_url, auth_token, repo_id)
-        print('repository list', json.dumps(repo, indent=4))
-        
-        # Test update_repo
-        print('Testing update_repo()')
-        repo_id = input('Repository numeric id to update: ')
-        print('Getting repository record', repo_id)
-        repo = list_repo(api_url, auth_token, repo_id)
-        repo['name'] = input('old name is '+repo['name']+', provide a new name: ')
-        print('Now we update')
-        result = update_repo(api_url, auth_token, repo_id, repo)
-        print('Result is', json.dumps(result, indent=4))
-        
-        # Test delete_repo
+        try:
+            response = urllib.request.urlopen(req)
+        except HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        except URLError as e:
+            print(e.reason())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>Our test should look something like &hellip;</p>
+
+<pre><code class="language-python">        # Test delete_repo
         print('Testing delete_repo()')
         repo_id = int(input('Repository numeric id to delete: '))
         result = delete_repo(api_url, auth_token, repo_id)
         print('Result is', json.dumps(result, indent=4))
-        print(json.dumps(list_repos(api_url, auth_token), indent=4))
-        
-        # All done!
-        print('Success!')
 </code></pre>
-
-<p>In an ideal world we&rsquo;d have one or more tests of each of the function.
-When things git unwieldly we group the tests into functions, possibly
-putting them in a separate module (e.g. repo_test.py).</p>
-
-<p>Full listing <a href="repo.py">repo.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

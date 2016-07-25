@@ -1,0 +1,53 @@
+{
+  "lock_version": 0,
+  "publish": false,
+  "create_time": "2016-07-25T17:27:01Z",
+  "system_mtime": "2016-07-25T17:27:01Z",
+  "user_mtime": "2016-07-25T17:27:01Z",
+  "jsonmodel_type": "agent_person",
+  "agent_contacts": [],
+  "linked_agent_roles": [],
+  "external_documents": [],
+  "rights_statements": [],
+  "notes": [],
+  "dates_of_existence": [],
+  "names": [
+    {
+      "lock_version": 0,
+      "primary_name": "Administrator",
+      "sort_name": "Administrator",
+      "sort_name_auto_generate": true,
+      "create_time": "2016-07-25T17:27:01Z",
+      "system_mtime": "2016-07-25T17:27:01Z",
+      "user_mtime": "2016-07-25T17:27:01Z",
+      "authorized": true,
+      "is_display_name": true,
+      "source": "local",
+      "rules": "local",
+      "name_order": "direct",
+      "jsonmodel_type": "name_person",
+      "use_dates": []
+    }
+  ],
+  "related_agents": [],
+  "uri": "/agents/people/1",
+  "agent_type": "agent_person",
+  "display_name": {
+    "lock_version": 0,
+    "primary_name": "Administrator",
+    "sort_name": "Administrator",
+    "sort_name_auto_generate": true,
+    "create_time": "2016-07-25T17:27:01Z",
+    "system_mtime": "2016-07-25T17:27:01Z",
+    "user_mtime": "2016-07-25T17:27:01Z",
+    "authorized": true,
+    "is_display_name": true,
+    "source": "local",
+    "rules": "local",
+    "name_order": "direct",
+    "jsonmodel_type": "name_person",
+    "use_dates": []
+  },
+  "title": "Administrator",
+  "is_linked_to_published_record": false
+}

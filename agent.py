@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import urllib.request
-import getpass
+import urllib.parse
+import urllib.error
 import json
+import getpass
 # Import our own login module
 import login
-
 
 def agent_type_path(agent_type):
    '''Map the agent type to a partial path'''
@@ -18,6 +19,28 @@ def agent_type_path(agent_type):
    }
    return '/agents/'+m[agent_type]
 
+def create_agent(api_url, auth_token, agent_model):
+   '''create an agent and return the new agent record'''
+   data = json.JSONEncoder().encode(agent_model).encode('utf-8')
+   url = api_url+agent_type_path(agent_model['agent_type'])
+   req = urllib.request.Request(
+        url = url,
+        data = None,
+        headers = {'X-ArchivesSpace-Session': auth_token},
+        method = 'POST')
+   try:
+        response = urllib.request.urlopen(req, data)
+   except urllib.error.URLError as e:
+        print(e.reason)
+        return None
+   except urllib.error.HTTPError as e:
+        print(e.code)
+        print(e.read())
+        return None
+   src = response.read().decode('utf-8')
+   return json.JSONDecoder().decode(src)
+
+
 def list_agents(api_url, auth_token, agent_type):
    '''List all the agent ids of a given type'''
    data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
@@ -27,13 +50,17 @@ def list_agents(api_url, auth_token, agent_type):
       data = data,
       headers = {'X-ArchivesSpace-Session': auth_token},
       method = 'GET')
-   response = urllib.request.urlopen(req)
-   status = response.getcode()
-   if status != 200:
-      print('WARNING: https status code ', status)
-      return response.read().decode('utf-8')
-   agent_ids = json.JSONDecoder().decode(response.read().decode('utf-8'))
-   return agent_ids
+   try:
+        response = urllib.request.urlopen(req)
+   except urllib.error.URLError as e:
+        print(e.reason)
+        return None
+   except urllib.error.HTTPError as e:
+        print(e.code)
+        print(e.read())
+        return None
+   src = response.read().decode('utf-8')
+   return json.JSONDecoder().decode(src)
    
 
 def list_agent(api_url, auth_token, agent_type, agent_id):
@@ -44,45 +71,38 @@ def list_agent(api_url, auth_token, agent_type, agent_id):
       data = None,
       headers = {'X-ArchivesSpace-Session': auth_token},
       method = 'GET')
-   response = urllib.request.urlopen(req)
-   status = response.getcode()
-   if status != 200:
-      print('WARNING: https status code ', status)
-   agent = json.JSONDecoder().decode(response.read().decode('utf-8'))
-   return agent
-   
-   
-def create_agent(api_url, auth_token, agent_record):
-   '''create an agent and return the new agent record'''
-   data = json.JSONEncoder().encode(agent_record).encode('utf-8')
-   url = api_url+agent_type_path(agent_record['agent_type'])
-   req = urllib.request.Request(
-        url = url,
-        data = None,
-        headers = {'X-ArchivesSpace-Session': auth_token},
-        method = 'POST')
-   response = urllib.request.urlopen(req, data)
-   status = response.getcode()
+   try:
+        response = urllib.request.urlopen(req)
+   except urllib.error.URLError as e:
+        print(e.reason)
+        return None
+   except urllib.error.HTTPError as e:
+        print(e.code)
+        print(e.read())
+        return None
    src = response.read().decode('utf-8')
-   if status != 200:
-      print('WARNING http status code', status)
    return json.JSONDecoder().decode(src)
 
 
-def update_agent(api_url, auth_token, agent_type, agent_id, agent_record):
+def update_agent(api_url, auth_token, agent_type, agent_id, agent_model):
    '''create an agent and return the new agent record'''
-   data = json.JSONEncoder().encode(agent_record).encode('utf-8')
+   data = json.JSONEncoder().encode(agent_model).encode('utf-8')
    url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
    req = urllib.request.Request(
         url = url,
         data = None,
         headers = {'X-ArchivesSpace-Session': auth_token},
         method = 'POST')
-   response = urllib.request.urlopen(req, data)
-   status = response.getcode()
+   try:
+        response = urllib.request.urlopen(req, data)
+   except urllib.error.URLError as e:
+        print(e.reason)
+        return None
+   except urllib.error.HTTPError as e:
+        print(e.code)
+        print(e.read())
+        return None
    src = response.read().decode('utf-8')
-   if status != 200:
-      print('WARNING: http status code', status)
    return json.JSONDecoder().decode(src)
 
 
@@ -94,12 +114,17 @@ def delete_agent(api_url, auth_token, agent_type, agent_id):
       data = None,
       headers = {'X-ArchivesSpace-Session': auth_token},
       method = 'DELETE')
-   response = urllib.request.urlopen(req)
-   status = response.getcode()
-   if status != 200:
-      print('WARNING: https status code ', status)
-   agent = json.JSONDecoder().decode(response.read().decode('utf-8'))
-   return agent
+   try:
+        response = urllib.request.urlopen(req)
+   except urllib.error.URLError as e:
+        print(e.reason)
+        return None
+   except urllib.error.HTTPError as e:
+        print(e.code)
+        print(e.read())
+        return None
+   src = response.read().decode('utf-8')
+   return json.JSONDecoder().decode(src)
    
 if __name__ == '__main__':
     # Get enough info to reach the API
@@ -119,21 +144,7 @@ if __name__ == '__main__':
     else:
        print('agent_type_path() OK')
 
-
-    # Test list_agents(), requires api_url, auth_token and agent_type
-    print('Test list_agents()')
-    agent_ids = list_agents(api_url, auth_token, 'agent_person')
-    if len(agent_ids) < 1:
-       print('ERROR: should have at least one agent!')
-       sys.exit(0)
-    print('agent ids ->', json.dumps(agent_ids, indent = 4))
-
-    # Test list_agent(), requires api_url, auth_token, agent_type, agent_id
-    print('Test list_agent()')
-    agent_id = input('Enter agent_id (numeric): ')
-    agent = list_agent(api_url, auth_token, 'agent_person', agent_id)
-    print('agent', agent_id, ' details', json.dumps(agent, indent=4))
-    
+    # Test create_agent()
     print('Testing create_agent')
     # Here's our minimal fields
     primary_name = input('Primary name (e.g. family name) ')
@@ -155,7 +166,7 @@ if __name__ == '__main__':
            'is_display_name': True,
     }
 
-    agent_record = {
+    agent_model = {
         'jsonmodel_type': agent_type,
         'title': primary_name+', '+rest_of_name,
         'is_link_to_be_published': False,
@@ -168,34 +179,56 @@ if __name__ == '__main__':
     }
 
     # Now that we have a minimal record lets make a request
-    print("The minimum payload looks like ", json.dumps(agent_record, indent=4))
-    agent_response = create_agent(api_url, auth_token, agent_record)
+    print("The minimum payload looks like ", json.dumps(agent_model, indent=4))
+    agent_response = create_agent(api_url, auth_token, agent_model)
     agent_id = agent_response['id']
     print('agent created response', json.dumps(agent_response, indent=4))
 
-    # Update the record we just created
-    agent_type = input('Enter agent type: ')
+
+    # Test list_agents(), requires api_url, auth_token and agent_type
+    print('Test list_agents()')
+    agent_ids = list_agents(api_url, auth_token, 'agent_person')
+    if len(agent_ids) < 1:
+       print('ERROR: should have at least one agent!')
+       sys.exit(0)
+    print('agent ids ->', json.dumps(agent_ids, indent = 4))
+
+    # Test list_agent(), requires api_url, auth_token, agent_type, agent_id
+    print('Test list_agent()')
+    agent_id = input('Enter agent_id (numeric): ')
+    agent = list_agent(api_url, auth_token, 'agent_person', agent_id)
+    print('agent', agent_id, ' details', json.dumps(agent, indent=4))
+
+
+    # Test update_agent
+    agent_type = 'agent_person'
     agent_id = int(input('Enter agent id to update: '))
-    agent_record = list_agent(api_url, auth_token, agent_type, str(agent_id))
-    print('Update', agent_id)
-    new_primary_name = input('Add a new primary name: ')
-    new_rest_of_name = input('Add a new rest of name: ')
-    source = 'local'
-    rules = 'local'
-    name_model = {
-           'primary_name': new_primary_name,
-           'rest_of_name': new_rest_of_name,
-           'name_order': 'inverted',
-           'jsonmodel_type': 'name_person',
-           'source': source,
-           'rules': rules,
-           'sort_name': new_primary_name+', '+new_rest_of_name,
-           'is_display_name': True,
+    note_text = input('Enter some text to add as a note: ')
+    agent_model = list_agent(api_url, auth_token, agent_type, str(agent_id))
+
+    note_count = len(agent_model['notes'])
+    if (note_count > 0):
+        print('The existing notes are', json.dumps(agent_model['notes'], indent=4))
+
+    new_note = {
+        'jsonmodel_type': 'note_bioghist',
+        'persistent_id': 'urn:test.a.note.to.self/'+str(note_count+1),
+        'label': 'Personal note to self',
+        'subnotes': [
+            {
+                'jsonmodel_type': 'note_text',
+                'content': note_text,
+                'publish': True
+            }
+        ],
+        'publish':True
     }
-    agent_record['names'].append(name_model)
-    agent_record['display_name'] = name_model
-    result = update_agent(api_url, auth_token, agent_type, agent_id, agent_record)
-    print('agent update response', json.dumps(result, indent=4))
+    # now adding a new note
+    agent_model['notes'].append(new_note)
+    print("Added a note", json.dumps(agent_model['notes'], indent=4))
+    res = update_agent(api_url, auth_token, agent_type, 3, agent_model)
+    print('Response was', json.dumps(res, indent=4))
+
 
     # Test delete_agent()
     print('Testing delete_repo()')

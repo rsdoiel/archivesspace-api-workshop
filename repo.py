@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import urllib.request
-import getpass
+import urllib.parse
+import urllib.error
 import json
+import getpass
 # Here's our own login module
 import login
 
@@ -20,11 +22,17 @@ def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url =
             url = api_url+'/repositories', 
             data = None, 
             headers = {'X-ArchivesSpace-Session': auth_token})
-    response = urllib.request.urlopen(req, data)
-    status = response.getcode()
-    if status != 200:
-        print('WARNING http statuc code', status)
-    return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    try:
+        response = urllib.request.urlopen(req, data)
+    except HTTPError as e:
+        print(e.code)
+        print(e.read())
+        return ""
+    except URLError as e:
+        print(e.reason())
+        return ""
+    src = response.read().decode('utf-8')
+    return json.JSONDecoder().decode(src)
 
 def list_repos(api_url, auth_token):
     '''List all the repositories, return the listing object'''
@@ -32,11 +40,17 @@ def list_repos(api_url, auth_token):
         url = api_url+'/repositories',
         data = None,
         headers = {'X-ArchivesSpace-Session': auth_token})
+    try:
     response = urllib.request.urlopen(req)
-    status = response.getcode()
-    if status != 200:
-        print('WARNING http statuc code', status)
-    return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    except HTTPError as e:
+        print(e.code)
+        print(e.read())
+        return None
+    except URLError as e:
+        print(e.reason())
+        return None
+    src = respone.read().decode('utf-8')
+    return json.JSONDecoder().decode(src)
 
 def list_repo(api_url, auth_token, repo_id):
     '''List all the repositories, return the listing object'''
@@ -44,11 +58,17 @@ def list_repo(api_url, auth_token, repo_id):
         url = api_url+'/repositories/'+str(repo_id),
         data = None,
         headers = {'X-ArchivesSpace-Session': auth_token})
-    response =  urllib.request.urlopen(req)
-    status = response.getcode()
-    if status != 200:
-        print('WARNING http statuc code', status)
-    return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    try:
+        response =  urllib.request.urlopen(req)
+    except HTTPError as e:
+        print(e.code)
+        print(e.read())
+        return None
+    except URLError as e:
+        print(e.reason)
+        return None
+    src = response.read().decode('utf-8')
+    return json.JSONDecoder().decode(src)
 
 def update_repo(api_url, auth_token, repo_id, repo):
     '''This function sends a updates a repository via ArchivesSpace REST API'''
@@ -57,11 +77,17 @@ def update_repo(api_url, auth_token, repo_id, repo):
         url = api_url+'/repositories/'+str(repo_id),
         data = None,
         headers = {'X-ArchivesSpace-Session': auth_token})
-    response = urllib.request.urlopen(req, data)
-    status = response.getcode()
-    if status != 200:
-        print('WARNING http statuc code', status)
-    return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    try:
+        response = urllib.request.urlopen(req, data)
+    except HTTPError as e:
+        print(e.code)
+        print(e.read())
+        return None
+    except URLError as e:
+        print(e.reason())
+        return None
+    src = response.read().decode('utf-8')
+    return json.JSONDecoder().decode(src)
 
 def delete_repo(api_url, auth_token, repo_id):
     '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
@@ -70,11 +96,17 @@ def delete_repo(api_url, auth_token, repo_id):
         data = None,
         headers = {'X-ArchivesSpace-Session': auth_token},
         method = 'DELETE')
-    response = urllib.request.urlopen(req)
-    status = response.getcode()
-    if status != 200:
-        print('WARNING http statuc code', status)
-    return json.JSONDecoder().decode(response.read().decode('utf-8'))
+    try:
+        response = urllib.request.urlopen(req)
+    except HTTPError as e:
+        print(e.code)
+        print(e.read())
+        return None
+    except URLError as e:
+        print(e.reason())
+        return None
+    src = response.read().decode('utf-8')
+    return json.JSONDecoder().decode(src)
 
 
 if __name__ == '__main__':
@@ -82,7 +114,7 @@ if __name__ == '__main__':
     print("Testing login()")
     api_url = input('ArchivesSpace API URL: ')
     username = input('ArchivesSpace username: ')
-    password = getpass.getpass('ArchivesSpacew password: ')
+    password = getpass.getpass('ArchivesSpace password: ')
     print('Logging in', api_url)
     auth_token = login.login(api_url, username, password)
     print("auth token", auth_token)

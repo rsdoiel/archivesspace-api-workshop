@@ -16,13 +16,13 @@
 <p>Now send a request with our data.</p>
 
 <pre><code class="language-python">    req = urllib.request.Request(
-        url = api_url+'/users/'+username+'/login', 
+        url = api_url+'/users/'+username+'/login',
         data = data)
     response = urllib.request.urlopen(req)
     print(response.read().decode('UTF-8'))
 </code></pre>
 
-<p>You should see the type of response ArchivesSpace send back.</p>
+<p>You should see content from the response ArchivesSpace send back.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

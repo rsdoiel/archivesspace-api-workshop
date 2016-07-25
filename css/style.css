@@ -43,7 +43,7 @@ header {
     border-left: 0.48em solid green; 
     border-right: 0.48em solid green;
     border-bottom: 0.48em solid green;
-    background: linear-gradient(to bottom, green, #001111 96%, grey)
+    background: linear-gradient(to bottom, green, #001111 100%, black)
 }
 
 /* NOTE: Ingnore a P tag inserted by Markdown when rendering headers */

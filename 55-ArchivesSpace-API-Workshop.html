@@ -11,12 +11,21 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>The Admin account is a &ldquo;agents/people&rdquo;</h2>
+<h2>agent types versus paths</h2>
 
-<p>The API docs start getting sparse with agents (maybe because of the
-recent release of v1.5.0).  But we know somethings already from the
-<em>repositories</em> examples.  We know we can list things. Let&rsquo;s try
-listing the people we have in our repositories first.</p>
+<p>One thing to notice is that in the data modules the <em>type</em>
+doesn&rsquo;t exactly match the <em>path</em> in the REST API.</p>
+
+<ul>
+<li><em>agent_corporate_entity</em> becomes <em>/agents/corporate_entities</em></li>
+<li><em>agent_family</em> becomes <em>/agents/families</em></li>
+<li><em>agent_person</em> becomes <em>/agents/people</em></li>
+<li><em>agent_software</em> becomes <em>/agents/software</em></li>
+</ul>
+
+<p>The URL&rsquo;s a easy to remember with these adjustments but it easy
+to make the mistake when building a model by hand (or debugging one
+you&rsquo;ve written) that you can&rsquo;t replace the &lsquo;/&rsquo; with a &lsquo;_&lsquo;.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

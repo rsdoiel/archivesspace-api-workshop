@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-import urllib.request
+import urllib
+import json
 import getpass
     
 def login (api_url, username, password):
