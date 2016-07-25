@@ -14,7 +14,17 @@
 <p>Putting it all together, add the following after the <em>login</em> function and
 update the <em>if</em> block to match.</p>
 
-<pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import urllib.parse
+    import urllib.error
+    import json
+    import getpass
+    # Here's our own login module
+    import login
+    
+    
+    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
         '''This function sends a create request to the ArchivesSpace REST API'''
         data = json.JSONEncoder().encode({
                         'jsonmodel_type': 'repository',
@@ -28,21 +38,27 @@ update the <em>if</em> block to match.</p>
                 url = api_url+'/repositories', 
                 data = None, 
                 headers = {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req, data)
-        status = response.getcode()
-        if status != 200:
-            print('WARNING http statuc code', status)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-
+        try:
+            response = urllib.request.urlopen(req, data)
+        except HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return &quot;&quot;
+        except URLError as e:
+            print(e.reason())
+            return &quot;&quot;
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
     
     if __name__ == '__main__':
         # Test login
         print(&quot;Testing login()&quot;)
         api_url = input('ArchivesSpace API URL: ')
         username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpacew password: ')
+        password = getpass.getpass('ArchivesSpace password: ')
         print('Logging in', api_url)
-        auth_token = login(api_url, username, password)
+        auth_token = login.login(api_url, username, password)
         print(&quot;auth token&quot;, auth_token)
         if auth_token != '':
             print('Success!')
@@ -62,9 +78,6 @@ update the <em>if</em> block to match.</p>
         repo_code = input('Repo code: ')
         repo = create_repo(api_url, auth_token, name, repo_code)
         print(json.dumps(repo, indent=4))
-        
-        # All done!
-        print('Success!')
 </code></pre>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
