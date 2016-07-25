@@ -396,10 +396,10 @@ Close the text editor and go back in the shell.
     password = getpass.getpass('password: ')
 ```
 
-<blockquote>We want to use getpass.getpass('password: ') so the
+We want to use getpass.getpass('password: ') so the
 password doesn't get echoed to the screen. In IDLE it'll
 show read and echo the password, ignore this for testing
-and development.</blockquote>
+and development.
 
 --
 
@@ -936,9 +936,8 @@ We've added our *list_repos* and changed the tests at the bottom.
 
 ## results should look something like
 
-```shell
-    username admin auth_token 9321ca79d94517d7018aa1ac4f1b6f2901b522c4b234d3ab9a4602fae9a8d72d
-    repositores list [
+```json
+    [
         {
             "last_modified_by": "admin",
             "created_by": "admin",
@@ -1488,11 +1487,14 @@ code evaluating the response.
 ## create_agent schema
 
 A quick search in the API docs for "Create a person agent" leads us
-to ... nothing. 
-
-<blockquote>As of 2016-07-25 right shell column of the API docs nolonger shows the usual *curl* examples and output.</blockquote>
+to ... nothing. As I was writing the agents section I notice most
+of the *curl* examples and their outputs are missing since the upgrade
+to v1.5.0. This provided a teachable moment in the sense I can talk about
+how to figure out API requirements when the docs are a bit thin.
 
 ### Debugging the API docs
+
+Read what's there and guess at the next step.
 
 ```shell
     curl -H "X-ArchivesSpace-Session: $SESSION" \
@@ -1556,8 +1558,8 @@ From the docs we know we need a POST and we known that the path in the
 URL will look like "/agent/people". The docs also tell us what we should
 except if we're successful. This is where working in the shell is handy.
 
-After some experimentation I've come up with a minimum number of fields
-to create a *agent_person*.
+After some experimentation I've arrahved at the following minimum 
+*agent_person* request.
 
 ```python
     # Our minimal agent record includes a :name_person and a :agent_person
