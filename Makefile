@@ -7,6 +7,10 @@ build:
 release:
 	./mk-release.sh
 
+save:
+	git commit -am draft
+	git push origin master
+
 publish:
 	./mk-website.sh
 	./mk-release.sh
