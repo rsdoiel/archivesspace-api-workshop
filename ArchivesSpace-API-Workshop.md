@@ -1921,7 +1921,7 @@ Full listing [agent.py](agent.py)
 
 --
 
-# Seventh-inn Stretch
+# Seventh-inning Stretch
 
 <blockquote>We've covered allot, stretch, ask questions, absorb your API adventureblockquote>
 
