@@ -1489,8 +1489,8 @@ code evaluating the response.
 A quick search in the API docs for "Create a person agent" leads us
 to ... nothing. As I was writing the agents section I notice most
 of the *curl* examples and their outputs are missing since the upgrade
-to v1.5.0. This provided a teachable moment in the sense I can talk about
-how to figure out API requirements when the docs are a bit thin.
+to v1.5.0. This provided a educational moment for me.  I can talk a little
+bit about how to sort things when the docs are a bit thin.
 
 ### Debugging the API docs
 
