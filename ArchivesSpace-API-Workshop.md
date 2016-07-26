@@ -2093,7 +2093,9 @@ Full listing [accession.py](accession.py)
 
 ## list_accession implementation
 
-If we know the repo_id and accession_id we can list the details of an accession.
+If we know the *repo_id* and *accession_id* we can list the details of an accession. Note the *accession_id*
+is the numeric value seen in the URL (or uri field of an accession record) and NOT related to the fields
+*id_0*, *id_1*, *id_2*, or *id_3*.
 
 ```python
     def list_accession(api_url, auth_token, repo_id, accession_id):

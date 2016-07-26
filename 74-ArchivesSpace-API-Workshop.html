@@ -13,7 +13,9 @@
 
 <h2>list_accession implementation</h2>
 
-<p>If we know the repo_id and accession_id we can list the details of an accession.</p>
+<p>If we know the <em>repo_id</em> and <em>accession_id</em> we can list the details of an accession. Note the <em>accession_id</em>
+is the numeric value seen in the URL (or uri field of an accession record) and NOT related to the fields
+<em>id_0</em>, <em>id_1</em>, <em>id_2</em>, or <em>id_3</em>.</p>
 
 <pre><code class="language-python">    def list_accession(api_url, auth_token, repo_id, accession_id):
         '''List an accession by repo_id and accession_id'''
