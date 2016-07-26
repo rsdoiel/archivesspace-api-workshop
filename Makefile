@@ -4,6 +4,9 @@
 build: 
 	./mk-website.sh
 
+status:
+	git status
+
 release:
 	./mk-release.sh
 

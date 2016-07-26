@@ -2140,7 +2140,7 @@ Full listing [accession.py](accession.py)
 We need three pieces of inforation
 
 1. our repo_id
-2. our accession_id (the numeric one from the uri, not id_0, id_1, etc.)
+2. our accession_id (the numeric one from the *uri*, not *id_0*, *id_1*, etc.)
 3. our updated accession model
 
 Notice the similarity to *update_agent*.
