@@ -2260,11 +2260,8 @@ Full listing [accession.py](accession.py)
 
 + [ArchivesSpace REST API](http://archivesspace.github.io/archivesspace/api/)
 + [Python 3 Docs](https://docs.python.org/3.5/)
-    + [urllib2](https://docs.python.org/3/howto/urllib2.html)
-        + [Basic Auth example](http://www.voidspace.org.uk/python/articles/authentication.shtml)
+    + [urllib tutorial](https://docs.python.org/3/howto/urllib2.html)
     + [JSON module](https://docs.python.org/3.5/library/json.html?highlight=json#module-json)
-    + [OS module](https://docs.python.org/3.5/library/os.html) (for using environment variables)
-+ [github.com/caltechlibrary/aspace-api-workshop](https://github.com/caltechlibrary/aspace-api-workshop)
 
 --
 
@@ -2272,10 +2269,10 @@ Thank you for participating!
 
 Presentation is at
 
-[rsdoiel.github.io/archivesspace-api-workshop](https://rsdoiel.github.io/archivesspace-api-workshop)
+    [rsdoiel.github.io/archivesspace-api-workshop](https://rsdoiel.github.io/archivesspace-api-workshop)
 
 Slides can be downloaded at
 
-[github.com/rsdoiel/archivesspace-api-workshop/releases/latest](https://github.com/rsdoiel/archivesspace-api-workshop/releases/latest)
+    [github.com/rsdoiel/archivesspace-api-workshop/releases/latest](https://github.com/rsdoiel/archivesspace-api-workshop/releases/latest)
 
 Please feel free to fork and improve.
