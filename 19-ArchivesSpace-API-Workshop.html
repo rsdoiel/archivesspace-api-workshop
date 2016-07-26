@@ -1,42 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="18-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="20-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="18-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="20-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>2. Make an http connection</h1>
 
-<h2>Putting it all together</h2>
-
-<p>Let&rsquo;s take what we learned and create a Python scripts called
-<a href="make-an-http-connection.py">make-an-http-connection.py</a>.</p>
-
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import json
-    import getpass
-
-    api_url = input('ArchivesSpace API URL: ')
-    if api_url == '':
-        api_url = 'http://localhost:8089'
-    req = urllib.request.Request(api_url)
-
-    response = urllib.request.urlopen(req)
-    print(response.read().decode('utf-8'))
-
-</code></pre>
-
-<ol>
-<li>In IDLE click on the file name and create a new file</li>
-<li>Type in the above</li>
-<li>Save the file as <strong>make-an-http-connection.py</strong></li>
-</ol>
+<ul>
+<li>What do you see?</li>
+<li>Are there questions?</li>
+</ul>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

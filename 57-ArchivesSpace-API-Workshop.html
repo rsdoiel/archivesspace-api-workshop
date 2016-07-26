@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="56-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="58-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="56-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="58-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>create_agent code will need:</h2>
+<h2>create_agent concerns</h2>
 
-<ol>
-<li>Save <a href="repo.py">repo.py</a> As <a href="agent.py">agent.py</a></li>
-<li>We&rsquo;ll create our function create_code, we need
+<p>The API docs we want to read closely are the models/schema for
+the specific agent type we want to handle.  The API will validate
+our fields so we&rsquo;ll need to handle the response case where the API
+is trying to tell us we&rsquo;re missing a required field or something else
+is out of order.</p>
 
-<ul>
-<li>api_url</li>
-<li>auth_token</li>
-<li>agent_type</li>
-<li>the rest of the agent data (see the API docs)</li>
-</ul></li>
-<li>Add tests for each type of agent we want to support</li>
-</ol>
+<p>This has the benefit of keep our code simple but does mean we need more
+code evaluating the response.</p>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

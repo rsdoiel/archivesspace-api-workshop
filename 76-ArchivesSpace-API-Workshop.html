@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
+</head>
+<body>
+	<nav>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="75-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="77-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+	</nav>
+	<section><h1>6. Accessions</h1>
+
+<h2>delete_accession implementation</h2>
+
+<p>This should look familar by now&hellip;</p>
+
+<pre><code class="language-python">    def delete_agent(api_url, auth_token, repo_id, accession_id):
+        '''delete an accession record and return a results message'''
+        url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
+        req = urllib.request.Request(
+             url = url,
+             data = None,
+             headers = {'X-ArchivesSpace-Session': auth_token},
+             method = 'DELETE')
+        try:
+            response = urllib.request.urlopen(req)
+        except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>And our test in the <em>if</em> block</p>
+
+<pre><code class="language-python">        # Test delete_accession
+        print('Test delete_accession()')
+        accession_id = int(input('Enter accession id to delete: '))
+        result = delete_accession(api_url, auth_token, repo_id, accession_id)
+        print('delete result', json.dumps(result, indent=4))
+</code></pre>
+
+<p>Full listing <a href="accession.py">accession.py</a></p>
+</section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
+</body>
+</html>
+

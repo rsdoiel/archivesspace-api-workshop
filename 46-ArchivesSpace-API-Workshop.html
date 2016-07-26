@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="45-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="47-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="45-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="47-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>4. Repositories</h1>
 
 <h2>adding list_repo</h2>
 
-<p>Let&rsquo;s copy and modify our list_repos definition to <em>list_repo</em>. Paste it after
-the function <em>list_repos</em>. We&rsquo;ll be update the <em>if</em> block too.</p>
+<p>Let&rsquo;s copy and modify our list_repos definition to <em>list_repo</em>. Paste
+it after the function <em>list_repos</em>. We&rsquo;ll be update the <em>if</em> block too.</p>
 
-<pre><code class="language-Python">    def list_repo(api_url, auth_token, repo_id):
+<p>In the definition section add</p>
+
+<pre><code class="language-python">    def list_repo(api_url, auth_token, repo_id):
         '''List all the repositories, return the listing object'''
         req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id), 
-            None, 
-            {'X-ArchivesSpace-Session': auth_token})
-        response = urllib.request.urlopen(req)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token})
+        try:
+            response =  urllib.request.urlopen(req)
+        except HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        except URLError as e:
+            print(e.reason)
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>In the test <em>if</em> block add</p>
+
+<pre><code class="language-python">        # Test for list_repo
         repo_id = int(input('Enter repo id (e.g. 2): '))
         repos = list_repos(api_url, auth_token, repo_id)
         print('repositores list', json.dumps(repos, indent=4))
-        
 </code></pre>
 
 <p>Are the results what you expected? Are we still getting an array?</p>
+
+<p>Full listing <a href="repo.py">repo.py</a></p>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

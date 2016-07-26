@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="28-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="30-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="28-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="30-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>3. Authentication</h1>
 
@@ -18,28 +18,54 @@ response and return only session value. We&rsquo;ll also update our
 tests at the bottom.  (We&rsquo;re modifying <em>login</em> function and the
 testing in the closing <em>if</em> block)</p>
 
-<pre><code class="language-python">    def login (api_url, username, password):
-        '''This function logs into the ArchivesSpace REST API returning an access token'''
-        data = urllib.parse.urlencode({'password': password})
-        data = data.encode('utf-8')
-        req = urllib.request.Request(api_url+'/users/'+username+'/login', data)
-        response = urllib.request.urlopen(req)
-        result = json.JSONDecoder().decode(response.read().decode('utf-8'))
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import urllib.parse
+    import urllib.error
+    import json
+        
+    def login (api_url, username, password):
+        '''This function logs into the ArchivesSpace REST API returning an acccess token'''
+        data = urllib.parse.urlencode({'password': password}).encode('utf-8')
+        req = urllib.request.Request(
+            url = api_url+'/users/'+username+'/login', 
+            data = data)
+        try:
+            response = urllib.request.urlopen(req)
+        except HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return &quot;&quot;
+        except URLError as e:
+            print(e.reason())
+            return &quot;&quot;
+        src = response.read().decode('utf-8')
+        result = json.JSONDecoder().decode(src)
+        # Session holds the value we want for auth_token
         return result['session']
     
     if __name__ == '__main__':
-        # Our tests
+        import getpass
         api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        print('Logging in')
-        s = login(api_url, input('ArchivesSpace username: '),getpass.getpass('ArchivesSpacew password: '))
-        print(&quot;Your access token was: &quot;, s)
-        print('Success!')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpacew password: ')
+        print('Logging in', api_url)
+        auth_token = login(api_url, username, password)
+        print(auth_token)
+        if auth_token != '':
+            print('Success!')
+        else:
+            print('Ooops! something went wrong')
 </code></pre>
+
+<p>This is our first module and will get reused in <strong>repo.py</strong>, <strong>agent.py</strong>
+and <strong>accession.py</strong>.  I&rsquo;ve added some extra handling around <em>urlopen</em>.<br />
+This will give us a little more orderly output when something goes wrong
+in the http request.</p>
 
 <p>If all has gone well we are ready to move onto working with repositories!</p>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

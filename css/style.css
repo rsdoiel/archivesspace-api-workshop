@@ -5,14 +5,23 @@ body {
     margin: 0;
     width: 100%;
     height: auto;
+    /*
     color: #bbbbbb;
     background-color: #111; 
     /* background-color: #2d1707; */
+    color: black;
+    background-color: white;
 }
 
-a, a:link, a:visited, a:active, a:hover {
-    color: orange;
+
+a, a:link, a:visited {
+    color: red;
     text-decoration: none;
+}
+
+a:active, a:focus, a:hover {
+    color: green;
+    text-decoration: underline;
 }
 
 
@@ -21,12 +30,20 @@ header {
     margin: 0;
     width: 100%;
     color: white;
-    background-color: #777;
+    /* 
+    background-color: #777; 
     border-top: 0.48em solid #777;
     border-left: 0.48em solid #777;
     border-right: 0.48em solid #777;
     border-bottom: 0.48em solid #777;
     background: linear-gradient(to bottom, #777, #666 98%, #111)
+    */
+    background-color: green;
+    border-top: 0.48em solid green;
+    border-left: 0.48em solid green; 
+    border-right: 0.48em solid green;
+    border-bottom: 0.48em solid green;
+    background: linear-gradient(to bottom, green, #001111 100%, black)
 }
 
 /* NOTE: Ingnore a P tag inserted by Markdown when rendering headers */
@@ -56,6 +73,16 @@ header div {
     display: inline-block;
     vertical-align: top;
     text-align: right;
+}
+
+header div > a, header div > a:link, header div > a:visited {
+    color: yellow;
+    text-decoration: none;
+}
+
+header div > a:active, header div > a:focus, header div > a:hover {
+    color: blue;
+    text-decoration: underline;
 }
 
 
@@ -113,4 +140,12 @@ footer {
 img.rss-valid {
     width: 3.24em;
     height: 1em;
+}
+
+h1 {
+    font-size: 200%;
+}
+
+h2 {
+    font-size: 120%;
 }

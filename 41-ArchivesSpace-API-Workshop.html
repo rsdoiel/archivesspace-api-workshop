@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="40-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="42-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="40-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="42-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>4. Repositories</h1>
 
@@ -18,14 +18,14 @@ After that we can build our request and send it. We&rsquo;ll
 wrap up by decoding the JSON response and pretty printing
 it.</p>
 
-<pre><code class="language-Python">    auth_token = login(api_url, username, password)
+<pre><code class="language-python">    auth_token = login(api_url, username, password)
     req = urllib.request.Request(
-        api_url+'/repositories', 
-        None, 
-        {&quot;X-ArchivesSpace-Session&quot;: auth_token})
+        url = api_url+'/repositories',
+        data = None,
+        header = {&quot;X-ArchivesSpace-Session&quot;: auth_token})
     response = urllib.request.urlopen(req)
     result = json.JSONDecoder().decode(response.read().decode('utf-8'))
-    print(json.dumps(result, indent=4, sort_keys=True))
+    print(json.dumps(result, indent=4))
 </code></pre>
 
 <ul>
@@ -33,6 +33,7 @@ it.</p>
 <li>How does this compare with the API document?</li>
 </ul>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

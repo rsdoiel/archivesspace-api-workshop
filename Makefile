@@ -7,6 +7,10 @@ build:
 release:
 	./mk-release.sh
 
+save:
+	git commit -am draft
+	git push origin master
+
 publish:
 	./mk-website.sh
 	./mk-release.sh
@@ -20,3 +24,7 @@ clean:
 	if [ -f archivesspace-dev/install.html ]; then rm archivesspace-dev/install.html; fi
 	if [ -f archivesspace-api-workshop-slides.zip ]; then rm archivesspace-api-workshop-slides.zip; fi
 
+test:
+	python3 login.py
+	python3 repo.py
+	#python3 agent.py

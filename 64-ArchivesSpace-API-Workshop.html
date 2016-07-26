@@ -1,32 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="63-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="65-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="63-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="65-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>References</h1>
+	<section><h1>5. Working with Agents</h1>
 
-<ul>
-<li><a href="http://archivesspace.github.io/archivesspace/api/">ArchivesSpace REST API</a></li>
-<li><a href="https://docs.python.org/3.5/">Python 3 Docs</a>
+<h2>list_agents implementation</h2>
 
-<ul>
-<li><a href="https://docs.python.org/3/howto/urllib2.html">urllib2</a>
+<ol>
+<li>Add our list_agents() to our <em>def</em> section</li>
+<li>Update our tests in our <em>if</em> block</li>
+</ol>
 
-<ul>
-<li><a href="http://www.voidspace.org.uk/python/articles/authentication.shtml">Basic Auth example</a></li>
-</ul></li>
-<li><a href="https://docs.python.org/3.5/library/json.html?highlight=json#module-json">JSON module</a></li>
-<li><a href="https://docs.python.org/3.5/library/os.html">OS module</a> (for using environment variables)</li>
-</ul></li>
-<li><a href="https://github.com/caltechlibrary/aspace-api-workshop">github.com/caltechlibrary/aspace-api-workshop</a></li>
-</ul>
+<p>In our definition section add</p>
+
+<pre><code class="language-python">    def list_agents(api_url, auth_token, agent_type):
+       '''List all the agent ids of a given type'''
+       data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
+       url = api_url+agent_type_path(agent_type)
+       req = urllib.request.Request(
+          url = url,
+          data = data,
+          headers = {'X-ArchivesSpace-Session': auth_token},
+          method = 'GET')
+       try:
+            response = urllib.request.urlopen(req)
+       except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+       except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+       src = response.read().decode('utf-8')
+       return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>In our <em>if</em> test block add</p>
+
+<pre><code class="language-python">        # Test list_agents(), requires api_url, auth_token and agent_type
+        print('Test list_agents()')
+        agent_ids = list_agents(api_url, auth_token, 'agent_person')
+        if len(agent_ids) &lt; 1:
+            print('ERROR: should have at least one agent!')
+            sys.exit(0)
+        print('agent ids -&gt;', json.dumps(agent_ids, indent = 4))
+</code></pre>
+
+<p>Full listing <a href="agent.py">agent.py</a></p>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

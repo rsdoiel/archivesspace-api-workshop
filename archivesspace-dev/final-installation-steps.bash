@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-REVISION="v1.4.2"
+REVISION="v1.5.0"
 
 function assertUsername {
     USERNAME=$1
     ERROR_MSG=$2
     WHOAMI=$(whoami)
 
-    if [ "$USERNAME" = "" ];then
+    if [ "$USERNAME" = "" ]; then
         echo "SCRIPTING error, assertUsername expects a username to be supplied to check."
         exit 1
     fi
@@ -87,6 +87,10 @@ function setupArchivesSpace() {
     echo "Changing to new directory"
     cd /archivesspace/$REVISION
     echo "Working directory $(pwd)"
+    if [ ! -f "$ZIP_FILE" ]; then
+        echo "Can't find $ZIP_FILE, aborting install"
+        exit 1
+    fi
     echo "Unpacking $ZIP_FILE"
     unzip $ZIP_FILE
     echo "Copy in MySQL Java connection."
@@ -134,17 +138,21 @@ function setupFinish() {
     echo ""
     echo "Start archivespace"
     echo ""
-    echo "    sudo /archivesspace/v1.4.2/archivesspace/archivesspace.sh"
+    echo "    sudo /archivesspace/$REVISION/archivesspace/archivesspace.sh"
     echo ""
     echo "And you're ready to create a new repository, load data, and begin development."
     echo ""
 }
 
 function setupUbuntu() {
+    echo "Upgrading existing Ubuntu"
+    sudo apt-get update 
+    echo "Upgrade if necessary"
+    sudo apt-get upgrade
     echo "Installing additional Ubuntu 16.04 LTS packages needed"
     sudo apt-get install build-essential git curl zip unzip \
          default-jdk ant ant-contrib ant-optional \
-         maven mysql-server libmysql-java  -y
+         maven mysql-server libmysql-java
 }
 
 #
@@ -154,6 +162,6 @@ assertUsername vagrant "Try: sudo su vagrant"
 setupUbuntu
 setupUsers
 setupArchivesSpace
-setupMySQL
 setupJasperReportsFonts
+setupMySQL
 setupFinish

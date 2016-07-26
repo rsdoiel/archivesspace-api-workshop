@@ -1,18 +1,52 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="58-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="60-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="58-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="60-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>Update an Agent</h2>
+<h2>create_agent schema</h2>
+
+<p>A quick search in the API docs for &ldquo;Create a person agent&rdquo; leads us
+to &hellip; nothing. As I was writing the agents section I notice most
+of the <em>curl</em> examples and their outputs are missing since the upgrade
+to v1.5.0. This provided a educational moment for me.  I can talk a little
+bit about how to sort things when the docs are a bit thin.</p>
+
+<h3>Debugging the API docs</h3>
+
+<p>Read what&rsquo;s there and guess at the next step.</p>
+
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        http://localhost:8089/agents/people
+</code></pre>
+
+<p>I get back an error</p>
+
+<pre><code class="language-json">    {
+        &quot;error&quot;:{
+            &quot;page&quot;:[
+                &quot;Parameter required but no value provided&quot;
+            ],
+            &quot;id_set&quot;:[
+                &quot;Parameter required but no value provided&quot;
+            ],
+            &quot;all_ids&quot;:[
+                &quot;Parameter required but no value provided&quot;
+            ]
+        }
+    }
+</code></pre>
+
+<p>And it lets us know the options expected. We will use &ldquo;all_ids=true&rdquo; next.</p>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

@@ -1,20 +1,58 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="26-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="28-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="26-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="28-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h2>Let&rsquo;s a closer look at the JSON results</h2>
+<h2>Send our username and password</h2>
 
-<p>Open <a href="example-login-response.json">example-login-response.json</a> in a new browser window.</p>
+<h3>Putting it all together</h3>
+
+<p>Open the IDLE text editor and create a new file
+called <strong>login.py</strong>.</p>
+
+<p>We&rsquo;ll create a python function and add prompts for api url,
+username and password to test it. Note the additional <em>urllib</em> modules
+imported.</p>
+
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import urllib.parse
+    import urllib.error
+
+    def login (api_url, username, password):
+        '''This function logs into the ArchivesSpace REST API and shows the text response'''
+        data = urllib.parse.urlencode({'password': password})
+        data = data.encode('ascii')
+        req = urllib.request.Request(
+            url = api_url+'/users/'+username+'/login',
+            data = data)
+        response = urllib.request.urlopen(req)
+        status = response.getcode()
+        print('HTTP status code', status)
+        return response.read().decode('UTF-8')
+
+    if __name__ == '__main__':
+        import getpass
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpacew password: ')
+        print('Logging in', api_url)
+        s = login(api_url, username, password)
+        print(s)
+        print('Success!')
+</code></pre>
+
+<p>Now &ldquo;Run&rdquo; the python script and see the results like we did before.</p>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

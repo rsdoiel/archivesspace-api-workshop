@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="47-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="49-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="47-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="49-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>4. Repositories</h1>
 
@@ -23,30 +23,32 @@ suggest?</p>
 
 <p>Your code should wind up looking something like this.</p>
 
+<p>In the definition section add</p>
+
 <pre><code class="language-python">    def update_repo(api_url, auth_token, repo_id, repo):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        # Data is getting attached to urlopen() and not req object to trigger a POST
-        # ArchivesSpace API likes JSON encoding rather than URL encoding like login
         data = json.JSONEncoder().encode(repo).encode('utf-8')
-        # Add our auth_token to your req object
         req = urllib.request.Request(
-            api_url+'/repositories/'+str(repo_id),
-            None,
-            {'X-ArchivesSpace-Session': auth_token})
-        # Note we sending our repo as &quot;data&quot; in our urlopen (i.e. trigger a POST)
-        response = urllib.request.urlopen(req, data)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
-    
-    if __name__ == '__main__':
-        api_url = input('ArchivesSpace API URL: ')
-        if api_url == '':
-            api_url = 'http://localhost:8089'
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
-        print('username', username, 'auth_token', auth_token)
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token})
+        try:
+            response = urllib.request.urlopen(req, data)
+        except HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        except URLError as e:
+            print(e.reason())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>In the test <em>if</em> block add</p>
+
+<pre><code class="language-python">        # Test for update_repo()
         repos = list_repos(api_url, auth_token)
-        print('Pick a repository id to update', repos)
+        print('Pick a repository id to update', json.dumps(repos, indent=4))
         repo_id = int(input('Repository numeric id: '))
         print('Getting repository record', repo_id)
         repo = list_repo(api_url, auth_token, repo_id)
@@ -58,7 +60,10 @@ suggest?</p>
 
 <p>Run this updated version and see how it works. Note you can also use the other
 methods in the module like <em>list_repos()</em> as well as <em>list_repo()</em>.</p>
+
+<p>Full listing <a href="repo.py">repo.py</a></p>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

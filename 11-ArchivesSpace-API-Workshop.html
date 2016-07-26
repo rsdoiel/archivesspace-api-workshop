@@ -1,28 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="10-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="12-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="10-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="12-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>2. Make an http connection</h1>
+	<section><h1>1. Setup</h1>
 
-<p>Up next, these three things</p>
+<h2>About the code</h2>
 
-<ul>
-<li>using the Python interpreter</li>
-<li>import the three standard modules we&rsquo;ll use in the workshop
+<p>This <a href="helloworld.py">helloworld.py</a> is typical of the scripts we will
+wind up with.</p>
 
-<ul>
-<li>i.e. urllib.request, getpass, json</li>
-</ul></li>
-<li>make a connection with the request object</li>
-</ul>
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import urllib.parse
+    import urllib.error
+    import json
+    
+    # This is where we add our functions
+    def hello_world(name, secret):
+        print('I know you', name, ' and you have a secret...', secret)
+        return 'Hello World!!!'
+    
+    # This is where we add our tests
+    if __name__ == '__main__':
+        import getpass
+        name = input('How are you? ')
+        secret = getpass.getpass('Tell me a secret I can pass on: ')
+        hw = hello_world(name, secret)
+        if hw == 'Hello World!!!':
+            print('Success!! ', hw)
+        else:
+            print('Ooops something went wrong, should say &quot;Hello World!!!&quot;')
+</code></pre>
+
+<p>You shold see &ldquo;Success!! -&gt; Hello World!!!&rdquo; when you run the program.</p>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

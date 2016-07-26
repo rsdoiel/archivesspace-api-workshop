@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="35-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="37-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="35-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="37-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>4. Repositories</h1>
 
@@ -17,21 +17,34 @@
 a request object and with &ldquo;urlopen&rdquo; send our request so we can
 get a response.</p>
 
-<pre><code class="language-python">    def create_repo(api_url, access_token, name, repo_code, org_code = &quot;&quot;, image_url = &quot;&quot;, url = &quot;&quot;):
+<pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
         '''This function sends a create request to the ArchivesSpace REST API'''
-        data = urllib.parse.urlencode({'jsonmodel_type': 'repository',
-               'name': name,
-               'repo_code': repo_code,
-               'org_code': org_code,
-               'image_url': image_url,
-               'url': url}).encode()
-        req = urllib.request.Request(api_url+'/repositories', 
-                None, 
-                {'X-ArchivesSpace-Session': access_token})
-        response = urllib.request.urlopen(req, data)
-        return json.JSONDecoder().decode(response.read().decode('utf-8'))
+        data = json.JSONEncoder().encode({
+                        'jsonmodel_type': 'repository',
+                        'name': name,
+                        'repo_code': repo_code,
+                        'org_code': org_code,
+                        'image_url': image_url,
+                        'url': url
+                    }).encode('utf-8')
+        req = urllib.request.Request(
+                url = api_url+'/repositories', 
+                data = None, 
+                headers = {'X-ArchivesSpace-Session': auth_token})
+        try:
+            response = urllib.request.urlopen(req, data)
+        except HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return &quot;&quot;
+        except URLError as e:
+            print(e.reason())
+            return &quot;&quot;
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
 </code></pre>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
+</head>
+<body>
+	<nav>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="70-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="72-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+	</nav>
+	<section><h1>6. Accessions</h1>
+
+<h2>create_accession implementation</h2>
+
+<p>This process works the same as for agent so I&rsquo;m jumping straight to the code.</p>
+
+<p>This <em>import</em>  block is the same one we used with agents.</p>
+
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import urllib.parse
+    import urllib.error
+    import json
+    # Local modules
+    import login
+</code></pre>
+
+<p>In our definition section we&rsquo;ll create a <em>create_accession</em> function.</p>
+
+<pre><code class="language-python">    def create_accession(api_url, auth_token, repo_id, accession_model):
+        '''create an accession returning a status object'''
+        data = json.JSONEncoder().encode(accession_model).encode('utf-8')
+        url = api_url+'/repositories/'+str(repo_id)+'/accessions'
+        req = urllib.request.Request(
+                 url = url,
+                 data = None,
+                 headers = {'X-ArchivesSpace-Session': auth_token},
+                 method = 'POST')
+        try:
+            response = urllib.request.urlopen(req, data)
+        except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>Finally our tests, just like before go in our closing <em>if</em> block</p>
+
+<pre><code class="language-python">    if __name__ == &quot;__main__&quot;:
+        import getpass
+        import datetime
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login.login(api_url, username, password)
+    
+        # Test create_acccession
+        print(&quot;Test create_accession()&quot;)
+        repo_id = int(input('What is the repository id (numeric): '))
+    
+        print('Please provide the accession fields request')
+        title = input('title: ')
+    
+        # This is the minimal Accession record
+        accession_model = {
+            'title': title,
+            'id_0': 'test_'+datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'accession_date': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }
+        result = create_accession(api_url, auth_token, repo_id, accession_model)
+        print('Create accession result', json.dumps(result, indent=4))
+</code></pre>
+
+<p>Full listing <a href="accession.py">accession.py</a></p>
+</section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
+</body>
+</html>
+

@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head><link href="css/slides.css" rel="stylesheet" />
-   
+<head>
+   <link href="css/slides.css" rel="stylesheet" />
 </head>
 <body>
 	<nav>
-<a rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
-<a rel="nav" href="54-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
-<a rel="nav" href="56-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
+<a id="start-slide" rel="nav" href="00-ArchivesSpace-API-Workshop.html" title="Return to start of presentation">Start</a>
+<a id="prev-slide" rel="nav" href="54-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
+<a id="next-slide" rel="nav" href="56-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>create_agent recipe</h2>
+<h2>agent types versus paths</h2>
 
-<ol>
-<li>import our usual modules</li>
-<li>define our create_agent</li>
-<li>add our tests at the botton of our script in the <em>if</em> block</li>
-</ol>
+<p>One thing to notice is that in the data modules the <em>type</em>
+doesn&rsquo;t exactly match the <em>path</em> in the REST API.</p>
+
+<ul>
+<li><em>agent_corporate_entity</em> becomes <em>/agents/corporate_entities</em></li>
+<li><em>agent_family</em> becomes <em>/agents/families</em></li>
+<li><em>agent_person</em> becomes <em>/agents/people</em></li>
+<li><em>agent_software</em> becomes <em>/agents/software</em></li>
+</ul>
+
+<p>The URL&rsquo;s a easy to remember with these adjustments but it easy
+to make the mistake when building a model by hand (or debugging one
+you&rsquo;ve written) that you can&rsquo;t replace the &lsquo;/&rsquo; with a &lsquo;_&lsquo;.</p>
 </section>
+   <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
 </html>
 

@@ -13,9 +13,9 @@ Pre-requisites for the workshop:
 # Credits
 
 + [R. S. Doiel](https://rsdoiel.github.io)
-    + Software Developer 
-    + Caltech Library, [Digital Library Development](https://caltechlibrary.github.io) group
-+ [Mark Custer](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
-    + Archivist and Metadata Coordinator
+    + [Digital Services Programmer](https://caltechlibrary.github.io)
+    + Caltech Library
++ [Mark Custer](https://github.com/fordmadox)
+    + [Archivist and Metadata Coordinator](https://resources.library.yale.edu/StaffDirectory/detail.aspx?q=702)
     + Beinecke Rare Book and Manuscript Library
 
