@@ -41,7 +41,7 @@ def list_repos(api_url, auth_token):
         data = None,
         headers = {'X-ArchivesSpace-Session': auth_token})
     try:
-    response = urllib.request.urlopen(req)
+        response = urllib.request.urlopen(req)
     except HTTPError as e:
         print(e.code)
         print(e.read())
@@ -49,7 +49,7 @@ def list_repos(api_url, auth_token):
     except URLError as e:
         print(e.reason())
         return None
-    src = respone.read().decode('utf-8')
+    src = response.read().decode('utf-8')
     return json.JSONDecoder().decode(src)
 
 def list_repo(api_url, auth_token, repo_id):

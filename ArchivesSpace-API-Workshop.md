@@ -1931,19 +1931,94 @@ Full listing [agent.py](agent.py)
 
 ## Working with Accessions
 
-This is going to feel a little like Deja Vu because the process
-is largely similar to working with Agents only the nuances of the data
-models are different.
+A little deja vu is in order.  URLs we talk to change and we don't need to pass an 'agent_type'
+but you'll find these functions look remarkably similar to their agent counterparts.
 
-We're going to blast through 
++ create_acession (CREATE)
++ list_accessions  (READ)
++ list_accession   (READ)
++ update_accession (UPDATE)
++ delete_accession (DELETE)
 
-+ Creating Accessions
-+ Viewing Accession details
-+ Listing Accession IDs
-+ Listing an individual Accession
-+ Updating an Accession
-+ Deleting an Accession
+--
 
+# 6. Accessions
+
+## create_accession implementation
+
+This process works the same as for agent so I'm jumping straight to the code.
+
+This *import*  block is the same one we used with agents.
+
+```python
+    #!/usr/bin/env python3
+    import urllib.request
+    import urllib.parse
+    import urllib.error
+    import json
+    import getpass
+    # Local modules
+    import login
+```
+
+In our definition section we'll create a *create_accession* function.
+
+```python
+    def create_accession(api_url, auth_token, repo_id, accession_model):
+        data = json.JSONEncoder().encode(accession_model).encode('utf-8')
+        url = api_url+'/repositories/'+str(repo_id)+'/accessions'
+        req = urllib.request.Request(
+                 url = url,
+                 data = None,
+                 headers = {'X-ArchivesSpace-Session': auth_token},
+                 method = 'POST')
+        try:
+            response = urllib.request.urlopen(req, data)
+        except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+```
+
+Finally our tests, just like before go in our closing *if* block
+
+
+```python
+    if __name__ == "__main__":
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        auth_token = login(api_url, username, password)
+    
+        # Test create_acccession
+        print("Test create_accession()")
+        repo_id = int(input('What is the repository id (numeric): '))
+    
+        print('Please provide the accession fields request')
+        title = input('title: ')
+    
+        # This is the minimal Accession record
+        accession_model = {
+            'title': title,
+        }
+        result = create_accession(api_url, auth_token, repo_id, accession_model)
+        print('Create accession result', json.dumps(result, indent=4))
+```
+
+--
+
+# 6. Accessions
+
+## The minimal accession record
+
+--
+
+FIXME: Need list_accessions(), list_accession(), update_accession(), delete_accession()
 --
 
 # 7. What's next?
