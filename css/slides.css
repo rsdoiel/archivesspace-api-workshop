@@ -36,12 +36,12 @@ nav {
 }
 
 a, a:link, a:visited {
-    color: firebrick;
+    color: forestgreen;
     text-decoration: none;
 }
 
 a:focus, a:active, a:hover {
-    color: maroon;
+    color: lightblue;
     text-decoration: underline;
 }
 
@@ -70,7 +70,10 @@ h3 {
 
 em {
     color: red;
-    font-style: italic;
+    font-style: oblique;
+    font-family: monospace;
+    text-transform: lowercase;
+    font-weight: bold;
 }
 
 section, p {
