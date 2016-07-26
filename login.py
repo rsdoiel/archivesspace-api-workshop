@@ -3,7 +3,6 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import json
-import getpass
     
 def login (api_url, username, password):
     '''This function logs into the ArchivesSpace REST API returning an acccess token'''
@@ -26,6 +25,7 @@ def login (api_url, username, password):
     return result['session']
 
 if __name__ == '__main__':
+    import getpass
     api_url = input('ArchivesSpace API URL: ')
     username = input('ArchivesSpace username: ')
     password = getpass.getpass('ArchivesSpacew password: ')

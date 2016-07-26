@@ -109,6 +109,8 @@ The basic organization is as follows
 2. define some functions
 3. and a `if __name__ == '__main__':` block at the end
     + this *if* block is where our tests go
+    + import any modules you need specifically for testing
+        + E.g. import getpass
 
 --
 
@@ -126,7 +128,6 @@ This stock import block, as we'll see in the coming code, doesn't change much.
     import urllib.parse
     import urllib.error
     import json
-    import getpass
 ```
 
 To keep the workshop simple we're only using these standard
@@ -175,20 +176,22 @@ wind up with.
     import urllib.parse
     import urllib.error
     import json
-    import getpass
-    # additional modules get added here.
-
+    
     # This is where we add our functions
-    def hello_world():
+    def hello_world(name, secret):
+        print('I know you', name, ' and you have a secret...', secret)
         return 'Hello World!!!'
-
-    # This is where we put our tests
+    
+    # This is where we add our tests
     if __name__ == '__main__':
-        hw = hello_world()
+        import getpass
+        name = input('How are you? ')
+        secret = getpass.getpass('Tell me a secret I can pass on: ')
+        hw = hello_world(name, secret)
         if hw == 'Hello World!!!':
-            print('Success!! -> ', hw)
+            print('Success!! ', hw)
         else:
-            print('Ooops something went wrong!!!"')
+            print('Ooops something went wrong, should say "Hello World!!!"')
 ```
 
 You shold see "Success!! -> Hello World!!!" when you run the program.
@@ -318,8 +321,6 @@ Let's take what we learned and create a Python scripts called
 ```python
     #!/usr/bin/env python3
     import urllib.request
-    import json
-    import getpass
 
     api_url = input('ArchivesSpace API URL: ')
     req = urllib.request.Request(api_url)
@@ -328,6 +329,7 @@ Let's take what we learned and create a Python scripts called
     print(response.read().decode('utf-8'))
 
 ```
+
 1. In IDLE click on the file name and create a new file
 2. Type in the above
 3. Save the file as [make-an-http-connection.py](make-an-http-connection.py)
@@ -452,7 +454,6 @@ imported.
     import urllib.request
     import urllib.parse
     import urllib.error
-    import getpass
 
     def login (api_url, username, password):
         '''This function logs into the ArchivesSpace REST API and shows the text response'''
@@ -467,6 +468,7 @@ imported.
         return response.read().decode('UTF-8')
 
     if __name__ == '__main__':
+        import getpass
         api_url = input('ArchivesSpace API URL: ')
         username = input('ArchivesSpace username: ')
         password = getpass.getpass('ArchivesSpacew password: ')
@@ -518,7 +520,6 @@ testing in the closing *if* block)
     import urllib.parse
     import urllib.error
     import json
-    import getpass
         
     def login (api_url, username, password):
         '''This function logs into the ArchivesSpace REST API returning an acccess token'''
@@ -541,6 +542,7 @@ testing in the closing *if* block)
         return result['session']
     
     if __name__ == '__main__':
+        import getpass
         api_url = input('ArchivesSpace API URL: ')
         username = input('ArchivesSpace username: ')
         password = getpass.getpass('ArchivesSpacew password: ')
@@ -680,7 +682,7 @@ a request object and with "urlopen" send our request so we can
 get a response.
 
 ```python
-def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
+    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
         '''This function sends a create request to the ArchivesSpace REST API'''
         data = json.JSONEncoder().encode({
                         'jsonmodel_type': 'repository',
@@ -764,7 +766,6 @@ update the *if* block to match.
     import urllib.parse
     import urllib.error
     import json
-    import getpass
     # Here's our own login module
     import login
     
@@ -797,6 +798,7 @@ update the *if* block to match.
     
     
     if __name__ == '__main__':
+        import getpass
         # Test login
         print("Testing login()")
         api_url = input('ArchivesSpace API URL: ')
@@ -824,6 +826,9 @@ update the *if* block to match.
         repo = create_repo(api_url, auth_token, name, repo_code)
         print(json.dumps(repo, indent=4))
 ```
+
+
+Full listing [repo.py](repo.py)
 
 --
 
@@ -929,6 +934,9 @@ In the test *if* block add
 added)
 
 We've added our *list_repos* and changed the tests at the bottom.
+
+
+Full listing [repo.py](repo.py)
 
 --
 
@@ -1036,10 +1044,12 @@ In the test *if* block add
         repo_id = int(input('Enter repo id (e.g. 2): '))
         repos = list_repos(api_url, auth_token, repo_id)
         print('repositores list', json.dumps(repos, indent=4))
-
 ```
 
 Are the results what you expected? Are we still getting an array?
+
+
+Full listing [repo.py](repo.py)
 
 --
 
@@ -1089,7 +1099,6 @@ In the definition section add
 
 ```python
     def update_repo(api_url, auth_token, repo_id, repo):
-        '''This function sends a updates a repository via ArchivesSpace REST API'''
         data = json.JSONEncoder().encode(repo).encode('utf-8')
         req = urllib.request.Request(
             url = api_url+'/repositories/'+str(repo_id),
@@ -1125,6 +1134,9 @@ In the test *if* block add
 
 Run this updated version and see how it works. Note you can also use the other
 methods in the module like *list_repos()* as well as *list_repo()*.
+
+
+Full listing [repo.py](repo.py)
 
 --
 
@@ -1163,7 +1175,6 @@ via the API is permanent. There is no "UNDO"!!!!
 
 ```python
     def delete_repo(api_url, auth_token, repo_id):
-        '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
         req = urllib.request.Request(
             url = api_url+'/repositories/'+str(repo_id),
             data = None,
@@ -1192,6 +1203,9 @@ Our test should look something like ...
         print('Result is', json.dumps(result, indent=4))
 ```
 
+
+Full listing [repo.py](repo.py)
+
 --
 
 # 4 Repositories
@@ -1204,7 +1218,6 @@ Our test should look something like ...
     import urllib.parse
     import urllib.error
     import json
-    import getpass
     # Here's our own login module
     import login
     
@@ -1311,6 +1324,7 @@ Our test should look something like ...
     
     
     if __name__ == '__main__':
+        import getpass
         # Test login
         print("Testing login()")
         api_url = input('ArchivesSpace API URL: ')
@@ -1956,7 +1970,6 @@ This *import*  block is the same one we used with agents.
     import urllib.parse
     import urllib.error
     import json
-    import getpass
     # Local modules
     import login
 ```
@@ -1965,6 +1978,7 @@ In our definition section we'll create a *create_accession* function.
 
 ```python
     def create_accession(api_url, auth_token, repo_id, accession_model):
+        '''create an accession returning a status object'''
         data = json.JSONEncoder().encode(accession_model).encode('utf-8')
         url = api_url+'/repositories/'+str(repo_id)+'/accessions'
         req = urllib.request.Request(
@@ -1990,10 +2004,12 @@ Finally our tests, just like before go in our closing *if* block
 
 ```python
     if __name__ == "__main__":
+        import getpass
+        import datetime
         api_url = input('ArchivesSpace API URL: ')
         username = input('ArchivesSpace username: ')
         password = getpass.getpass('ArchivesSpace password: ')
-        auth_token = login(api_url, username, password)
+        auth_token = login.login(api_url, username, password)
     
         # Test create_acccession
         print("Test create_accession()")
@@ -2005,11 +2021,14 @@ Finally our tests, just like before go in our closing *if* block
         # This is the minimal Accession record
         accession_model = {
             'title': title,
-
+            'id_0': 'test_'+datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'accession_date': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
         result = create_accession(api_url, auth_token, repo_id, accession_model)
         print('Create accession result', json.dumps(result, indent=4))
 ```
+
+Full listing [accession.py](accession.py)
 
 --
 
@@ -2017,9 +2036,192 @@ Finally our tests, just like before go in our closing *if* block
 
 ## The minimal accession record
 
+Un like our friend the agent_person the minimal accession record boils down to three fields
+
++ title
++ identifier (i.e. id_0, id_1, id_2, id_3)
++ accession_date
+
+Everything else is optional. The Accession record can be quite detailed.  I suggest experimenting by 
+filling out an example in the web UI and viewing the results via a python script using list_accession().
+
 --
 
-FIXME: Need list_accessions(), list_accession(), update_accession(), delete_accession()
+# 6. Accessions
+
+## list_accessions implementation
+
+No changes to the imports but we'll add a *list_accessions* function in our definition section.
+
+```python
+    def list_accessions(api_url, auth_token, repo_id):
+        '''List all the accessions for a given repo_id'''
+        data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
+        url = api_url+'/repositories/'+str(repo_id)+'/accessions'
+        req = urllib.request.Request(
+            url = url,
+            data = data,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'GET')
+        try:
+            response = urllib.request.urlopen(req)
+        except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+```
+
+And our test in the *if* block
+
+```python
+        # Test list_accessions
+        print('Test list_accessions()')
+        accession_ids = list_accessions(api_url, auth_token, repo_id)
+        print('Accession IDS', json.dumps(accession_ids, indent=4))
+```
+
+Full listing [accession.py](accession.py)
+
+--
+
+# 6. Accessions
+
+## list_accession implementation
+
+If we know the repo_id and accession_id we can list the details of an accession.
+
+```python
+    def list_accession(api_url, auth_token, repo_id, accession_id):
+        '''List an accession by repo_id and accession_id'''
+        url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
+        req = urllib.request.Request(
+             url = url,
+             data = None,
+             headers = {'X-ArchivesSpace-Session': auth_token},
+             method = 'GET')
+        try:
+            response = urllib.request.urlopen(req)
+        except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+```
+
+And our test in the *if* block
+
+```python
+        # Test list_accession
+        print('Test list_accession()')
+        accession_id = int(input('Enter a numeric accession id: '))
+        accession_model = list_accession(api_url, auth_token, repo_id, accession_id)
+        print('Accession model', json.dumps(accession_model, indent=4))
+```
+
+Full listing [accession.py](accession.py)
+
+--
+
+# 6. Accessions
+
+## update_accession implementation
+
+We need three pieces of inforation
+
+1. our repo_id
+2. our accession_id (the numeric one from the uri, not id_0, id_1, etc.)
+3. our updated accession model
+
+Notice the similarity to *update_agent*.
+
+```python
+    def update_accession(api_url, auth_token, repo_id, accession_id, accession_model):
+        '''update an accession record and return a results message'''
+        data = json.JSONEncoder().encode(agent_model).encode('utf-8')
+        url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
+             req = urllib.request.Request(
+             url = url,
+             data = None,
+             headers = {'X-ArchivesSpace-Session': auth_token},
+             method = 'POST')
+        try:
+            response = urllib.request.urlopen(req, data)
+        except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+```
+
+And our test in the *if* block
+
+```python
+        # Test update_accession
+        print('Test update_accession()')
+        accession_id = int(input('Enter accession id to uppdate: '))
+        accession_model = list_accession(api_url, auth_token, repo_id, accession_id)
+        accession_model['title'] = input('Enter new title: ')
+        result = update_accession(api_url, auth_token, repo_id, accession_id, accession_model)
+        print('update result', json.dumps(result, indent=4))
+```
+
+Full listing [accession.py](accession.py)
+
+--
+
+# 6. Accessions
+
+## delete_accession implementation
+
+This should look familar by now...
+
+```python
+    def delete_agent(api_url, auth_token, repo_id, accession_id):
+        '''delete an accession record and return a results message'''
+        url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
+        req = urllib.request.Request(
+             url = url,
+             data = None,
+             headers = {'X-ArchivesSpace-Session': auth_token},
+             method = 'DELETE')
+        try:
+            response = urllib.request.urlopen(req)
+        except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+```
+
+And our test in the *if* block
+
+```python
+        # Test delete_accession
+        print('Test delete_accession()')
+        accession_id = int(input('Enter accession id to delete: '))
+        result = delete_accession(api_url, auth_token, repo_id, accession_id)
+        print('delete result', json.dumps(result, indent=4))
+```
+
+Full listing [accession.py](accession.py)
+
 --
 
 # 7. What's next?
@@ -2040,6 +2242,17 @@ FIXME: Need list_accessions(), list_accession(), update_accession(), delete_acce
 + Digital Objects
 + Resources
 + Subjects/Terms
+
+--
+
+# 7. What's next?
+
+## turn this into a real library?
+
++ You might want to build this as an object rather than a library of functions
++ It'd be nice to generate validating data structures from the original ruby code?
+    + could that be automated to keep things in sync on version change?
++ Other langauges? other approaches?
 
 --
 

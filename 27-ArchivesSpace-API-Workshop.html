@@ -26,7 +26,6 @@ imported.</p>
     import urllib.request
     import urllib.parse
     import urllib.error
-    import getpass
 
     def login (api_url, username, password):
         '''This function logs into the ArchivesSpace REST API and shows the text response'''
@@ -41,6 +40,7 @@ imported.</p>
         return response.read().decode('UTF-8')
 
     if __name__ == '__main__':
+        import getpass
         api_url = input('ArchivesSpace API URL: ')
         username = input('ArchivesSpace username: ')
         password = getpass.getpass('ArchivesSpacew password: ')

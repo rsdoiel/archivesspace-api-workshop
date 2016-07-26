@@ -3,7 +3,6 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import json
-import getpass
 # Import our own login module
 import login
 
@@ -127,6 +126,7 @@ def delete_agent(api_url, auth_token, agent_type, agent_id):
    return json.JSONDecoder().decode(src)
    
 if __name__ == '__main__':
+    import getpass
     # Get enough info to reach the API
     api_url = input('ArchivesSpace API URL: ')
     username = input('ArchivesSpace username: ')

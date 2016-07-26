@@ -26,7 +26,6 @@ suggest?</p>
 <p>In the definition section add</p>
 
 <pre><code class="language-python">    def update_repo(api_url, auth_token, repo_id, repo):
-        '''This function sends a updates a repository via ArchivesSpace REST API'''
         data = json.JSONEncoder().encode(repo).encode('utf-8')
         req = urllib.request.Request(
             url = api_url+'/repositories/'+str(repo_id),
@@ -61,6 +60,8 @@ suggest?</p>
 
 <p>Run this updated version and see how it works. Note you can also use the other
 methods in the module like <em>list_repos()</em> as well as <em>list_repo()</em>.</p>
+
+<p>Full listing <a href="repo.py">repo.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

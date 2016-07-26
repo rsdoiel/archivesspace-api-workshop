@@ -9,23 +9,43 @@
 <a id="prev-slide" rel="nav" href="72-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a id="next-slide" rel="nav" href="74-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>References</h1>
+	<section><h1>6. Accessions</h1>
 
-<ul>
-<li><a href="http://archivesspace.github.io/archivesspace/api/">ArchivesSpace REST API</a></li>
-<li><a href="https://docs.python.org/3.5/">Python 3 Docs</a>
+<h2>list_accessions implementation</h2>
 
-<ul>
-<li><a href="https://docs.python.org/3/howto/urllib2.html">urllib2</a>
+<p>No changes to the imports but we&rsquo;ll add a <em>list_accessions</em> function in our definition section.</p>
 
-<ul>
-<li><a href="http://www.voidspace.org.uk/python/articles/authentication.shtml">Basic Auth example</a></li>
-</ul></li>
-<li><a href="https://docs.python.org/3.5/library/json.html?highlight=json#module-json">JSON module</a></li>
-<li><a href="https://docs.python.org/3.5/library/os.html">OS module</a> (for using environment variables)</li>
-</ul></li>
-<li><a href="https://github.com/caltechlibrary/aspace-api-workshop">github.com/caltechlibrary/aspace-api-workshop</a></li>
-</ul>
+<pre><code class="language-python">    def list_accessions(api_url, auth_token, repo_id):
+        '''List all the accessions for a given repo_id'''
+        data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
+        url = api_url+'/repositories/'+str(repo_id)+'/accessions'
+        req = urllib.request.Request(
+            url = url,
+            data = data,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'GET')
+        try:
+            response = urllib.request.urlopen(req)
+        except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>And our test in the <em>if</em> block</p>
+
+<pre><code class="language-python">        # Test list_accessions
+        print('Test list_accessions()')
+        accession_ids = list_accessions(api_url, auth_token, repo_id)
+        print('Accession IDS', json.dumps(accession_ids, indent=4))
+</code></pre>
+
+<p>Full listing <a href="accession.py">accession.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

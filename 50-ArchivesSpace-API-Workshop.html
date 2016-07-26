@@ -14,7 +14,6 @@
 <h2>The dangerous delete method</h2>
 
 <pre><code class="language-python">    def delete_repo(api_url, auth_token, repo_id):
-        '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
         req = urllib.request.Request(
             url = api_url+'/repositories/'+str(repo_id),
             data = None,
@@ -41,6 +40,8 @@
         result = delete_repo(api_url, auth_token, repo_id)
         print('Result is', json.dumps(result, indent=4))
 </code></pre>
+
+<p>Full listing <a href="repo.py">repo.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

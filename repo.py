@@ -3,7 +3,6 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import json
-import getpass
 # Here's our own login module
 import login
 
@@ -110,6 +109,7 @@ def delete_repo(api_url, auth_token, repo_id):
 
 
 if __name__ == '__main__':
+    import getpass
     # Test login
     print("Testing login()")
     api_url = input('ArchivesSpace API URL: ')

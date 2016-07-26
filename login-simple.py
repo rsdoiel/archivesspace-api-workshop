@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-import urllib
+import urllib.request
+import urllib.parse
+import urllib.error
 import json
-import getpass
     
 def login (api_url, username, password):
     '''This function logs into the ArchivesSpace REST API and shows the text response'''
@@ -16,6 +17,7 @@ def login (api_url, username, password):
     return response.read().decode('UTF-8')
 
 if __name__ == '__main__':
+    import getpass
     api_url = input('ArchivesSpace API URL: ')
     username = input('ArchivesSpace username: ')
     password = getpass.getpass('ArchivesSpacew password: ')

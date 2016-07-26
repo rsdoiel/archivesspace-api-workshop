@@ -19,7 +19,6 @@ update the <em>if</em> block to match.</p>
     import urllib.parse
     import urllib.error
     import json
-    import getpass
     # Here's our own login module
     import login
     
@@ -52,6 +51,7 @@ update the <em>if</em> block to match.</p>
     
     
     if __name__ == '__main__':
+        import getpass
         # Test login
         print(&quot;Testing login()&quot;)
         api_url = input('ArchivesSpace API URL: ')
@@ -79,6 +79,8 @@ update the <em>if</em> block to match.</p>
         repo = create_repo(api_url, auth_token, name, repo_code)
         print(json.dumps(repo, indent=4))
 </code></pre>
+
+<p>Full listing <a href="repo.py">repo.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
