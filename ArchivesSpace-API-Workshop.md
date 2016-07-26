@@ -2005,6 +2005,7 @@ Finally our tests, just like before go in our closing *if* block
         # This is the minimal Accession record
         accession_model = {
             'title': title,
+
         }
         result = create_accession(api_url, auth_token, repo_id, accession_model)
         print('Create accession result', json.dumps(result, indent=4))

@@ -9,7 +9,7 @@ import login
 
 
 def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
-    '''This function sends a create request to the ArchivesSpace REST API'''
+    '''create a repostory and return a status message'''
     data = json.JSONEncoder().encode({
                     'jsonmodel_type': 'repository',
                     'name': name,
@@ -35,7 +35,7 @@ def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url =
     return json.JSONDecoder().decode(src)
 
 def list_repos(api_url, auth_token):
-    '''List all the repositories, return the listing object'''
+    '''List all the repositories'''
     req = urllib.request.Request(
         url = api_url+'/repositories',
         data = None,
@@ -53,7 +53,7 @@ def list_repos(api_url, auth_token):
     return json.JSONDecoder().decode(src)
 
 def list_repo(api_url, auth_token, repo_id):
-    '''List all the repositories, return the listing object'''
+    '''List a repository record'''
     req = urllib.request.Request(
         url = api_url+'/repositories/'+str(repo_id),
         data = None,
@@ -71,7 +71,7 @@ def list_repo(api_url, auth_token, repo_id):
     return json.JSONDecoder().decode(src)
 
 def update_repo(api_url, auth_token, repo_id, repo):
-    '''This function sends a updates a repository via ArchivesSpace REST API'''
+    '''update a repository's metadata returning a status'''
     data = json.JSONEncoder().encode(repo).encode('utf-8')
     req = urllib.request.Request(
         url = api_url+'/repositories/'+str(repo_id),
@@ -90,7 +90,7 @@ def update_repo(api_url, auth_token, repo_id, repo):
     return json.JSONDecoder().decode(src)
 
 def delete_repo(api_url, auth_token, repo_id):
-    '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
+    '''delete a repository returning a status'''
     req = urllib.request.Request(
         url = api_url+'/repositories/'+str(repo_id),
         data = None,

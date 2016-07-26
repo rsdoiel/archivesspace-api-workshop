@@ -64,7 +64,7 @@ def list_agents(api_url, auth_token, agent_type):
    
 
 def list_agent(api_url, auth_token, agent_type, agent_id):
-   '''List all the agent ids of a given type'''
+   '''List an agent by agent_type and agent_id'''
    url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
    req = urllib.request.Request(
       url = url,
@@ -85,7 +85,7 @@ def list_agent(api_url, auth_token, agent_type, agent_id):
 
 
 def update_agent(api_url, auth_token, agent_type, agent_id, agent_model):
-   '''create an agent and return the new agent record'''
+   '''update an agent record returning a status'''
    data = json.JSONEncoder().encode(agent_model).encode('utf-8')
    url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
    req = urllib.request.Request(
@@ -107,7 +107,7 @@ def update_agent(api_url, auth_token, agent_type, agent_id, agent_model):
 
 
 def delete_agent(api_url, auth_token, agent_type, agent_id):
-   '''List all the agent ids of a given type'''
+   '''delete an agent by agent_type and agent_id'''
    url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
    req = urllib.request.Request(
       url = url,

@@ -22,7 +22,19 @@ function CheckSetup() {
         if [ "$ASPACE_PASSWORD" = "" ]; then
             ASPACE_PASSWORD="admin"
         fi
-        export ASPACE_API_TOKEN=$(curl -L -X GET -Fpassword=$ASPACE_PASSWORD $ASPACE_API_URL/users/$ASPACE_USERNAME/login | jq -r '.session')
+        export ASPACE_API_TOKEN=$(curl -L -X "GET" -Fpassword=$ASPACE_PASSWORD $ASPACE_API_URL/users/$ASPACE_USERNAME/login | jq -r '.session')
+        if [ "$ASPACE_API_TOKEN" = "" ]; then
+            echo "Log in failed for $ASPACE_USERNAME\@$ASPACE_API_URL"
+
+            cat <<EOT
+
+   curl -L  -X "GET" -Fpassword=\$ASPACE_PASSWORD $ASPACE_API_URL/users/$ASPACE_USERNAME/login | jq -r .session
+
+EOT
+
+            exit 1
+        fi
+
     fi
 }
 
@@ -56,15 +68,7 @@ if [ "$METHOD" = "" ]; then
 fi
 
 
-
-
 if [ "$PAYLOAD" = "" ]; then
-cat <<CMD
-    curl -H "X-ArchivesSpace-Session: $ASPACE_API_TOKEN" \
-        -X "$METHOD" \
-        "$ASPACE_API_URL/$API_PATH" | jq .
-CMD
-
     curl -H "X-ArchivesSpace-Session: $ASPACE_API_TOKEN" \
         -X "$METHOD" \
         "$ASPACE_API_URL/$API_PATH" | jq .
