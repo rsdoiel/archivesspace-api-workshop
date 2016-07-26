@@ -36,12 +36,12 @@ nav {
 }
 
 a, a:link, a:visited {
-    color: grey;
+    color: firebrick;
     text-decoration: none;
 }
 
 a:focus, a:active, a:hover {
-    color: black;
+    color: maroon;
     text-decoration: underline;
 }
 
@@ -118,10 +118,10 @@ blockquote {
 }
 
 .language-json {
-    color: red;
+    color: yellow;
 }
 
 .language-python {
-    color: yellow;
+    color: limegreen;
 }
 
