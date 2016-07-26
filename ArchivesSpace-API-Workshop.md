@@ -1923,7 +1923,7 @@ Full listing [agent.py](agent.py)
 
 # Seventh-inning Stretch
 
-<blockquote>We've covered allot, stretch, ask questions, absorb your API adventureblockquote>
+<blockquote>We've covered allot, stretch, ask questions, absorb your API adventure</blockquote>
 
 --
 
