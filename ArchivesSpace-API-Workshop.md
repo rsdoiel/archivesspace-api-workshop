@@ -28,7 +28,8 @@ Before we begin ...
 + A web browser
     + Firefox or Chrome with the [JSONView](https://jsonview.com/) plugin recommended
 + A test deployment ArchivesSpace is being provided as part of the Workshop
-    + Or you can install your own via [VirtualBox and Vagrant](./archivesspace-dev/)
+    + try [Getting Started](http://archivesspace.github.io/archivesspace/user/getting-started/) if you want to install locally
+    + Or you can install your own via [VirtualBox and Vagrant](./archivesspace-dev/) if you're adventurous
 + A basic familiarity with Python and ArchivesSpace
 
 ## Suggested
