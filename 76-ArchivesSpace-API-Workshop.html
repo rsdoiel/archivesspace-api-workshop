@@ -15,7 +15,7 @@
 
 <p>This should look familar by now&hellip;</p>
 
-<pre><code class="language-python">    def delete_agent(api_url, auth_token, repo_id, accession_id):
+<pre><code class="language-python">    def delete_accession(api_url, auth_token, repo_id, accession_id):
         '''delete an accession record and return a results message'''
         url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
         req = urllib.request.Request(
