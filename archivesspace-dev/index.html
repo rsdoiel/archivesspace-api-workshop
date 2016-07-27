@@ -31,10 +31,10 @@
 <ul>
 <li><code>vagrant ssh</code></li>
 </ul></li>
-<li>Run the final-installation-step.sh in /vagrant
+<li>Run the <em>aspace-setup.bash</em> in /vagrant
 
 <ul>
-<li><code>/vagrant/final-installation-step.sh</code></li>
+<li><code>/vagrant/aspace-setup.bash</code></li>
 </ul></li>
 <li>Wait for ArchivesSpace to startup and point your browser at <a href="http://localhost:8080">http://localhost:8080</a> to confirm</li>
 </ol>
@@ -48,7 +48,7 @@
         vagrant up
         vagrant ssh
         # At this point I've SSH'd to the vagrante virtual machine instance
-        /vagrant/final-installation-step.sh
+        /vagrant/aspace-setup.sh
         # This take a little while to run, there are some prompts to answer
         # When complete we'll switch the archivesspace user and start archivesspace
         sudo /archivesspace/v1.5.0/archivesspace/archivesspace.sh 
