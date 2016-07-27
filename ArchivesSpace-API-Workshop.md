@@ -1698,9 +1698,9 @@ Finally in our *if* block  we need some test code.
 
         # Now that we have a minimal record lets make a request
         print("The minimum payload looks like ", json.dumps(agent_model, indent=4))
-        agent_response = create_agent(api_url, auth_token, agent_model)
-        agent_id = agent_response['id']
-        print('agent created response', json.dumps(agent_response, indent=4))
+        result = create_agent(api_url, auth_token, agent_model)
+        agent_id = result['id']
+        print('agent created response', json.dumps(result, indent=4))
 ```
 
 Full listing [agent.py](agent.py)
