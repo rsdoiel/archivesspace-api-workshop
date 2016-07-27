@@ -2149,9 +2149,9 @@ Notice the similarity to *update_agent*.
 ```python
     def update_accession(api_url, auth_token, repo_id, accession_id, accession_model):
         '''update an accession record and return a results message'''
-        data = json.JSONEncoder().encode(agent_model).encode('utf-8')
+        data = json.JSONEncoder().encode(accession_model).encode('utf-8')
         url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
-             req = urllib.request.Request(
+        req = urllib.request.Request(
              url = url,
              data = None,
              headers = {'X-ArchivesSpace-Session': auth_token},
@@ -2192,7 +2192,7 @@ Full listing [accession.py](accession.py)
 This should look familar by now...
 
 ```python
-    def delete_agent(api_url, auth_token, repo_id, accession_id):
+    def delete_accession(api_url, auth_token, repo_id, accession_id):
         '''delete an accession record and return a results message'''
         url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
         req = urllib.request.Request(
