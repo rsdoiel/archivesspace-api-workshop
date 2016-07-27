@@ -904,13 +904,13 @@ In the definition section add
 
 ```python
     def list_repos(api_url, auth_token):
-        '''List all the repositories, return the listing object'''
+        '''List all the repositories'''
         req = urllib.request.Request(
             url = api_url+'/repositories',
             data = None,
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
-        response = urllib.request.urlopen(req)
+            response = urllib.request.urlopen(req)
         except HTTPError as e:
             print(e.code)
             print(e.read())
@@ -918,7 +918,7 @@ In the definition section add
         except URLError as e:
             print(e.reason())
             return None
-        src = respone.read().decode('utf-8')
+        src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
 ```
 
@@ -1042,8 +1042,8 @@ In the test *if* block add
 ```python
         # Test for list_repo
         repo_id = int(input('Enter repo id (e.g. 2): '))
-        repos = list_repos(api_url, auth_token, repo_id)
-        print('repositores list', json.dumps(repos, indent=4))
+        repo = list_repo(api_url, auth_token, repo_id)
+        print('repository', json.dumps(repo, indent=4))
 ```
 
 Are the results what you expected? Are we still getting an array?
@@ -1255,7 +1255,7 @@ Full listing [repo.py](repo.py)
             data = None,
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
-        response = urllib.request.urlopen(req)
+            response = urllib.request.urlopen(req)
         except HTTPError as e:
             print(e.code)
             print(e.read())
@@ -1263,7 +1263,7 @@ Full listing [repo.py](repo.py)
         except URLError as e:
             print(e.reason())
             return None
-        src = respone.read().decode('utf-8')
+        src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
     
     def list_repo(api_url, auth_token, repo_id):
