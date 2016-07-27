@@ -41,8 +41,8 @@ it after the function <em>list_repos</em>. We&rsquo;ll be update the <em>if</em>
 
 <pre><code class="language-python">        # Test for list_repo
         repo_id = int(input('Enter repo id (e.g. 2): '))
-        repos = list_repos(api_url, auth_token, repo_id)
-        print('repositores list', json.dumps(repos, indent=4))
+        repo = list_repo(api_url, auth_token, repo_id)
+        print('repository', json.dumps(repo, indent=4))
 </code></pre>
 
 <p>Are the results what you expected? Are we still getting an array?</p>
