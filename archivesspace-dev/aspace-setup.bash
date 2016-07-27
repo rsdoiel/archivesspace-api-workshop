@@ -46,21 +46,17 @@ function setupMySQL {
         echo "Working directory now $(pwd)"
         echo "Setting up MySQL users and creating database"
 
-        echo -n "What is the admin username for MySQL [default root]? "
-        read MYSQL_ADMIN_USER
+        read -p "Enter the admin username for MySQL [default root]? " MYSQL_ADMIN_USER
         if [ "$MYSQL_ADMIN_USER" = "" ]; then
             MYSQL_ADMIN_USER="root"
         fi
-        echo -n "What is the admin password for MySQL [default none]? "
-        read -p MYSQL_ADMIN_PASSWORD
-
-        echo -n "What is the name for the ArchivesSpace DB user? [default as] "
-        read AS_DB_USER
-        echo -n "What is the password for the ArchivesSpace DB user? [default as123] "
-        read -p AS_DB_PASSWORD
+        read -s -p "Enter the admin password for MySQL [default none]? " MYSQL_ADMIN_PASSWORD
+        echo ""
+        read -p "Enter a name for the ArchivesSpace DB user? [default as] " AS_DB_USER
         if [ "$AS_DB_USER" = "" ]; then
              AS_DB_USER="as"
         fi
+        read -s -p "Enter a password for the ArchivesSpace DB user? [default as123] " AS_DB_PASSWORD
         if [ "$AS_DB_PASSWORD" = "" ]; then
             AS_DB_PASSWORD="as123"
         fi
