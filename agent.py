@@ -180,9 +180,9 @@ if __name__ == '__main__':
 
     # Now that we have a minimal record lets make a request
     print("The minimum payload looks like ", json.dumps(agent_model, indent=4))
-    agent_response = create_agent(api_url, auth_token, agent_model)
-    agent_id = agent_response['id']
-    print('agent created response', json.dumps(agent_response, indent=4))
+    result = create_agent(api_url, auth_token, agent_model)
+    agent_id = result['id']
+    print('agent created response', json.dumps(result, indent=4))
 
 
     # Test list_agents(), requires api_url, auth_token and agent_type
@@ -204,7 +204,7 @@ if __name__ == '__main__':
     agent_type = 'agent_person'
     agent_id = int(input('Enter agent id to update: '))
     note_text = input('Enter some text to add as a note: ')
-    agent_model = list_agent(api_url, auth_token, agent_type, str(agent_id))
+    agent_model = list_agent(api_url, auth_token, agent_type, agent_id)
 
     note_count = len(agent_model['notes'])
     if (note_count > 0):
@@ -226,12 +226,12 @@ if __name__ == '__main__':
     # now adding a new note
     agent_model['notes'].append(new_note)
     print("Added a note", json.dumps(agent_model['notes'], indent=4))
-    res = update_agent(api_url, auth_token, agent_type, 3, agent_model)
-    print('Response was', json.dumps(res, indent=4))
+    result = update_agent(api_url, auth_token, agent_type, 3, agent_model)
+    print('Response was', json.dumps(result, indent=4))
 
 
     # Test delete_agent()
-    print('Testing delete_repo()')
+    print('Testing delete_agent()')
     agent_id = int(input('Agent numeric id to delete: '))
     result = delete_agent(api_url, auth_token, agent_type, agent_id)
     print('Result is', json.dumps(result, indent=4))

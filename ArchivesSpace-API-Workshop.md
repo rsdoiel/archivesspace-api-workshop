@@ -1698,9 +1698,9 @@ Finally in our *if* block  we need some test code.
 
         # Now that we have a minimal record lets make a request
         print("The minimum payload looks like ", json.dumps(agent_model, indent=4))
-        agent_response = create_agent(api_url, auth_token, agent_model)
-        agent_id = agent_response['id']
-        print('agent created response', json.dumps(agent_response, indent=4))
+        result = create_agent(api_url, auth_token, agent_model)
+        agent_id = result['id']
+        print('agent created response', json.dumps(result, indent=4))
 ```
 
 Full listing [agent.py](agent.py)
@@ -1856,7 +1856,7 @@ In the test section add
         agent_type = input('Enter agent type: ')
         agent_id = int(input('Enter agent id to update: '))
         note_text = input('Enter some text to add as a note: ')
-        agent_model = list_agent(api_url, auth_token, agent_type, str(agent_id))
+        agent_model = list_agent(api_url, auth_token, agent_type, agent_id)
     
         note_count = len(agent_model['notes'])
         if (note_count > 0):
@@ -1878,8 +1878,8 @@ In the test section add
         # now adding a new note
         agent_model['notes'].append(new_note)
         print("Added a note", json.dumps(agent_model['notes'], indent=4))
-        res = update_agent(api_url, auth_token, agent_type, 3, agent_model)
-        print('Response was', json.dumps(res, indent=4))
+        result = update_agent(api_url, auth_token, agent_type, 3, agent_model)
+        print('Response was', json.dumps(result, indent=4))
 ```
 
 Notice the specifics of the test. The tests are bittle. Debugging the
@@ -1901,24 +1901,25 @@ We need *agent_type* in addition to *agent_id*.
 In the definition section add
 
 ```python
-    def delete_repo(api_url, auth_token, repo_id):
-        '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
-        req = urllib.request.Request(
-            url = api_url+'/repositories/'+str(repo_id),
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token},
-            method = 'DELETE')
-        try:
+    def delete_agent(api_url, auth_token, agent_type, agent_id):
+       '''delete an agent by agent_type and agent_id'''
+       url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
+       req = urllib.request.Request(
+          url = url,
+          data = None,
+          headers = {'X-ArchivesSpace-Session': auth_token},
+          method = 'DELETE')
+       try:
             response = urllib.request.urlopen(req)
-        except HTTPError as e:
+       except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+       except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
-            print(e.reason())
-            return None
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
+       src = response.read().decode('utf-8')
+       return json.JSONDecoder().decode(src)
 ```
 
 In the test *if* block add
