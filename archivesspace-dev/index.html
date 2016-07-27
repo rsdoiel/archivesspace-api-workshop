@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>ArchivesSpace API Workshop</title>
-        <link href="css/site.css" rel="stylesheet" />
+        <link href="/css/site.css" rel="stylesheet" />
     </head>
     <body>
         <header><p><img src="http://www.gravatar.com/avatar/60c7b20527f236c7156a85772a97430f.png" title="When I press keys letters and punctuation sometimes appear on the surface." alt="Androidified Robert in a beret and black t-shirt."><div>Robert Doiel<br />Digital Services Programmer<br /><a href="http://library.caltech.edu">Caltech Libraries</a><br /></div></p>
@@ -31,10 +31,10 @@
 <ul>
 <li><code>vagrant ssh</code></li>
 </ul></li>
-<li>Run the final-installation-step.sh in /vagrant
+<li>Run the <em>aspace-setup.bash</em> in /vagrant
 
 <ul>
-<li><code>/vagrant/final-installation-step.sh</code></li>
+<li><code>/vagrant/aspace-setup.bash</code></li>
 </ul></li>
 <li>Wait for ArchivesSpace to startup and point your browser at <a href="http://localhost:8080">http://localhost:8080</a> to confirm</li>
 </ol>
@@ -48,7 +48,7 @@
         vagrant up
         vagrant ssh
         # At this point I've SSH'd to the vagrante virtual machine instance
-        /vagrant/final-installation-step.sh
+        /vagrant/aspace-setup.sh
         # This take a little while to run, there are some prompts to answer
         # When complete we'll switch the archivesspace user and start archivesspace
         sudo /archivesspace/v1.5.0/archivesspace/archivesspace.sh 

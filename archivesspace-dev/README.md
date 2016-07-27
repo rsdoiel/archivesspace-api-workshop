@@ -13,8 +13,8 @@ ArchivesSpace is licensed under the [Educational Community License v2](http://op
    - `vagrant up`
 5. SSH into vagrant instance
    - `vagrant ssh`
-6. Run the final-installation-step.sh in /vagrant
-   - `/vagrant/final-installation-step.sh`
+6. Run the *aspace-setup.bash* in /vagrant
+   - `/vagrant/aspace-setup.bash`
 7. Wait for ArchivesSpace to startup and point your browser at http://localhost:8080 to confirm
 
 ### Example local setup
@@ -27,7 +27,7 @@ Here's an example of what I would type on my Mac in a Terminal window for the wh
         vagrant up
         vagrant ssh
         # At this point I've SSH'd to the vagrante virtual machine instance
-        /vagrant/final-installation-step.sh
+        /vagrant/aspace-setup.sh
         # This take a little while to run, there are some prompts to answer
         # When complete we'll switch the archivesspace user and start archivesspace
         sudo /archivesspace/v1.5.0/archivesspace/archivesspace.sh 
