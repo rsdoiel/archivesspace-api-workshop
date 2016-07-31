@@ -2084,14 +2084,16 @@ Full listing [accession.py](accession.py)
 
 ## The minimal accession record
 
-Unlike our friend the agent_person, the minimal accession record boils down to three fields
+Unlike our friend the agent_person, the minimal accession record boils
+down to three fields
 
-+ title
++ title (actually optional, but you should have one that is human friendly)
 + identifier (i.e. id_0, id_1, id_2, id_3)
 + accession_date
 
-Everything else is optional. The Accession record can be quite detailed.  I suggest experimenting by 
-filling out an example in the web UI and viewing the results via a python script using list_accession().
+Everything else is optional. The Accession record can be quite detailed.
+I suggest experimenting by filling out an example in the web UI and
+viewing the results via a python script using list_accession().
 
 --
 
