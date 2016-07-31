@@ -11,18 +11,20 @@
 	</nav>
 	<section><h1>6. Accessions</h1>
 
-<h2>delete_accession implementation</h2>
+<h2>list_accession implementation</h2>
 
-<p>This should look familar by now&hellip;</p>
+<p>If we know the <em>repo_id</em> and <em>accession_id</em> we can list the details of an accession. Note the <em>accession_id</em>
+is the numeric value seen in the URL (or uri field of an accession record) and NOT related to the fields
+<em>id_0</em>, <em>id_1</em>, <em>id_2</em>, or <em>id_3</em>.</p>
 
-<pre><code class="language-python">    def delete_agent(api_url, auth_token, repo_id, accession_id):
-        '''delete an accession record and return a results message'''
+<pre><code class="language-python">    def list_accession(api_url, auth_token, repo_id, accession_id):
+        '''List an accession by repo_id and accession_id'''
         url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
         req = urllib.request.Request(
              url = url,
              data = None,
              headers = {'X-ArchivesSpace-Session': auth_token},
-             method = 'DELETE')
+             method = 'GET')
         try:
             response = urllib.request.urlopen(req)
         except urllib.error.URLError as e:
@@ -38,11 +40,11 @@
 
 <p>And our test in the <em>if</em> block</p>
 
-<pre><code class="language-python">        # Test delete_accession
-        print('Test delete_accession()')
-        accession_id = int(input('Enter accession id to delete: '))
-        result = delete_accession(api_url, auth_token, repo_id, accession_id)
-        print('delete result', json.dumps(result, indent=4))
+<pre><code class="language-python">        # Test list_accession
+        print('Test list_accession()')
+        accession_id = int(input('Enter a numeric accession id: '))
+        accession_model = list_accession(api_url, auth_token, repo_id, accession_id)
+        print('Accession model', json.dumps(accession_model, indent=4))
 </code></pre>
 
 <p>Full listing <a href="accession.py">accession.py</a></p>

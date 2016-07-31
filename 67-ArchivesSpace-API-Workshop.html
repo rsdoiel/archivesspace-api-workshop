@@ -11,21 +11,20 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>Update an Agent implementation</h2>
+<h2>list_agent implementation</h2>
 
-<p>In the definition section add</p>
+<p>In our definition section add</p>
 
-<pre><code class="language-python">    def update_agent(api_url, auth_token, agent_type, agent_id, agent_model):
-       '''create an agent and return the new agent record'''
-       data = json.JSONEncoder().encode(agent_model).encode('utf-8')
+<pre><code class="language-python">    def list_agent(api_url, auth_token, agent_type, agent_id):
+       '''List all the agent ids of a given type'''
        url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
        req = urllib.request.Request(
-            url = url,
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token},
-            method = 'POST')
+          url = url,
+          data = None,
+          headers = {'X-ArchivesSpace-Session': auth_token},
+          method = 'GET')
        try:
-            response = urllib.request.urlopen(req, data)
+            response = urllib.request.urlopen(req)
        except urllib.error.URLError as e:
             print(e.reason)
             return None
@@ -37,42 +36,13 @@
        return json.JSONDecoder().decode(src)
 </code></pre>
 
-<p>In the test section add</p>
+<p>In our test <em>if</em> block add</p>
 
-<pre><code class="language-python">        # Update the record we just created
-        agent_type = input('Enter agent type: ')
-        agent_id = int(input('Enter agent id to update: '))
-        note_text = input('Enter some text to add as a note: ')
-        agent_model = list_agent(api_url, auth_token, agent_type, str(agent_id))
-    
-        note_count = len(agent_model['notes'])
-        if (note_count &gt; 0):
-            print('The existing notes are', json.dumps(agent_model['notes'], indent=4))
-    
-        new_note = {
-            'jsonmodel_type': 'note_bioghist',
-            'persistent_id': 'urn:test.a.note.to.self/'+str(note_count+1),
-            'label': 'Personal note to self',
-            'subnotes': [
-                {
-                    'jsonmodel_type': 'note_text',
-                    'content': note_text,
-                    'publish': True
-                }
-            ],
-            'publish':True
-        }
-        # now adding a new note
-        agent_model['notes'].append(new_note)
-        print(&quot;Added a note&quot;, json.dumps(agent_model['notes'], indent=4))
-        res = update_agent(api_url, auth_token, agent_type, 3, agent_model)
-        print('Response was', json.dumps(res, indent=4))
+<pre><code class="language-python">        print('Test list_agent()')
+        agent_id = int(input('Enter agent_id (numeric): '))
+        agent = list_agent(api_url, auth_token, 'agent_person', agent_id)
+        print('agent', agent_id, ' details', json.dumps(agent, indent=4))
 </code></pre>
-
-<p>Notice the specifics of the test. The tests are bittle. Debugging the
-submitted record if painful. Just no two ways about it.  <em>curl</em> can
-sometimes be a better friend than Python for debugging http error
-responses.</p>
 
 <p>Full listing <a href="agent.py">agent.py</a></p>
 </section>

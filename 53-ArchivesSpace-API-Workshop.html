@@ -11,19 +11,31 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>Sorting the HTTP methods we need to use</h2>
+<h2>Our recipe</h2>
 
-<p>Suggested functions</p>
+<p>Each ArchivesSpace API Model tends to have its own nuances based on the
+schema. Agents is no exception. Rely on the docs as much as you can.
+When the docs fail there is the email list and you can experiment too.
+When I first started working with ArchivesSpace documentation was thin and I used <em>curl</em> and <a href="https://stedolan.github.io/jq/tutorial/">jq</a>.</p>
+
+<ol>
+<li>Look in the API Docs, what object module applies?
 
 <ul>
-<li>create_agent (CREATE)</li>
-<li>list_agents  (READ)</li>
-<li>list_agent   (READ)</li>
-<li>update_agent (UPDATE)</li>
-<li>delete_agent (DELETE)</li>
-</ul>
+<li>Is there more than one?</li>
+</ul></li>
+<li>Look at the HTTP method required (e.g. GET, POST, DELETE) for your action</li>
+<li>Look at any data that needs to be sent, noting how it is sent
 
-<p>These are our basic CRUD operations as functions working with the API.</p>
+<ul>
+<li>(e.g. a JSON blob or as part of a path)</li>
+</ul></li>
+<li>Based on the API docs, what responses do we expect?
+
+<ul>
+<li>(e.g. HTTP Status code, actual JSON body returned)</li>
+</ul></li>
+</ol>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

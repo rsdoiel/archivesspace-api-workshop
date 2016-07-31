@@ -11,43 +11,17 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>adding list_repo</h2>
+<h2>How do we know the path?</h2>
 
-<p>Let&rsquo;s copy and modify our list_repos definition to <em>list_repo</em>. Paste
-it after the function <em>list_repos</em>. We&rsquo;ll be update the <em>if</em> block too.</p>
+<ul>
+<li>In the API docs, look for &ldquo;Get a Repository by ID&rdquo;</li>
+</ul>
 
-<p>In the definition section add</p>
-
-<pre><code class="language-python">    def list_repo(api_url, auth_token, repo_id):
-        '''List all the repositories, return the listing object'''
-        req = urllib.request.Request(
-            url = api_url+'/repositories/'+str(repo_id),
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token})
-        try:
-            response =  urllib.request.urlopen(req)
-        except HTTPError as e:
-            print(e.code)
-            print(e.read())
-            return None
-        except URLError as e:
-            print(e.reason)
-            return None
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        'http://localhost:8089/repositories/1'
 </code></pre>
 
-<p>In the test <em>if</em> block add</p>
-
-<pre><code class="language-python">        # Test for list_repo
-        repo_id = int(input('Enter repo id (e.g. 2): '))
-        repos = list_repos(api_url, auth_token, repo_id)
-        print('repositores list', json.dumps(repos, indent=4))
-</code></pre>
-
-<p>Are the results what you expected? Are we still getting an array?</p>
-
-<p>Full listing <a href="repo.py">repo.py</a></p>
+<p>It looks like we add the numeric id to the end of the path (i.e. &ldquo;/1&rdquo;).</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

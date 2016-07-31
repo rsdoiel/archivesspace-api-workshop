@@ -11,19 +11,17 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<p>Putting it all together, add the following after the <em>login</em> function and
-update the <em>if</em> block to match.</p>
+<p>Notice how similar it is to our <strong>login</strong> function. Also how we
+add the header to pass along our <em>auth_token</em> with our request.
+Some of the important differences are</p>
 
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import urllib.parse
-    import urllib.error
-    import json
-    # Here's our own login module
-    import login
-    
-    
-    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
+<ul>
+<li>We&rsquo;re encoding <em>data</em> as JSON instead of urlencoding.</li>
+<li>We&rsquo;ve added an <em>auth_token</em> as a header parameter in the <em>Request</em></li>
+<li><em>data</em> is passed via <em>urlopen</em> rather than in our <em>Request</em> object</li>
+</ul>
+
+<pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
         '''This function sends a create request to the ArchivesSpace REST API'''
         data = json.JSONEncoder().encode({
                         'jsonmodel_type': 'repository',
@@ -48,39 +46,10 @@ update the <em>if</em> block to match.</p>
             return &quot;&quot;
         src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
-    
-    
-    if __name__ == '__main__':
-        import getpass
-        # Test login
-        print(&quot;Testing login()&quot;)
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpace password: ')
-        print('Logging in', api_url)
-        auth_token = login.login(api_url, username, password)
-        print(&quot;auth token&quot;, auth_token)
-        if auth_token != '':
-            print('Success!')
-        else:
-            print('Ooops! something went wrong')
-            sys.exit(1)
-    
-        # Test create_repo
-        print('Testing create_repo()')
-        print('Create your first repository')
-        name = input('Repo name: ')
-        repo_code = input('Repo code: ')
-        repo = create_repo(api_url, auth_token, name, repo_code)
-        print(json.dumps(repo, indent=4))
-        print('Create a second repository')
-        name = input('Repo name: ')
-        repo_code = input('Repo code: ')
-        repo = create_repo(api_url, auth_token, name, repo_code)
-        print(json.dumps(repo, indent=4))
 </code></pre>
 
-<p>Full listing <a href="repo.py">repo.py</a></p>
+<p>You can copy and paste your def from our text editor to the repl and make
+sure it compiles.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

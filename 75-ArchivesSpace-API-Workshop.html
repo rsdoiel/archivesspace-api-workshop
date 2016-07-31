@@ -11,29 +11,21 @@
 	</nav>
 	<section><h1>6. Accessions</h1>
 
-<h2>update_accession implementation</h2>
+<h2>list_accessions implementation</h2>
 
-<p>We need three pieces of inforation</p>
+<p>No changes to the imports but we&rsquo;ll add a <em>list_accessions</em> function in our definition section.</p>
 
-<ol>
-<li>our repo_id</li>
-<li>our accession_id (the numeric one from the <em>uri</em>, not <em>id_0</em>, <em>id_1</em>, etc.)</li>
-<li>our updated accession model</li>
-</ol>
-
-<p>Notice the similarity to <em>update_agent</em>.</p>
-
-<pre><code class="language-python">    def update_accession(api_url, auth_token, repo_id, accession_id, accession_model):
-        '''update an accession record and return a results message'''
-        data = json.JSONEncoder().encode(agent_model).encode('utf-8')
-        url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
-             req = urllib.request.Request(
-             url = url,
-             data = None,
-             headers = {'X-ArchivesSpace-Session': auth_token},
-             method = 'POST')
+<pre><code class="language-python">    def list_accessions(api_url, auth_token, repo_id):
+        '''List all the accessions for a given repo_id'''
+        data = urllib.parse.urlencode({'all_ids': True}).encode('utf-8')
+        url = api_url+'/repositories/'+str(repo_id)+'/accessions'
+        req = urllib.request.Request(
+            url = url,
+            data = data,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'GET')
         try:
-            response = urllib.request.urlopen(req, data)
+            response = urllib.request.urlopen(req)
         except urllib.error.URLError as e:
             print(e.reason)
             return None
@@ -47,13 +39,10 @@
 
 <p>And our test in the <em>if</em> block</p>
 
-<pre><code class="language-python">        # Test update_accession
-        print('Test update_accession()')
-        accession_id = int(input('Enter accession id to uppdate: '))
-        accession_model = list_accession(api_url, auth_token, repo_id, accession_id)
-        accession_model['title'] = input('Enter new title: ')
-        result = update_accession(api_url, auth_token, repo_id, accession_id, accession_model)
-        print('update result', json.dumps(result, indent=4))
+<pre><code class="language-python">        # Test list_accessions
+        print('Test list_accessions()')
+        accession_ids = list_accessions(api_url, auth_token, repo_id)
+        print('Accession IDS', json.dumps(accession_ids, indent=4))
 </code></pre>
 
 <p>Full listing <a href="accession.py">accession.py</a></p>

@@ -40,25 +40,46 @@ function setupMySQL {
     read Y_OR_N
 
     if [ "$Y_OR_N" = "" ] || [ "$Y_OR_N" = "y" ] || [ "$Y_OR_N" = "Y" ]; then
+        # Make things more secure.
+        sudo mysql_secure_installation
         cd /vagrant/
         echo "Working directory now $(pwd)"
         echo "Setting up MySQL users and creating database"
+
+        read -p "Enter the admin username for MySQL [default root]? " MYSQL_ADMIN_USER
+        if [ "$MYSQL_ADMIN_USER" = "" ]; then
+            MYSQL_ADMIN_USER="root"
+        fi
+        read -s -p "Enter the admin password for MySQL [default none]? " MYSQL_ADMIN_PASSWORD
+        echo ""
+        read -p "Enter a name for the ArchivesSpace DB user? [default as] " AS_DB_USER
+        if [ "$AS_DB_USER" = "" ]; then
+             AS_DB_USER="as"
+        fi
+        read -s -p "Enter a password for the ArchivesSpace DB user? [default as123] " AS_DB_PASSWORD
+        if [ "$AS_DB_PASSWORD" = "" ]; then
+            AS_DB_PASSWORD="as123"
+        fi
+
         if [ -f archivesspace-mysql-setup.sql ]; then
             /bin/rm archivesspace-mysql-setup.sql
         fi
         cat <<EOT > archivesspace-mysql-setup.sql
 CREATE DATABASE IF NOT EXISTS archivesspace DEFAULT CHARACTER SET utf8;
-GRANT ALL ON archivesspace.* TO 'as'@'localhost' IDENTIFIED BY 'as123';
+GRANT ALL ON archivesspace.* TO '$AS_DB_USER'@'localhost' IDENTIFIED BY '$AS_DB_PASSWORD';
 FLUSH PRIVILEGES;
 EOT
+
         echo "Loading the setup SQL"
-        sudo mysql < archivesspace-mysql-setup.sql
+        if [ "$MYSQL_ADMIN_PASSWORD" = "" ]; then
+            sudo mysql < archivesspace-mysql-setup.sql
+        else
+            sudo mysql --user=$MYSQL_ADMIN_USERNAME --password=$MYSQL_ADMIN_PASSWORD < archivesspace-mysql-setup.sql
+        fi
         echo "Running the ArchivesSpace setup-database.sh script"
         cd /archivesspace/$REVISION/archivesspace/
         echo "Working directory now $(pwd)"
         bash scripts/setup-database.sh
-        # Now make things more secure.
-        #sudo mysql_secure_installation
     else
         echo "Skipping MySQL setup."
     fi
