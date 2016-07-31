@@ -14,8 +14,8 @@
 <h2>Save the access token returned</h2>
 
 <p>We need to modify our login function to &ldquo;decode&rdquo; the JSON
-response and return only session value. We&rsquo;ll also update our
-tests at the bottom.  (We&rsquo;re modifying <em>login</em> function and the
+response and return only its session value. We&rsquo;ll also update our
+tests at the bottom.  (We&rsquo;re modifying the <em>login</em> function and the
 testing in the closing <em>if</em> block)</p>
 
 <pre><code class="language-python">    #!/usr/bin/env python3
@@ -60,10 +60,10 @@ testing in the closing <em>if</em> block)</p>
 
 <p>This is our first module and will get reused in <strong>repo.py</strong>, <strong>agent.py</strong>
 and <strong>accession.py</strong>.  I&rsquo;ve added some extra handling around <em>urlopen</em>.<br />
-This will give us a little more orderly output when something goes wrong
+This will give us a little more orderly output if something goes wrong
 in the http request.</p>
 
-<p>If all has gone well we are ready to move onto working with repositories!</p>
+<p>If all has gone well, we are ready to move on to working with repositories!</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
