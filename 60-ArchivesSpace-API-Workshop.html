@@ -9,27 +9,39 @@
 <a id="prev-slide" rel="nav" href="59-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a id="next-slide" rel="nav" href="61-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h3>Second attempt</h3>
+	<section><h1>5. Working with Agents</h1>
+
+<h2>create_agent schema</h2>
+
+<p>I want to digress here. When the API docs are thin (say after a new
+ArchivesSpace release) you&rsquo;ll really benefit from experimenting.</p>
+
+<h3>Debugging the API docs</h3>
+
+<p>Read what&rsquo;s there and guess at the next step.</p>
 
 <pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-    http://localhost:8089/agents/people?all_ids=true
+        http://localhost:8089/agents/people
 </code></pre>
 
-<p>This gives an array of integer ids. I haven&rsquo;t created any &ldquo;people&rdquo; yet
-so I&rsquo;m guessing that is the &ldquo;Admin&rdquo; account.</p>
+<p>I get back an error</p>
 
-<pre><code class="language-json">    [
-      1
-    ]
+<pre><code class="language-json">    {
+        &quot;error&quot;:{
+            &quot;page&quot;:[
+                &quot;Parameter required but no value provided&quot;
+            ],
+            &quot;id_set&quot;:[
+                &quot;Parameter required but no value provided&quot;
+            ],
+            &quot;all_ids&quot;:[
+                &quot;Parameter required but no value provided&quot;
+            ]
+        }
+    }
 </code></pre>
 
-<p>Trying</p>
-
-<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
-    http://localhost:8089/agents/people/1
-</code></pre>
-
-<p>I get back a big JSON blob like <a href="model-examples/admin-agent.json">model-examples/admin-agent.json</a>.</p>
+<p>And it lets us know the options expected. We will use &ldquo;all_ids=true&rdquo; next.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
