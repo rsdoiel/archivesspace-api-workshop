@@ -150,7 +150,7 @@ if __name__ == "__main__":
 
     # Test update_accession
     print('Test update_accession()')
-    accession_id = int(input('Enter accession id to uppdate: '))
+    accession_id = int(input('Enter accession id to update: '))
     accession_model = list_accession(api_url, auth_token, repo_id, accession_id)
     accession_model['title'] = input('Enter new title: ')
     result = update_accession(api_url, auth_token, repo_id, accession_id, accession_model)
