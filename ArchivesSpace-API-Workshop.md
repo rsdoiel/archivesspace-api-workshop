@@ -1595,7 +1595,7 @@ Trying
 
 ```shell
     curl -H "X-ArchivesSpace-Session: $SESSION" \
-    http://localhost:8089/agents/people/1
+        http://localhost:8089/agents/people/1
 ```
 
 I get back a big JSON blob like [model-examples/admin-agent.json](model-examples/admin-agent.json).
