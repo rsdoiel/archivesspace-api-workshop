@@ -142,11 +142,15 @@ libraries. The others we add we'll be writing ourselves.
 
 ### The functions we define
 
-In The middle section we will add our functions. Between each section of
-the workshop we'll copy the previous code forward to a new file.
-We will redefine and add to our code as we move through the API.  The goal isn't to
-have a lot of files but to allow you to see how the code evolves over time
-into a python module.
+In The middle section we will add our functions. I have choosen
+a function oriented approach to the API interactions becauses I
+think it highligts what is essential in the HTTP transaction.
+I've also group the code into topic areas (e.g. login, reposiory,
+agents) to keep the code easy to read and disc.
+
+A post-workshop next step might be to collect all the functions
+in the modules we built into a Python class and present them as a
+single object representing the complete API.
 
 --
 
@@ -156,7 +160,7 @@ into a python module.
 
 ### The closing *if* block
 
-At the end of each of our Python scripts there will be an *if* block.
+At the end of each of our Python script there will be an *if* block.
 This is where our test code goes. For the purposes of the workshop we
 will minimize what is inside this *if* block.  Normally you would
 keep all your tests available (probably written as their own functions,
@@ -377,7 +381,7 @@ Now we should be ready to learn how to authenticate with the API.
 
 # 3. Authentication
 
-## Basic ingredients
+## Here's our basic recipe
 
 + Make an http connection
 + Send our username and password to the API
@@ -415,6 +419,29 @@ Encode our password for sending with our request.
     data = urllib.parse.urlencode({'password': password})
     data = data.encode('utf-8')
 ```
+--
+
+# 3. Authentication
+
+## Some words about encoding
+
+The web is organized around plain text and socket connections
+between computers. We can not ship the data as it is in our computer's
+memory to the other computer for lots of reasons. What we do
+is translate it (encode it) in a predictable way.  A common way on
+the web is "urlencoding". Another type of encoding that has become
+populate in recent years is JSON.  That's the encoding style we'll
+use most often in our API requests but for authentication we use
+"urlencoding".
+
+The final encode reference in our previous example was to 'utf-8'. This
+refers to a character encoding. They way we represent symbols
+like letters or characters in other langauages like Danish, Hindi or
+Korean. JSON by specification expects to be 'utf-8'
+
+So in one case we encode our data into an expected layout and in 
+another we explicitly encode it into a character representation.
+Both are important.
 
 --
 
@@ -432,7 +459,9 @@ Now send a request with our data.
     print(response.read().decode('UTF-8'))
 ```
 
-You should see content from the response ArchivesSpace sends back.
+You should see a response ArchivesSpace in the shell.
+
+What does the response suggest?
 
 --
 
@@ -458,7 +487,7 @@ imported.
     def login (api_url, username, password):
         '''This function logs into the ArchivesSpace REST API and shows the text response'''
         data = urllib.parse.urlencode({'password': password})
-        data = data.encode('ascii')
+        data = data.encode('utf-8')
         req = urllib.request.Request(
             url = api_url+'/users/'+username+'/login',
             data = data)
@@ -510,9 +539,11 @@ item out easiest if we turn the JSON blob into a Python variable.
 ## Save the access token returned
 
 We need to modify our login function to "decode" the JSON
-response and return only its session value. We'll also update our
-tests at the bottom.  (We're modifying the *login* function and the
-testing in the closing *if* block)
+response and return only session value. 
+
+In total We're adding a *import json*, modifying 
+our *login* function and updating the testing in the 
+closing *if* block.
 
 ```python
     #!/usr/bin/env python3
@@ -555,12 +586,14 @@ testing in the closing *if* block)
             print('Ooops! something went wrong')
 ```
 
-This is our first module and will get reused in **repo.py**, **agent.py**
-and **accession.py**.  I've added some extra handling around *urlopen*.  
-This will give us a little more orderly output if something goes wrong
+This is our first module. It will get reused in **repo.py**, **agent.py**
+and **accession.py**.  I've added some extra handling around *urlopen*.
+This will give us a little more orderly output when something goes wrong
 in the http request.
 
-If all has gone well, we are ready to move on to working with repositories!
+If all goes well you'll see "Success!" when you run the module.
+
+Up next is working with repositories!
 
 --
 
@@ -593,10 +626,10 @@ We repeat the process to create multiple repositories.
 
 ## The details we need to know
 
-+ Go to [AS REST API docs](http://archivesspace.github.io/archivesspace/api/#get-repositories)
++ Go to [ArchivesSpace REST API docs](http://archivesspace.github.io/archivesspace/api/#get-repositories)
     + We're interested in "Create a Repository"
-        + use your browser's find function
-+  Look at the example **curl** request on the right
++  You may see an example **curl** request on the right
+    + the API docs are in a bit of flux with the v1.5.x releases
 
 
 ```shell
@@ -979,7 +1012,7 @@ Full listing [repo.py](repo.py)
     ]
 ```
 
-This response is a JavaScript array. What do we do if we want only a
+This response is a JSON array. What do we do if we want only a
 single repository?
 
 --
@@ -1013,7 +1046,7 @@ It looks like we add the numeric id to the end of the path (i.e. "/1").
 ## adding list_repo
 
 Let's copy and modify our list_repos definition to *list_repo*. Paste
-it after the function *list_repos*. We'll be update the *if* block too.
+it after the function *list_repos*. We'll be updating the *if* block too.
 
 In the definition section add
 
@@ -1210,7 +1243,9 @@ Full listing [repo.py](repo.py)
 
 # 4 Repositories
 
-## Our second module, repo.py
+## Our complete second module 
+
+Full listing [repo.py](repo.py)
 
 ```python
     #!/usr/bin/env python3
@@ -1394,15 +1429,16 @@ Full listing [repo.py](repo.py)
 Each ArchivesSpace API Model tends to have its own nuances based on the
 schema. Agents is no exception. Rely on the docs as much as you can. 
 When the docs fail there is the email list and you can experiment too.
-When I first started working with AS, its documentation was thin and I used
-*curl* and [jq](https://stedolan.github.io/jq/tutorial/).
+When I first started working with ArchivesSpace documentation was thin and I used *curl* and [jq](https://stedolan.github.io/jq/tutorial/).
 
-1. Look up in the API Docs the object module that applies
+1. Look in the API Docs, what object module applies?
     + Is there more than one?
-2. Look up in the API Docs the activity want to use
-3. Look at the HTTP method required (e.g. GET, POST, DELETE)
-4. Look at any data that needs to be sent, noting how it is sent
+2. Look at the HTTP method required (e.g. GET, POST, DELETE) for your action
+3. Look at any data that needs to be sent, noting how it is sent
     + (e.g. a JSON blob or as part of a path)
+4. Based on the API docs, what responses do we expect?
+    + (e.g. HTTP Status code, actual JSON body returned)
+
 
 --
 
@@ -1428,6 +1464,7 @@ These are our basic CRUD operations as functions working with the API.
 
 ArchivesSpace stores the agent type in the schema but it also uses it when
 organizing API access via the URL (e.g. /agents/software, /agents/people).
+There are four types of agents
 
 + corporate_entities
 + families
@@ -1448,15 +1485,14 @@ doesn't exactly match the *path* in the REST API.
 + *agent_person* becomes */agents/people*
 + *agent_software* becomes */agents/software*
 
-The URLs are easy to remember with these adjustments but it is also easy
-to make the mistake when building a model by hand (or debugging one
-you've written) that you can't replace the '/' with a '_'.
+The URL's are memorable but you can't replace the '/' with a '_' to 
+get the *jsonmodel_type* value.
 
 --
 
 # 5. Working with Agents
 
-## create_agent recipe
+## the create_agent recipe
 
 1. import our usual modules
 2. define our create_agent
@@ -1469,14 +1505,19 @@ you've written) that you can't replace the '/' with a '_'.
 
 ## create_agent concerns
 
-The API docs we want to read closely are the models/schema for
-the specific agent type we want to handle.  The API will validate
-our fields so we'll need to handle the response case where the API
-is trying to tell us we're missing a required field or something else
-is out of order.
+If the API docs for models/schema are not available look at the
+web UI for agents.  The required fields will in the form will be
+the ones we want to handle. Sometimes you may have to experiment
+and guess.
 
-This has the benefit of keeping our code simple but it also means we need more
-code to evaluate the response.
+The API validates the requests. The response case from the API
+will often hint at what we're missing.  *curl* can be a real help
+here as the error response in JSON wil give us clues to what is
+missing. Sometimes that is not as visible from the Python shell.
+
+Relying on the API validation does allow us to simplify our client
+code but we need to do more in our tests sorting out the right
+structure to send.
 
 --
 
@@ -1500,11 +1541,8 @@ code to evaluate the response.
 
 ## create_agent schema
 
-A quick search in the API docs for "Create a person agent" leads us
-to ... nothing. As I was writing the agents section I noticed most
-of the *curl* examples and their outputs are missing since the upgrade
-to v1.5.0. This provided an educational moment for me.  I can talk a little
-bit about how to sort things out when the docs are a bit thin.
+I want to digress here. When the API docs are thin (say after a new
+ArchivesSpace release) you'll really benefit from experimenting.
 
 ### Debugging the API docs
 
@@ -1541,7 +1579,7 @@ And it lets us know the options expected. We will use "all_ids=true" next.
 
 ```shell
     curl -H "X-ArchivesSpace-Session: $SESSION" \
-    http://localhost:8089/agents/people?all_ids=true
+        http://localhost:8089/agents/people?all_ids=true
 ```
 
 This gives an array of integer ids. I haven't created any "people" yet
@@ -1704,6 +1742,15 @@ Finally in our *if* block  we need some test code.
 ```
 
 Full listing [agent.py](agent.py)
+
+--
+
+# 5. Working with Agents
+
+## Questios, problems?
+
+Remember to be patient when debugging.  There are allot of details.
+
 
 --
 
@@ -1949,7 +1996,7 @@ Full listing [agent.py](agent.py)
 A little deja vu is in order.  The URLs we'll talk to change and we don't need to pass an 'agent_type'
 but you'll find these functions look remarkably similar to their agent counterparts.
 
-+ create_acession (CREATE)
++ create_accession (CREATE)
 + list_accessions  (READ)
 + list_accession   (READ)
 + update_accession (UPDATE)
@@ -2265,6 +2312,8 @@ Full listing [accession.py](accession.py)
 + [Python 3 Docs](https://docs.python.org/3.5/)
     + [urllib tutorial](https://docs.python.org/3/howto/urllib2.html)
     + [JSON module](https://docs.python.org/3.5/library/json.html?highlight=json#module-json)
++ [YouTube Developer Screencasts](https://www.youtube.com/playlist?list=PLJFitFaE9AY_DDlhl3Kq_vFeX27F1yt6I)
+    + I relied allot of this before the documentation was available
 
 --
 

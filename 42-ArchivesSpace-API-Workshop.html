@@ -11,45 +11,27 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Time to put this together in a script</h2>
+<h2>Let&rsquo;s give this a try in the shell</h2>
 
-<p>Add <em>list_repos</em> function after <em>create_repo</em> and update the testing
-section at the bottom.</p>
+<p>We may need a fresh <em>auth_token</em> so let&rsquo;s login first.
+After that we can build our request and send it. We&rsquo;ll
+wrap up by decoding the JSON response and pretty printing
+it.</p>
 
-<p>In the definition section add</p>
-
-<pre><code class="language-python">    def list_repos(api_url, auth_token):
-        '''List all the repositories'''
-        req = urllib.request.Request(
-            url = api_url+'/repositories',
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token})
-        try:
-            response = urllib.request.urlopen(req)
-        except HTTPError as e:
-            print(e.code)
-            print(e.read())
-            return None
-        except URLError as e:
-            print(e.reason())
-            return None
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
+<pre><code class="language-python">    auth_token = login(api_url, username, password)
+    req = urllib.request.Request(
+        url = api_url+'/repositories',
+        data = None,
+        header = {&quot;X-ArchivesSpace-Session&quot;: auth_token})
+    response = urllib.request.urlopen(req)
+    result = json.JSONDecoder().decode(response.read().decode('utf-8'))
+    print(json.dumps(result, indent=4))
 </code></pre>
 
-<p>In the test <em>if</em> block add</p>
-
-<pre><code class="language-python">        # Test list_repos()
-        repos = list_repos(api_url, auth_token)
-        print(&quot;repositores list&quot;, json.dumps(repos, indent=4))
-</code></pre>
-
-<p>(note: the &ldquo;&hellip;&rdquo; that is just a place holder for the previous tests
-added)</p>
-
-<p>We&rsquo;ve added our <em>list_repos</em> and changed the tests at the bottom.</p>
-
-<p>Full listing <a href="repo.py">repo.py</a></p>
+<ul>
+<li>How are the results organized?</li>
+<li>How does this compare with the API document?</li>
+</ul>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

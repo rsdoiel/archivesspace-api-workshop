@@ -11,59 +11,23 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
+<h2>Let&rsquo;s take a closer look at the JSON results</h2>
+
+<p>Example results <a href="model-examples/login-response.json">model-examples/response.json</a></p>
+
 <h2>Save the access token returned</h2>
 
-<p>We need to modify our login function to &ldquo;decode&rdquo; the JSON
-response and return only its session value. We&rsquo;ll also update our
-tests at the bottom.  (We&rsquo;re modifying the <em>login</em> function and the
-testing in the closing <em>if</em> block)</p>
+<p>We need to parse the JSON data into a Python object
+so we can save our access token.</p>
 
-<pre><code class="language-python">    #!/usr/bin/env python3
-    import urllib.request
-    import urllib.parse
-    import urllib.error
-    import json
-        
-    def login (api_url, username, password):
-        '''This function logs into the ArchivesSpace REST API returning an acccess token'''
-        data = urllib.parse.urlencode({'password': password}).encode('utf-8')
-        req = urllib.request.Request(
-            url = api_url+'/users/'+username+'/login', 
-            data = data)
-        try:
-            response = urllib.request.urlopen(req)
-        except HTTPError as e:
-            print(e.code)
-            print(e.read())
-            return &quot;&quot;
-        except URLError as e:
-            print(e.reason())
-            return &quot;&quot;
-        src = response.read().decode('utf-8')
-        result = json.JSONDecoder().decode(src)
-        # Session holds the value we want for auth_token
-        return result['session']
-    
-    if __name__ == '__main__':
-        import getpass
-        api_url = input('ArchivesSpace API URL: ')
-        username = input('ArchivesSpace username: ')
-        password = getpass.getpass('ArchivesSpacew password: ')
-        print('Logging in', api_url)
-        auth_token = login(api_url, username, password)
-        print(auth_token)
-        if auth_token != '':
-            print('Success!')
-        else:
-            print('Ooops! something went wrong')
+<pre><code class="language-json">    {   
+       &quot;session&quot;: &quot;84467334ce001b924b0e6d529edf99e383.5.271d4238177ab2e811dc5ac9e5a&quot;,
+       ...
+    }
 </code></pre>
 
-<p>This is our first module and will get reused in <strong>repo.py</strong>, <strong>agent.py</strong>
-and <strong>accession.py</strong>.  I&rsquo;ve added some extra handling around <em>urlopen</em>.<br />
-This will give us a little more orderly output if something goes wrong
-in the http request.</p>
-
-<p>If all has gone well, we are ready to move on to working with repositories!</p>
+<p>The session value is our access token. We can pluck that single
+item out easiest if we turn the JSON blob into a Python variable.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

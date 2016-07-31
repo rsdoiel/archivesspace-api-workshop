@@ -11,17 +11,20 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>create_agent recipe</h2>
+<h2>agent types versus paths</h2>
 
-<ol>
-<li>import our usual modules</li>
-<li>define our create_agent
+<p>One thing to notice is that in the data modules the <em>type</em>
+doesn&rsquo;t exactly match the <em>path</em> in the REST API.</p>
 
 <ul>
-<li>need to figure out the minimum agent record</li>
-</ul></li>
-<li>add our tests at the botton of our script in the <em>if</em> block</li>
-</ol>
+<li><em>agent_corporate_entity</em> becomes <em>/agents/corporate_entities</em></li>
+<li><em>agent_family</em> becomes <em>/agents/families</em></li>
+<li><em>agent_person</em> becomes <em>/agents/people</em></li>
+<li><em>agent_software</em> becomes <em>/agents/software</em></li>
+</ul>
+
+<p>The URL&rsquo;s are memorable but you can&rsquo;t replace the &lsquo;/&rsquo; with a &lsquo;_&rsquo; to
+get the <em>jsonmodel_type</em> value.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

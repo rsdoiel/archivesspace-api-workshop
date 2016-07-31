@@ -11,21 +11,18 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>agent types versus paths</h2>
+<h2>How about types of agents?</h2>
 
-<p>One thing to notice is that in the data modules the <em>type</em>
-doesn&rsquo;t exactly match the <em>path</em> in the REST API.</p>
+<p>ArchivesSpace stores the agent type in the schema but it also uses it when
+organizing API access via the URL (e.g. /agents/software, /agents/people).
+There are four types of agents</p>
 
 <ul>
-<li><em>agent_corporate_entity</em> becomes <em>/agents/corporate_entities</em></li>
-<li><em>agent_family</em> becomes <em>/agents/families</em></li>
-<li><em>agent_person</em> becomes <em>/agents/people</em></li>
-<li><em>agent_software</em> becomes <em>/agents/software</em></li>
+<li>corporate_entities</li>
+<li>families</li>
+<li>people (we&rsquo;ll focus on this type in the workshop)</li>
+<li>software</li>
 </ul>
-
-<p>The URLs are easy to remember with these adjustments but it is also easy
-to make the mistake when building a model by hand (or debugging one
-you&rsquo;ve written) that you can&rsquo;t replace the &lsquo;/&rsquo; with a &lsquo;_&lsquo;.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

@@ -9,42 +9,27 @@
 <a id="prev-slide" rel="nav" href="60-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a id="next-slide" rel="nav" href="62-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>5. Working with Agents</h1>
+	<section><h3>Second attempt</h3>
 
-<h2>Thats too much info!</h2>
-
-<p>From the docs we know we need a POST and we know that the path in the
-URL will look like &ldquo;/agent/people&rdquo;. The docs also tell us what we should
-expect if we&rsquo;re successful. This is where working in the shell is handy.</p>
-
-<p>After some experimentation I&rsquo;ve arrived at the following minimum
-<em>agent_person</em> request.</p>
-
-<pre><code class="language-python">    # Our minimal agent record includes a :name_person and a :agent_person
-    # model
-    name_model = {
-           'primary_name': primary_name,
-           'rest_of_name': rest_of_name,
-           'name_order': 'inverted',
-           'jsonmodel_type': 'name_person',
-           'source': source,
-           'rules': rules,
-           'sort_name': primary_name+', '+rest_of_name,
-           'is_display_name': True,
-    }
-
-    agent_model = {
-        'jsonmodel_type': agent_type,
-        'title': primary_name+', '+rest_of_name,
-        'is_link_to_be_published': False,
-        'agent_type': agent_type,
-        'publish': False,
-        'display_name': name_model,
-        'names':[
-           name_model
-         ]
-    }
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        http://localhost:8089/agents/people?all_ids=true
 </code></pre>
+
+<p>This gives an array of integer ids. I haven&rsquo;t created any &ldquo;people&rdquo; yet
+so I&rsquo;m guessing that is the &ldquo;Admin&rdquo; account.</p>
+
+<pre><code class="language-json">    [
+      1
+    ]
+</code></pre>
+
+<p>Trying</p>
+
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+    http://localhost:8089/agents/people/1
+</code></pre>
+
+<p>I get back a big JSON blob like <a href="model-examples/admin-agent.json">model-examples/admin-agent.json</a>.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

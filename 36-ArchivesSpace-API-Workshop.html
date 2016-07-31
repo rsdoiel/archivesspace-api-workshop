@@ -11,38 +11,16 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<p>Let&rsquo;s create our <strong>create_repo</strong> function.</p>
+<h2>Creating the <strong>repo.py</strong> module</h2>
 
-<p>Similar to our <em>login()</em> we need to create a data package,
-a request object and with &ldquo;urlopen&rdquo; send our request so we can
-get a response.</p>
+<ol>
+<li>Create a new file called <a href="repo.py">repo.py</a></li>
+<li>Include our usual import block</li>
+<li>Add <code>import login</code> to the list</li>
+</ol>
 
-<pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
-        '''This function sends a create request to the ArchivesSpace REST API'''
-        data = json.JSONEncoder().encode({
-                        'jsonmodel_type': 'repository',
-                        'name': name,
-                        'repo_code': repo_code,
-                        'org_code': org_code,
-                        'image_url': image_url,
-                        'url': url
-                    }).encode('utf-8')
-        req = urllib.request.Request(
-                url = api_url+'/repositories', 
-                data = None, 
-                headers = {'X-ArchivesSpace-Session': auth_token})
-        try:
-            response = urllib.request.urlopen(req, data)
-        except HTTPError as e:
-            print(e.code)
-            print(e.read())
-            return &quot;&quot;
-        except URLError as e:
-            print(e.reason())
-            return &quot;&quot;
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-</code></pre>
+<p>We&rsquo;re going to be adding a <em>create_repo</em> function and modifying the
+testing in the <em>if</em> block.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

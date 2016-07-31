@@ -11,18 +11,25 @@
 	</nav>
 	<section><h1>3. Authentication</h1>
 
-<h1>Send our username and password</h1>
+<h2>Some words about encoding</h2>
 
-<p>Now send a request with our data.</p>
+<p>The web is organized around plain text and socket connections
+between computers. We can not ship the data as it is in our computer&rsquo;s
+memory to the other computer for lots of reasons. What we do
+is translate it (encode it) in a predictable way.  A common way on
+the web is &ldquo;urlencoding&rdquo;. Another type of encoding that has become
+populate in recent years is JSON.  That&rsquo;s the encoding style we&rsquo;ll
+use most often in our API requests but for authentication we use
+&ldquo;urlencoding&rdquo;.</p>
 
-<pre><code class="language-python">    req = urllib.request.Request(
-        url = api_url+'/users/'+username+'/login',
-        data = data)
-    response = urllib.request.urlopen(req)
-    print(response.read().decode('UTF-8'))
-</code></pre>
+<p>The final encode reference in our previous example was to &lsquo;utf-8&rsquo;. This
+refers to a character encoding. They way we represent symbols
+like letters or characters in other langauages like Danish, Hindi or
+Korean. JSON by specification expects to be &lsquo;utf-8&rsquo;</p>
 
-<p>You should see content from the response ArchivesSpace sends back.</p>
+<p>So in one case we encode our data into an expected layout and in
+another we explicitly encode it into a character representation.
+Both are important.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

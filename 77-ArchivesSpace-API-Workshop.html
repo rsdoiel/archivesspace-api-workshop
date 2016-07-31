@@ -9,19 +9,54 @@
 <a id="prev-slide" rel="nav" href="76-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a id="next-slide" rel="nav" href="78-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>7. What&rsquo;s next?</h1>
+	<section><h1>6. Accessions</h1>
 
-<h2>Working in Batches</h2>
+<h2>update_accession implementation</h2>
 
-<ul>
-<li>getting a list of useful IDs</li>
-<li>iterating over the IDs</li>
-<li>managing process load
+<p>We need three pieces of information</p>
 
-<ul>
-<li>avoiding too much of a good thing</li>
-</ul></li>
-</ul>
+<ol>
+<li>our repo_id</li>
+<li>our accession_id (the numeric one from the <em>uri</em>, not <em>id_0</em>, <em>id_1</em>, etc.)</li>
+<li>our updated accession model</li>
+</ol>
+
+<p>Notice the similarity to <em>update_agent</em>.</p>
+
+<pre><code class="language-python">    def update_accession(api_url, auth_token, repo_id, accession_id, accession_model):
+        '''update an accession record and return a results message'''
+        data = json.JSONEncoder().encode(accession_model).encode('utf-8')
+        url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
+        req = urllib.request.Request(
+             url = url,
+             data = None,
+             headers = {'X-ArchivesSpace-Session': auth_token},
+             method = 'POST')
+        try:
+            response = urllib.request.urlopen(req, data)
+        except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>And our test in the <em>if</em> block</p>
+
+<pre><code class="language-python">        # Test update_accession
+        print('Test update_accession()')
+        accession_id = int(input('Enter accession id to uppdate: '))
+        accession_model = list_accession(api_url, auth_token, repo_id, accession_id)
+        accession_model['title'] = input('Enter new title: ')
+        result = update_accession(api_url, auth_token, repo_id, accession_id, accession_model)
+        print('update result', json.dumps(result, indent=4))
+</code></pre>
+
+<p>Full listing <a href="accession.py">accession.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

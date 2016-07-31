@@ -11,18 +11,18 @@
 	</nav>
 	<section><h1>6. Accessions</h1>
 
-<h2>The minimal accession record</h2>
+<h2>Working with Accessions</h2>
 
-<p>Unlike our friend the agent_person, the minimal accession record boils down to three fields</p>
+<p>A little deja vu is in order.  The URLs we&rsquo;ll talk to change and we don&rsquo;t need to pass an &lsquo;agent_type&rsquo;
+but you&rsquo;ll find these functions look remarkably similar to their agent counterparts.</p>
 
 <ul>
-<li>title</li>
-<li>identifier (i.e. id_0, id_1, id_2, id_3)</li>
-<li>accession_date</li>
+<li>create_accession (CREATE)</li>
+<li>list_accessions  (READ)</li>
+<li>list_accession   (READ)</li>
+<li>update_accession (UPDATE)</li>
+<li>delete_accession (DELETE)</li>
 </ul>
-
-<p>Everything else is optional. The Accession record can be quite detailed.  I suggest experimenting by
-filling out an example in the web UI and viewing the results via a python script using list_accession().</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

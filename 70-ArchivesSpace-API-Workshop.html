@@ -9,20 +9,46 @@
 <a id="prev-slide" rel="nav" href="69-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a id="next-slide" rel="nav" href="71-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>6. Accessions</h1>
+	<section><h1>5. Working with Agents</h1>
 
-<h2>Working with Accessions</h2>
+<h2>Delete an Agent</h2>
 
-<p>A little deja vu is in order.  The URLs we&rsquo;ll talk to change and we don&rsquo;t need to pass an &lsquo;agent_type&rsquo;
-but you&rsquo;ll find these functions look remarkably similar to their agent counterparts.</p>
+<p>The delete agent should look familiar compared to delete_repo(),
+We need <em>agent_type</em> in addition to <em>agent_id</em>.</p>
 
-<ul>
-<li>create_acession (CREATE)</li>
-<li>list_accessions  (READ)</li>
-<li>list_accession   (READ)</li>
-<li>update_accession (UPDATE)</li>
-<li>delete_accession (DELETE)</li>
-</ul>
+<p>In the definition section add</p>
+
+<pre><code class="language-python">    def delete_agent(api_url, auth_token, agent_type, agent_id):
+       '''delete an agent by agent_type and agent_id'''
+       url = api_url+agent_type_path(agent_type)+'/'+str(agent_id)
+       req = urllib.request.Request(
+          url = url,
+          data = None,
+          headers = {'X-ArchivesSpace-Session': auth_token},
+          method = 'DELETE')
+       try:
+            response = urllib.request.urlopen(req)
+       except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+       except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+       src = response.read().decode('utf-8')
+       return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>In the test <em>if</em> block add</p>
+
+<pre><code class="language-python">       # Test delete_agent()
+       print('Testing delete_repo()')
+       agent_id = int(input('Agent numeric id to delete: '))
+       result = delete_agent(api_url, auth_token, agent_type, agent_id)
+       print('Result is', json.dumps(result, indent=4))
+</code></pre>
+
+<p>Full listing <a href="agent.py">agent.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

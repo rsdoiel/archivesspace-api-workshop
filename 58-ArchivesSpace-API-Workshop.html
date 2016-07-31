@@ -11,25 +11,21 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>create_agent code will need:</h2>
+<h2>create_agent concerns</h2>
 
-<ol>
-<li>Open a new file called <a href="agent.py">agent.py</a></li>
-<li>Create our usual block plus <code>import login</code></li>
-<li>To create our function create_agent() we need to know
+<p>If the API docs for models/schema are not available look at the
+web UI for agents.  The required fields will in the form will be
+the ones we want to handle. Sometimes you may have to experiment
+and guess.</p>
 
-<ul>
-<li>api_url</li>
-<li>auth_token</li>
-<li>agent_type</li>
-<li>the rest of the agent data (see the API docs)
+<p>The API validates the requests. The response case from the API
+will often hint at what we&rsquo;re missing.  <em>curl</em> can be a real help
+here as the error response in JSON wil give us clues to what is
+missing. Sometimes that is not as visible from the Python shell.</p>
 
-<ul>
-<li>hint: we want the minimum data first</li>
-</ul></li>
-</ul></li>
-<li>Add tests for each type of agent we want to support</li>
-</ol>
+<p>Relying on the API validation does allow us to simplify our client
+code but we need to do more in our tests sorting out the right
+structure to send.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
