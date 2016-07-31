@@ -11,57 +11,32 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Update Repository</h2>
+<h2>How do you update the repository definition?</h2>
 
-<p>What functions have we implement that are similar? What does the documentation
-suggest?</p>
+<p>We use the update API call. Once again we need to check with the
+API documentation but this time search for &ldquo;Update a repository&rdquo;.</p>
+
+<p>On the right side the <em>curl</em> expression looks like</p>
+
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+    -d {
+       &quot;jsonmodel_type&quot;: &quot;repository&quot;,
+       &quot;name&quot;: &quot;Description: 11&quot;,
+       &quot;repo_code&quot;: &quot;ASPACE REPO 2 -- 631024&quot;,
+       &quot;org_code&quot;: &quot;970UV228G&quot;,
+       &quot;image_url&quot;: &quot;http://www.example-3.com&quot;,
+       &quot;url&quot;: &quot;http://www.example-4.com&quot;
+    } \
+    'http://localhost:8089/repositories/1'
+</code></pre>
+
+<p>Note the following</p>
 
 <ol>
-<li>copy <em>create_repo</em> function to <em>update_repo</em> adding it after <em>list_repo</em></li>
-<li>We&rsquo;ll also update our tests at the end of the file</li>
+<li>The repo id is at the end of the path like in list a specific repository</li>
+<li>We have another JSON data structure to submit and we do so with a &ldquo;POST&rdquo;</li>
+<li>We still need to maintain our token.</li>
 </ol>
-
-<p>Your code should wind up looking something like this.</p>
-
-<p>In the definition section add</p>
-
-<pre><code class="language-python">    def update_repo(api_url, auth_token, repo_id, repo):
-        data = json.JSONEncoder().encode(repo).encode('utf-8')
-        req = urllib.request.Request(
-            url = api_url+'/repositories/'+str(repo_id),
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token})
-        try:
-            response = urllib.request.urlopen(req, data)
-        except HTTPError as e:
-            print(e.code)
-            print(e.read())
-            return None
-        except URLError as e:
-            print(e.reason())
-            return None
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-</code></pre>
-
-<p>In the test <em>if</em> block add</p>
-
-<pre><code class="language-python">        # Test for update_repo()
-        repos = list_repos(api_url, auth_token)
-        print('Pick a repository id to update', json.dumps(repos, indent=4))
-        repo_id = int(input('Repository numeric id: '))
-        print('Getting repository record', repo_id)
-        repo = list_repo(api_url, auth_token, repo_id)
-        repo[&quot;name&quot;] = input('old name is'+repo['name']+', provide a new name: ')
-        print('Now we update')
-        result = update_repo(api_url, auth_token, repo_id, repo)
-        print(&quot;Result is&quot;, result)
-</code></pre>
-
-<p>Run this updated version and see how it works. Note you can also use the other
-methods in the module like <em>list_repos()</em> as well as <em>list_repo()</em>.</p>
-
-<p>Full listing <a href="repo.py">repo.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

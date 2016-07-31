@@ -11,15 +11,11 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<p>Notice how similar it is to our <strong>login</strong> function. Also how we
-add the header to pass along our <em>auth_token</em> with our request.
-Some of the important differences are</p>
+<p>Lets create our <strong>create_repo</strong> function.</p>
 
-<ul>
-<li>We&rsquo;re encoding <em>data</em> as JSON instead of urlencoding.</li>
-<li>We&rsquo;ve added an <em>auth_token</em> as a header parameter in the <em>Request</em></li>
-<li><em>data</em> is passed via <em>urlopen</em> rather than in our <em>Request</em> object</li>
-</ul>
+<p>Similar to our <em>login()</em> we need to create a data package,
+a request object and with &ldquo;urlopen&rdquo; send our request so we can
+get a response.</p>
 
 <pre><code class="language-python">    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
         '''This function sends a create request to the ArchivesSpace REST API'''
@@ -47,9 +43,6 @@ Some of the important differences are</p>
         src = response.read().decode('utf-8')
         return json.JSONDecoder().decode(src)
 </code></pre>
-
-<p>You can copy and paste your def from our text editor to the repl and make
-sure it compiles.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

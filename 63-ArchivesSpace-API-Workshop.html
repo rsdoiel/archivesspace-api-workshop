@@ -11,13 +11,101 @@
 	</nav>
 	<section><h1>5. Working with Agents</h1>
 
-<h2>list_agents recipe</h2>
+<h2>create_agent implementation</h2>
 
-<ol>
-<li>we need the usual api_url, auth_token</li>
-<li>plus we need to know the agent_type (e.g. &ldquo;agent_person&rdquo;)</li>
-<li>Get and decode the response.</li>
-</ol>
+<p>At the end of our imports block add</p>
+
+<pre><code class="language-python">    import login
+</code></pre>
+
+<p>In our definition section add</p>
+
+<pre><code class="language-python">    def agent_type_path(agent_type):
+       '''Map the agent type to a partial path'''
+       # agent_person agent_corporate_entity agent_software agent_family user
+       m = {
+          'agent_person': 'people',
+          'agent_corporate_entity': 'corporate_entities',
+          'agent_software': 'software',
+          'agent_family': 'families',
+          'user': 'user'
+       }
+       return '/agents/'+m[agent_type]
+    
+    def create_agent(api_url, auth_token, agent_model):
+       '''create an agent and return the new agent record'''
+       data = json.JSONEncoder().encode(agent_model).encode('utf-8')
+       url = api_url+agent_type_path(agent_model['agent_type'])
+       req = urllib.request.Request(
+            url = url,
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'POST')
+       try:
+            response = urllib.request.urlopen(req, data)
+       except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+       except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+       src = response.read().decode('utf-8')
+       return json.JSONDecoder().decode(src)
+</code></pre>
+
+<p>Finally in our <em>if</em> block  we need some test code.</p>
+
+<pre><code class="language-python">        # check mapping of agent type (e.g. agent_person) to path
+        print('Check that our mapping of agent type to path works')
+        url_test = agent_type_path('agent_person')
+        if url_test != '/agents/people':
+           print('ERROR: expected .../agents/people, found ', url_test)
+           sys.exit(0)
+        else:
+           print('agent_type_path() OK')
+
+        print('Testing create_agent')
+        # Here's our minimal fields
+        primary_name = input('Primary name (e.g. family name) ')
+        rest_of_name = input('Rest of name (e.g. first name) ')
+        agent_type = 'agent_person'
+        source = 'local'
+        rules = 'local'
+
+        # Our minimal agent record includes a :name_person and a :agent_person
+        # model
+        name_model = {
+               'primary_name': primary_name,
+               'rest_of_name': rest_of_name,
+               'name_order': 'inverted',
+               'jsonmodel_type': 'name_person',
+               'source': source,
+               'rules': rules,
+               'sort_name': primary_name+', '+rest_of_name,
+               'is_display_name': True,
+        }
+
+        agent_model = {
+            'jsonmodel_type': agent_type,
+            'title': primary_name+', '+rest_of_name,
+            'is_link_to_be_published': False,
+            'agent_type': agent_type,
+            'publish': False,
+            'display_name': name_model,
+            'names':[
+               name_model
+             ]
+        }
+
+        # Now that we have a minimal record lets make a request
+        print(&quot;The minimum payload looks like &quot;, json.dumps(agent_model, indent=4))
+        result = create_agent(api_url, auth_token, agent_model)
+        agent_id = result['id']
+        print('agent created response', json.dumps(result, indent=4))
+</code></pre>
+
+<p>Full listing <a href="agent.py">agent.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
