@@ -6,7 +6,7 @@ import json
 # Here's our own login module
 import login
 
-
+# NOTE: There are additional optional values, this is just to get the idea
 def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
     '''create a repostory and return a status message'''
     data = json.JSONEncoder().encode({
