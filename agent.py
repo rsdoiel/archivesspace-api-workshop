@@ -147,8 +147,8 @@ if __name__ == '__main__':
     # Test create_agent()
     print('Testing create_agent')
     # Here's our minimal fields
-    primary_name = input('Primary name (e.g. family name) ')
-    rest_of_name = input('Rest of name (e.g. first name) ')
+    primary_name = input('Primary name (e.g. family name): ')
+    rest_of_name = input('Rest of name (e.g. first name): ')
     agent_type = 'agent_person'
     source = 'local'
     rules = 'local'

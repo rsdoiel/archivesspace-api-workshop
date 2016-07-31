@@ -39,7 +39,7 @@ Before we begin ...
     + [Python Reference](https://docs.python.org/3/library/index.html)
     + [This presentation website](https://rsdoiel.github.io/archivesspace-api-workshop)
 + Recommended reading
-    + Read through the [Python 3 tutorial](https://docs.python.org/3/tutorial/index.html) if they are not familiar with Python.
+    + Read through the [Python 3 tutorial](https://docs.python.org/3/tutorial/index.html) if you are not familiar with Python.
 
 --
 
@@ -73,7 +73,7 @@ Open the following in your web browser tabs
 ## ArchivesSpace
 
 + Our hosts have provided us with test deployments of ArchivesSpace
-    + See hand out or whiteboard for connection details
+    + See handout or whiteboard for connection details
 + Make sure you can access ArchivesSpace Web UI from your web browser
     + usually http://localhost:8080 in the docs
 + Make sure you can access ArchivesSpace API from your web browser
@@ -85,9 +85,9 @@ Open the following in your web browser tabs
 
 ## ArchivesSpace
 
-1. Point your web browser at the ArchivesSpace web UI
+1. Point your web browser at the ArchivesSpace Web UI
 2. Make sure you can login
-3. In another browser tab point your web browser the API URL
+3. In another browser tab, point your web browser to the API URL
 
 --
 
@@ -144,8 +144,8 @@ libraries. The others we add we'll be writing ourselves.
 
 In The middle section we will add our functions. Between each section of
 the workshop we'll copy the previous code forward to a new file.
-We will redefine and adding as we move through the API.  The goal isn't to
-have allot of files but to allow you to see how the code evolves overtime
+We will redefine and add to our code as we move through the API.  The goal isn't to
+have a lot of files but to allow you to see how the code evolves over time
 into a python module.
 
 --
@@ -270,7 +270,7 @@ Type the following in the shell.
     import getpass
 ```
 
-These are the three modules we'll use through out our Workshop.
+These are the three modules we'll use throughout our Workshop.
 
 --
 
@@ -316,7 +316,7 @@ Now we can send our *req* and get back a *response*.
 
 ## Putting it all together
 
-Let's take what we learned and create a Python scripts called
+Let's take what we learned and create a Python script called
 [make-an-http-connection.py](make-an-http-connection.py).
 
 ```python
@@ -339,11 +339,11 @@ Let's take what we learned and create a Python scripts called
 
 # 2. Make an http connection
 
-## Once you've save your script
+## Once you've saved your script
 
 1. In the editors' menu click "Run"
-2. click "Run Check"
-3. click "Run module"
+2. click "Check Module"
+3. click "Run Module"
 
 We'll be doing this often as we evolve our scripts.
 
@@ -351,7 +351,7 @@ We'll be doing this often as we evolve our scripts.
 
 # 2. Make an http connection
 
-## If all gone well
+## If all has gone well
 
 1. The shell will have a message saying "RESTART"
 2. You'll be prompted for the ArchivesSpace API URL
@@ -380,7 +380,7 @@ Now we should be ready to learn how to authenticate with the API.
 ## Basic ingredients
 
 + Make an http connection
-+ Send our username and pasword to the API
++ Send our username and password to the API
 + Save the access token returned
 
 --
@@ -389,7 +389,7 @@ Now we should be ready to learn how to authenticate with the API.
 
 ## Send our username and password
 
-We need pass our username and password in our request.
+We need to pass our username and password in our request.
 We need to keep track of the response.
 
 Close the text editor and go back in the shell.
@@ -400,8 +400,7 @@ Close the text editor and go back in the shell.
 ```
 
 We want to use getpass.getpass('password: ') so the
-password doesn't get echoed to the screen. In IDLE it'll
-show read and echo the password, ignore this for testing
+password doesn't get echoed to the screen. IDLE will still echo the password, but you can ignore this for testing
 and development.
 
 --
@@ -433,7 +432,7 @@ Now send a request with our data.
     print(response.read().decode('UTF-8'))
 ```
 
-You should see content from the response ArchivesSpace send back.
+You should see content from the response ArchivesSpace sends back.
 
 --
 
@@ -479,13 +478,13 @@ imported.
         print('Success!')
 ```
 
-Now "Run" the python script and see the results like we did before.
+Now "Run" the python script and review the results like we did before.
 
 --
 
 # 3. Authentication
 
-## Let's a closer look at the JSON results
+## Let's take a closer look at the JSON results
 
 Example results [model-examples/response.json](model-examples/login-response.json)
 
@@ -511,8 +510,8 @@ item out easiest if we turn the JSON blob into a Python variable.
 ## Save the access token returned
 
 We need to modify our login function to "decode" the JSON
-response and return only session value. We'll also update our
-tests at the bottom.  (We're modifying *login* function and the
+response and return only its session value. We'll also update our
+tests at the bottom.  (We're modifying the *login* function and the
 testing in the closing *if* block)
 
 ```python
@@ -558,10 +557,10 @@ testing in the closing *if* block)
 
 This is our first module and will get reused in **repo.py**, **agent.py**
 and **accession.py**.  I've added some extra handling around *urlopen*.  
-This will give us a little more orderly output when something goes wrong
+This will give us a little more orderly output if something goes wrong
 in the http request.
 
-If all has gone well we are ready to move onto working with repositories!
+If all has gone well, we are ready to move on to working with repositories!
 
 --
 
@@ -676,7 +675,7 @@ testing in the *if* block.
 
 # 4. Repositories
 
-Lets create our **create_repo** function.
+Let's create our **create_repo** function.
 
 Similar to our *login()* we need to create a data package,
 a request object and with "urlopen" send our request so we can
@@ -758,8 +757,8 @@ sure it compiles.
 
 # 4. Repositories
 
-Putting it all together, add the following after the *login* function and
-update the *if* block to match.
+Putting it all together, next you need to update the *if* block to match what's below 
+(also make sure that you're still importing your newly created login module).
 
 ```python
     #!/usr/bin/env python3
@@ -989,7 +988,7 @@ single repository?
 
 ## Getting a specific repositoriy
 
-1. known the repository id
+1. know the repository id
 2. Using the appropriate path get data for the specific repository
 
 --
@@ -1078,7 +1077,7 @@ On the right side the *curl* expression looks like
 
 Note the following
 
-1. The repo id is at the end of the path like in list a specific repository
+1. The repo id is at the end of the path, just like it is when you list a specific repository
 2. We have another JSON data structure to submit and we do so with a "POST"
 3. We still need to maintain our token.
 
@@ -1088,7 +1087,7 @@ Note the following
 
 ## Update Repository
 
-What functions have we implement that are similar? What does the documentation
+What functions have we implemented that are similar? What does the documentation
 suggest?
 
 1. copy *create_repo* function to *update_repo* adding it after *list_repo*
@@ -1145,7 +1144,7 @@ Full listing [repo.py](repo.py)
 
 ## Finally we can delete a repository too
 
-As you may suspect we're beginning to see allot of repetition in our code.
+As you may suspect we're beginning to see a lot of repetition in our code.
 We'll live with it for now. To delete a repository take a look at the
 docs. You can find it by searching for "Delete a Repository". The
 *curl* looks like this ...
@@ -1156,7 +1155,7 @@ docs. You can find it by searching for "Delete a Repository". The
         'http://localhost:8089/repositories/:repo_id'
 ```
 
-Notice it looks allot like our *list_repo()* curl example but with
+Notice it looks a lot like our *list_repo()* curl example but with
 an "-X DELETE".  There are four common methods in HTTP transactions
 
 + GET, POST, PUT, DELETE
@@ -1211,7 +1210,7 @@ Full listing [repo.py](repo.py)
 
 # 4 Repositories
 
-## Our second mofule, repo.py
+## Our second module, repo.py
 
 ```python
     #!/usr/bin/env python3
@@ -1395,7 +1394,7 @@ Full listing [repo.py](repo.py)
 Each ArchivesSpace API Model tends to have its own nuances based on the
 schema. Agents is no exception. Rely on the docs as much as you can. 
 When the docs fail there is the email list and you can experiment too.
-When I first started working with AS documentation was thin and I used
+When I first started working with AS, its documentation was thin and I used
 *curl* and [jq](https://stedolan.github.io/jq/tutorial/).
 
 1. Look up in the API Docs the object module that applies
@@ -1449,7 +1448,7 @@ doesn't exactly match the *path* in the REST API.
 + *agent_person* becomes */agents/people*
 + *agent_software* becomes */agents/software*
 
-The URL's a easy to remember with these adjustments but it easy
+The URLs are easy to remember with these adjustments but it is also easy
 to make the mistake when building a model by hand (or debugging one
 you've written) that you can't replace the '/' with a '_'.
 
@@ -1476,8 +1475,8 @@ our fields so we'll need to handle the response case where the API
 is trying to tell us we're missing a required field or something else
 is out of order.
 
-This has the benefit of keep our code simple but does mean we need more
-code evaluating the response.
+This has the benefit of keeping our code simple but it also means we need more
+code to evaluate the response.
 
 --
 
@@ -1502,10 +1501,10 @@ code evaluating the response.
 ## create_agent schema
 
 A quick search in the API docs for "Create a person agent" leads us
-to ... nothing. As I was writing the agents section I notice most
+to ... nothing. As I was writing the agents section I noticed most
 of the *curl* examples and their outputs are missing since the upgrade
-to v1.5.0. This provided a educational moment for me.  I can talk a little
-bit about how to sort things when the docs are a bit thin.
+to v1.5.0. This provided an educational moment for me.  I can talk a little
+bit about how to sort things out when the docs are a bit thin.
 
 ### Debugging the API docs
 
@@ -1569,11 +1568,11 @@ I get back a big JSON blob like [model-examples/admin-agent.json](model-examples
 
 ## Thats too much info!
 
-From the docs we know we need a POST and we known that the path in the
+From the docs we know we need a POST and we know that the path in the
 URL will look like "/agent/people". The docs also tell us what we should
-except if we're successful. This is where working in the shell is handy.
+expect if we're successful. This is where working in the shell is handy.
 
-After some experimentation I've arrahved at the following minimum 
+After some experimentation I've arrived at the following minimum 
 *agent_person* request.
 
 ```python
@@ -1666,8 +1665,8 @@ Finally in our *if* block  we need some test code.
 
         print('Testing create_agent')
         # Here's our minimal fields
-        primary_name = input('Primary name (e.g. family name) ')
-        rest_of_name = input('Rest of name (e.g. first name) ')
+        primary_name = input('Primary name (e.g. family name): ')
+        rest_of_name = input('Rest of name (e.g. first name): ')
         agent_type = 'agent_person'
         source = 'local'
         rules = 'local'
@@ -1817,7 +1816,7 @@ Full listing [agent.py](agent.py)
 + submit the updates
 
 The ArchivesSpace API is very picky here. You're going to 
-spend allot of time debugging your data modifications.
+spend a lot of time debugging your data modifications.
 
 --
 
@@ -1883,10 +1882,10 @@ In the test section add
         print('Response was', json.dumps(result, indent=4))
 ```
 
-Notice the specifics of the test. The tests are bittle. Debugging the
+Notice the specifics of the test. The tests are brittle. Debugging the
 submitted record if painful. Just no two ways about it.  *curl* can
 sometimes be a better friend than Python for debugging http error 
-responses.
+responses (the Postman app can also prove really helpful: https://www.getpostman.com/)
 
 Full listing [agent.py](agent.py)
 
@@ -1939,7 +1938,7 @@ Full listing [agent.py](agent.py)
 
 # Seventh-inning Stretch
 
-<blockquote>We've covered allot, stretch, ask questions, absorb your API adventure</blockquote>
+<blockquote>We've covered a lot so far: stretch, ask questions, absorb your API adventure!</blockquote>
 
 --
 
@@ -1947,7 +1946,7 @@ Full listing [agent.py](agent.py)
 
 ## Working with Accessions
 
-A little deja vu is in order.  URLs we talk to change and we don't need to pass an 'agent_type'
+A little deja vu is in order.  The URLs we'll talk to change and we don't need to pass an 'agent_type'
 but you'll find these functions look remarkably similar to their agent counterparts.
 
 + create_acession (CREATE)
@@ -2038,7 +2037,7 @@ Full listing [accession.py](accession.py)
 
 ## The minimal accession record
 
-Un like our friend the agent_person the minimal accession record boils down to three fields
+Unlike our friend the agent_person, the minimal accession record boils down to three fields
 
 + title
 + identifier (i.e. id_0, id_1, id_2, id_3)
@@ -2139,7 +2138,7 @@ Full listing [accession.py](accession.py)
 
 ## update_accession implementation
 
-We need three pieces of inforation
+We need three pieces of information
 
 1. our repo_id
 2. our accession_id (the numeric one from the *uri*, not *id_0*, *id_1*, etc.)
