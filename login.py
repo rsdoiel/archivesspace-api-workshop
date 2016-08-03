@@ -12,11 +12,11 @@ def login (api_url, username, password):
         data = data)
     try:
         response = urllib.request.urlopen(req)
-    except HTTPError as e:
+    except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
         return ""
-    except URLError as e:
+    except urllib.error.URLError as e:
         print(e.reason())
         return ""
     src = response.read().decode('utf-8')

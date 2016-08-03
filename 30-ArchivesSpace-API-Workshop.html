@@ -9,17 +9,67 @@
 <a id="prev-slide" rel="nav" href="29-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a id="next-slide" rel="nav" href="31-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>4. Repositories</h1>
+	<section><h1>3. Authentication</h1>
 
-<h2>What we&rsquo;ll do in this section</h2>
+<h2>Save the access token returned</h2>
 
-<ul>
-<li>Create some repositories</li>
-<li>List the available repositories</li>
-<li>List a specific repository</li>
-<li>Update a repository</li>
-<li>Delete a repository</li>
-</ul>
+<p>We need to modify our login function to &ldquo;decode&rdquo; the JSON
+response and return only session value.</p>
+
+<p>In total We&rsquo;re adding a <em>import json</em>, modifying
+our <em>login</em> function and updating the testing in the
+closing <em>if</em> block.</p>
+
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import urllib.parse
+    import urllib.error
+    import json
+        
+    def login (api_url, username, password):
+        '''This function logs into the ArchivesSpace REST API returning an acccess token'''
+        data = urllib.parse.urlencode({'password': password}).encode('utf-8')
+        req = urllib.request.Request(
+            url = api_url+'/users/'+username+'/login', 
+            data = data)
+        try:
+            response = urllib.request.urlopen(req)
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return &quot;&quot;
+        except urllib.error.URLError as e:
+            print(e.reason())
+            return &quot;&quot;
+        src = response.read().decode('utf-8')
+        result = json.JSONDecoder().decode(src)
+        # Session holds the value we want for auth_token
+        return result['session']
+    
+    if __name__ == '__main__':
+        import getpass
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpacew password: ')
+        print('Logging in', api_url)
+        auth_token = login(api_url, username, password)
+        print(auth_token)
+        if auth_token != '':
+            print('Success!')
+        else:
+            print('Ooops! something went wrong')
+</code></pre>
+
+<p>Full listing <a href="login.py">login.py</a></p>
+
+<p>This is our first module. It will get reused in <strong>repo.py</strong>, <strong>agent.py</strong>
+and <strong>accession.py</strong>.  I&rsquo;ve added some extra handling around <em>urlopen</em>.
+This will give us a little more orderly output when something goes wrong
+in the http request.</p>
+
+<p>If all goes well you&rsquo;ll see &ldquo;Success!&rdquo; when you run the module.</p>
+
+<p>Up next is working with repositories!</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

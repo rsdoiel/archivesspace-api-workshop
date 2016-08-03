@@ -1,5 +1,5 @@
 
-# **EARLY DRAFT**: Introducing the ArchivesSpace REST API using Python 3
+# Introducing the ArchivesSpace REST API using Python 3
 
 ## ArchivesSpace Member Forum 2016
 

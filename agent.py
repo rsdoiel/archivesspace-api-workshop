@@ -147,9 +147,11 @@ if __name__ == '__main__':
     # Test create_agent()
     print('Testing create_agent')
     # Here's our minimal fields
-    primary_name = input('Primary name (e.g. family name) ')
-    rest_of_name = input('Rest of name (e.g. first name) ')
+    primary_name = input('Primary name (e.g. family name): ')
+    # Rest of name is optional, probably should include it
+    rest_of_name = input('Rest of name (e.g. first name): ')
     agent_type = 'agent_person'
+    # You need at least a source or rules, we'll include both
     source = 'local'
     rules = 'local'
 
@@ -213,7 +215,7 @@ if __name__ == '__main__':
     new_note = {
         'jsonmodel_type': 'note_bioghist',
         'persistent_id': 'urn:test.a.note.to.self/'+str(note_count+1),
-        'label': 'Personal note to self',
+        'label': 'Personal note to self/'+str(note_count+1),
         'subnotes': [
             {
                 'jsonmodel_type': 'note_text',

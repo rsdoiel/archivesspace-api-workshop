@@ -11,27 +11,28 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>Let&rsquo;s give this a try in the shell</h2>
+<h2>ArchivesSpace API Docs</h2>
 
-<p>We may need a fresh <em>auth_token</em> so let&rsquo;s login first.
-After that we can build our request and send it. We&rsquo;ll
-wrap up by decoding the JSON response and pretty printing
-it.</p>
-
-<pre><code class="language-python">    auth_token = login(api_url, username, password)
-    req = urllib.request.Request(
-        url = api_url+'/repositories',
-        data = None,
-        header = {&quot;X-ArchivesSpace-Session&quot;: auth_token})
-    response = urllib.request.urlopen(req)
-    result = json.JSONDecoder().decode(response.read().decode('utf-8'))
-    print(json.dumps(result, indent=4))
-</code></pre>
+<p>The documentation about the API will help us know what to ask.</p>
 
 <ul>
-<li>How are the results organized?</li>
-<li>How does this compare with the API document?</li>
+<li>Change to your browser tab with the docs</li>
+<li>Using your web browser&rsquo;s find function search for
+
+<ul>
+<li>&ldquo;Get a list of Repositories&rdquo;</li>
+</ul></li>
 </ul>
+
+<p>The <strong>curl</strong> statement suggested looks like</p>
+
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        'http://localhost:8089/repositories'
+</code></pre>
+
+<p>Notice there is no &ldquo;-d&rdquo; listed. We only need to know the
+API URL and then add &ldquo;/repositories&rdquo; to it. We still need
+to send along our auth token in the header as normal.</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

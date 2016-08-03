@@ -11,37 +11,33 @@
 	</nav>
 	<section><h1>4. Repositories</h1>
 
-<h2>The dangerous delete method</h2>
+<h2>Finally we can delete a repository too</h2>
 
-<pre><code class="language-python">    def delete_repo(api_url, auth_token, repo_id):
-        req = urllib.request.Request(
-            url = api_url+'/repositories/'+str(repo_id),
-            data = None,
-            headers = {'X-ArchivesSpace-Session': auth_token},
-            method = 'DELETE')
-        try:
-            response = urllib.request.urlopen(req)
-        except HTTPError as e:
-            print(e.code)
-            print(e.read())
-            return None
-        except URLError as e:
-            print(e.reason())
-            return None
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
+<p>As you may suspect we&rsquo;re beginning to see a lot of repetition in our code.
+We&rsquo;ll live with it for now. To delete a repository take a look at the
+docs. You can find it by searching for &ldquo;Delete a Repository&rdquo;. The
+<em>curl</em> looks like this &hellip;</p>
+
+<pre><code class="language-shell">    curl -H &quot;X-ArchivesSpace-Session: $SESSION&quot; \
+        -X DELETE \
+        'http://localhost:8089/repositories/:repo_id'
 </code></pre>
 
-<p>Our test should look something like &hellip;</p>
+<p>Notice it looks a lot like our <em>list_repo()</em> curl example but with
+an &ldquo;-X DELETE&rdquo;.  There are four common methods in HTTP transactions</p>
 
-<pre><code class="language-python">        # Test delete_repo
-        print('Testing delete_repo()')
-        repo_id = int(input('Repository numeric id to delete: '))
-        result = delete_repo(api_url, auth_token, repo_id)
-        print('Result is', json.dumps(result, indent=4))
-</code></pre>
+<ul>
+<li>GET, POST, PUT, DELETE</li>
+</ul>
 
-<p>Full listing <a href="repo.py">repo.py</a></p>
+<p>DELETE does what it sounds like. It&rsquo;ll send a &ldquo;DELETE&rdquo; method call to
+the API requesting the repository to be deleted. Note deleting a record
+via the API is permanent. There is no &ldquo;UNDO&rdquo;!!!!</p>
+
+<ol>
+<li>Copy <em>list_repo()</em> function definition to <em>delete_repo</em> after <em>update_repo</em></li>
+<li>We need to modify the default test methods once again</li>
+</ol>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

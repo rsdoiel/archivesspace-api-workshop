@@ -11,43 +11,20 @@
 	</nav>
 	<section><h1>6. Accessions</h1>
 
-<h2>list_accession implementation</h2>
+<h2>The minimal accession record</h2>
 
-<p>If we know the <em>repo_id</em> and <em>accession_id</em> we can list the details of an accession. Note the <em>accession_id</em>
-is the numeric value seen in the URL (or uri field of an accession record) and NOT related to the fields
-<em>id_0</em>, <em>id_1</em>, <em>id_2</em>, or <em>id_3</em>.</p>
+<p>Unlike our friend the agent_person, the minimal accession record boils
+down to three fields</p>
 
-<pre><code class="language-python">    def list_accession(api_url, auth_token, repo_id, accession_id):
-        '''List an accession by repo_id and accession_id'''
-        url = api_url+'/repositories/'+str(repo_id)+'/accessions/'+str(accession_id)
-        req = urllib.request.Request(
-             url = url,
-             data = None,
-             headers = {'X-ArchivesSpace-Session': auth_token},
-             method = 'GET')
-        try:
-            response = urllib.request.urlopen(req)
-        except urllib.error.URLError as e:
-            print(e.reason)
-            return None
-        except urllib.error.HTTPError as e:
-            print(e.code)
-            print(e.read())
-            return None
-        src = response.read().decode('utf-8')
-        return json.JSONDecoder().decode(src)
-</code></pre>
+<ul>
+<li>title (actually optional, but you should have one that is human friendly)</li>
+<li>identifier (i.e. id_0, id_1, id_2, id_3)</li>
+<li>accession_date</li>
+</ul>
 
-<p>And our test in the <em>if</em> block</p>
-
-<pre><code class="language-python">        # Test list_accession
-        print('Test list_accession()')
-        accession_id = int(input('Enter a numeric accession id: '))
-        accession_model = list_accession(api_url, auth_token, repo_id, accession_id)
-        print('Accession model', json.dumps(accession_model, indent=4))
-</code></pre>
-
-<p>Full listing <a href="accession.py">accession.py</a></p>
+<p>Everything else is optional. The Accession record can be quite detailed.
+I suggest experimenting by filling out an example in the web UI and
+viewing the results via a python script using list_accession().</p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>

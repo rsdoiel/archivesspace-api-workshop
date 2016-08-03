@@ -9,30 +9,183 @@
 <a id="prev-slide" rel="nav" href="51-ArchivesSpace-API-Workshop.html" title="Previous slide">Prev</a>
 <a id="next-slide" rel="nav" href="53-ArchivesSpace-API-Workshop.html" title="Next slide">Next</a>
 	</nav>
-	<section><h1>5. Working with Agents</h1>
+	<section><h1>4 Repositories</h1>
 
-<h2>Our recipe</h2>
+<h2>Our complete second module</h2>
 
-<p>Each ArchivesSpace API Model tends to have its own nuances based on the
-schema. Agents is no exception. Rely on the docs as much as you can.
-When the docs fail there is the email list and you can experiment too.
-When I first started working with AS documentation was thin and I used
-<em>curl</em> and <a href="https://stedolan.github.io/jq/tutorial/">jq</a>.</p>
+<p>Full listing <a href="repo.py">repo.py</a></p>
 
-<ol>
-<li>Look up in the API Docs the object module that applies
+<pre><code class="language-python">    #!/usr/bin/env python3
+    import urllib.request
+    import urllib.parse
+    import urllib.error
+    import json
+    # Here's our own login module
+    import login
+    
+    
+    def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url = '', url = ''):
+        '''This function sends a create request to the ArchivesSpace REST API'''
+        data = json.JSONEncoder().encode({
+                        'jsonmodel_type': 'repository',
+                        'name': name,
+                        'repo_code': repo_code,
+                        'org_code': org_code,
+                        'image_url': image_url,
+                        'url': url
+                    }).encode('utf-8')
+        req = urllib.request.Request(
+                url = api_url+'/repositories', 
+                data = None, 
+                headers = {'X-ArchivesSpace-Session': auth_token})
+        try:
+            response = urllib.request.urlopen(req, data)
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return &quot;&quot;
+        except urllib.error.URLError as e:
+            print(e.reason())
+            return &quot;&quot;
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+    def list_repos(api_url, auth_token):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            url = api_url+'/repositories',
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token})
+        try:
+            response = urllib.request.urlopen(req)
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        except urllib.error.URLError as e:
+            print(e.reason())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+    def list_repo(api_url, auth_token, repo_id):
+        '''List all the repositories, return the listing object'''
+        req = urllib.request.Request(
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token})
+        try:
+            response =  urllib.request.urlopen(req)
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        except urllib.error.URLError as e:
+            print(e.reason)
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+    def update_repo(api_url, auth_token, repo_id, repo):
+        '''This function sends a updates a repository via ArchivesSpace REST API'''
+        data = json.JSONEncoder().encode(repo).encode('utf-8')
+        req = urllib.request.Request(
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token})
+        try:
+            response = urllib.request.urlopen(req, data)
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        except urllib.error.URLError as e:
+            print(e.reason())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+    def delete_repo(api_url, auth_token, repo_id):
+        '''Delete a repository via ArchivesSpace REST API, returns status code 200 on success'''
+        req = urllib.request.Request(
+            url = api_url+'/repositories/'+str(repo_id),
+            data = None,
+            headers = {'X-ArchivesSpace-Session': auth_token},
+            method = 'DELETE')
+        try:
+            response = urllib.request.urlopen(req)
+        except urllib.error.HTTPError as e:
+            print(e.code)
+            print(e.read())
+            return None
+        except urllib.error.URLError as e:
+            print(e.reason())
+            return None
+        src = response.read().decode('utf-8')
+        return json.JSONDecoder().decode(src)
+    
+    
+    if __name__ == '__main__':
+        import getpass
+        # Test login
+        print(&quot;Testing login()&quot;)
+        api_url = input('ArchivesSpace API URL: ')
+        username = input('ArchivesSpace username: ')
+        password = getpass.getpass('ArchivesSpace password: ')
+        print('Logging in', api_url)
+        auth_token = login.login(api_url, username, password)
+        print(&quot;auth token&quot;, auth_token)
+        if auth_token != '':
+            print('Success!')
+        else:
+            print('Ooops! something went wrong')
+            sys.exit(1)
+    
+        # Test create_repo
+        print('Testing create_repo()')
+        print('Create your first repository')
+        name = input('Repo name: ')
+        repo_code = input('Repo code: ')
+        repo = create_repo(api_url, auth_token, name, repo_code)
+        print(json.dumps(repo, indent=4))
+        print('Create a second repository')
+        name = input('Repo name: ')
+        repo_code = input('Repo code: ')
+        repo = create_repo(api_url, auth_token, name, repo_code)
+        print(json.dumps(repo, indent=4))
+    
+        # Test list_repos
+        print('Testing list_repos()')
+        repos = list_repos(api_url, auth_token)
+        print('repositores list', json.dumps(repos, indent=4))
+    
+        # Test list_repo
+        print('Testing list_repo()')
+        repo_id = int(input('Enter repo id: '))
+        repo = list_repo(api_url, auth_token, repo_id)
+        print('repository list', json.dumps(repo, indent=4))
+        
+        # Test update_repo
+        print('Testing update_repo()')
+        repo_id = int(input('Repository numeric id to update: '))
+        print('Getting repository record', repo_id)
+        repo = list_repo(api_url, auth_token, repo_id)
+        repo['name'] = input('old name is '+repo['name']+', provide a new name: ')
+        print('Now we update')
+        result = update_repo(api_url, auth_token, repo_id, repo)
+        print('Result is', json.dumps(result, indent=4))
+        
+        # Test delete_repo
+        print('Testing delete_repo()')
+        repo_id = int(input('Repository numeric id to delete: '))
+        result = delete_repo(api_url, auth_token, repo_id)
+        print('Result is', json.dumps(result, indent=4))
+        
+        # All done!
+        print('Success!')
+</code></pre>
 
-<ul>
-<li>Is there more than one?</li>
-</ul></li>
-<li>Look up in the API Docs the activity want to use</li>
-<li>Look at the HTTP method required (e.g. GET, POST, DELETE)</li>
-<li>Look at any data that needs to be sent, noting how it is sent
-
-<ul>
-<li>(e.g. a JSON blob or as part of a path)</li>
-</ul></li>
-</ol>
+<p>Full listing <a href="repo.py">repo.py</a></p>
 </section>
    <script type="text/javascript" src="js/keyboard-nav.js"></script>
 </body>
