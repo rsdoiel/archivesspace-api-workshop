@@ -40,11 +40,11 @@
                 headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req, data)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return &quot;&quot;
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return &quot;&quot;
         src = response.read().decode('utf-8')
@@ -58,11 +58,11 @@
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return None
         src = response.read().decode('utf-8')
@@ -76,11 +76,11 @@
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response =  urllib.request.urlopen(req)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason)
             return None
         src = response.read().decode('utf-8')
@@ -95,11 +95,11 @@
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req, data)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return None
         src = response.read().decode('utf-8')
@@ -114,11 +114,11 @@
             method = 'DELETE')
         try:
             response = urllib.request.urlopen(req)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return None
         src = response.read().decode('utf-8')
