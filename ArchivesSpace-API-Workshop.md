@@ -560,11 +560,11 @@ closing *if* block.
             data = data)
         try:
             response = urllib.request.urlopen(req)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return ""
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return ""
         src = response.read().decode('utf-8')
@@ -586,6 +586,8 @@ closing *if* block.
             print('Ooops! something went wrong')
 ```
 
+Full listing [login.py](login.py)
+
 This is our first module. It will get reused in **repo.py**, **agent.py**
 and **accession.py**.  I've added some extra handling around *urlopen*.
 This will give us a little more orderly output when something goes wrong
@@ -594,6 +596,8 @@ in the http request.
 If all goes well you'll see "Success!" when you run the module.
 
 Up next is working with repositories!
+
+
 
 --
 
@@ -731,11 +735,11 @@ get a response.
                 headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req, data)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return ""
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return ""
         src = response.read().decode('utf-8')
@@ -771,11 +775,11 @@ Some of the important differences are
                 headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req, data)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return ""
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return ""
         src = response.read().decode('utf-8')
@@ -819,11 +823,11 @@ Putting it all together, next you need to update the *if* block to match what's 
                 headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req, data)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return ""
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return ""
         src = response.read().decode('utf-8')
@@ -944,11 +948,11 @@ In the definition section add
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return None
         src = response.read().decode('utf-8')
@@ -1059,11 +1063,11 @@ In the definition section add
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response =  urllib.request.urlopen(req)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason)
             return None
         src = response.read().decode('utf-8')
@@ -1139,11 +1143,11 @@ In the definition section add
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req, data)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return None
         src = response.read().decode('utf-8')
@@ -1215,11 +1219,11 @@ via the API is permanent. There is no "UNDO"!!!!
             method = 'DELETE')
         try:
             response = urllib.request.urlopen(req)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return None
         src = response.read().decode('utf-8')
@@ -1273,11 +1277,11 @@ Full listing [repo.py](repo.py)
                 headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req, data)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return ""
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return ""
         src = response.read().decode('utf-8')
@@ -1291,11 +1295,11 @@ Full listing [repo.py](repo.py)
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return None
         src = response.read().decode('utf-8')
@@ -1309,11 +1313,11 @@ Full listing [repo.py](repo.py)
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response =  urllib.request.urlopen(req)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason)
             return None
         src = response.read().decode('utf-8')
@@ -1328,11 +1332,11 @@ Full listing [repo.py](repo.py)
             headers = {'X-ArchivesSpace-Session': auth_token})
         try:
             response = urllib.request.urlopen(req, data)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return None
         src = response.read().decode('utf-8')
@@ -1347,11 +1351,11 @@ Full listing [repo.py](repo.py)
             method = 'DELETE')
         try:
             response = urllib.request.urlopen(req)
-        except HTTPError as e:
+        except urllib.error.HTTPError as e:
             print(e.code)
             print(e.read())
             return None
-        except URLError as e:
+        except urllib.error.URLError as e:
             print(e.reason())
             return None
         src = response.read().decode('utf-8')

@@ -81,27 +81,31 @@ section, p {
 }
 
 code {
-	color: green; 
+    border-radius: 4em 1.24em 4em;
+    padding-left:0.24em;
+    padding-right:0.24em;
     font-family: monospace, serif;
     font-style: none;
+	color: forestgreen; 
+    background-color: lightyellow;
 }
 
 pre {
     width: 90%;
     height: auto;
+    border:0.28em solid green;
     border-radius: 4em 1.24em 4em;
     padding: 1.24em;
     font-family: monospace, serif;
-    font-size: 90%;
-	color: yellow; 
-    background-color: black;
+    font-size: 100%;
+    font-weight: bold;
+	color: forestgreen; 
+    background-color: lightyellow;
 }
 
 pre > code {
     font-family: monospace, serif;
     font-style: ;
-	color: yellow; 
-    background-color: black;
     padding: 0;
 }
 
@@ -117,14 +121,14 @@ blockquote {
 }
 
 .language-shell {
-    color: cyan;
+    color: darkblue;
 }
 
 .language-json {
-    color: yellow;
+    color: blue;
 }
 
 .language-python {
-    color: limegreen;
+    color: darkblue;
+    font-weight: lighter;
 }
-

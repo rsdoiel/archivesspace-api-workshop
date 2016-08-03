@@ -23,11 +23,11 @@ def create_repo(api_url, auth_token, name, repo_code, org_code = '', image_url =
             headers = {'X-ArchivesSpace-Session': auth_token})
     try:
         response = urllib.request.urlopen(req, data)
-    except HTTPError as e:
+    except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
         return ""
-    except URLError as e:
+    except urllib.error.URLError as e:
         print(e.reason())
         return ""
     src = response.read().decode('utf-8')
@@ -41,11 +41,11 @@ def list_repos(api_url, auth_token):
         headers = {'X-ArchivesSpace-Session': auth_token})
     try:
         response = urllib.request.urlopen(req)
-    except HTTPError as e:
+    except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
         return None
-    except URLError as e:
+    except urllib.error.URLError as e:
         print(e.reason())
         return None
     src = response.read().decode('utf-8')
@@ -59,11 +59,11 @@ def list_repo(api_url, auth_token, repo_id):
         headers = {'X-ArchivesSpace-Session': auth_token})
     try:
         response =  urllib.request.urlopen(req)
-    except HTTPError as e:
+    except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
         return None
-    except URLError as e:
+    except urllib.error.URLError as e:
         print(e.reason)
         return None
     src = response.read().decode('utf-8')
@@ -78,11 +78,11 @@ def update_repo(api_url, auth_token, repo_id, repo):
         headers = {'X-ArchivesSpace-Session': auth_token})
     try:
         response = urllib.request.urlopen(req, data)
-    except HTTPError as e:
+    except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
         return None
-    except URLError as e:
+    except urllib.error.URLError as e:
         print(e.reason())
         return None
     src = response.read().decode('utf-8')
@@ -97,11 +97,11 @@ def delete_repo(api_url, auth_token, repo_id):
         method = 'DELETE')
     try:
         response = urllib.request.urlopen(req)
-    except HTTPError as e:
+    except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
         return None
-    except URLError as e:
+    except urllib.error.URLError as e:
         print(e.reason())
         return None
     src = response.read().decode('utf-8')
