@@ -8,7 +8,7 @@
  *  White: #000000
  */
 body {
-	font-size: 18px;
+	font-size: calc(1em+1vw);
 	font-family: sans-serif;
     width: 100%;
     height: 100%;
@@ -20,7 +20,7 @@ body {
 }
 
 ul {
-	list-style: circle;
+	list-style: disc;
 	text-indent: 0.25em;
 }
 
@@ -78,6 +78,7 @@ em {
 
 section, p {
 	max-width: 90%;
+    padding-top: 1em;
 }
 
 code {
